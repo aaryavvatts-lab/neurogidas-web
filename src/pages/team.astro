@@ -47,6 +47,11 @@ import { TEAM, SITE, LINKS } from '../data/site';
                 <div class="person__bio">
                   {p.bio.map((para) => <p>{para}</p>)}
                 </div>
+                {p.link && (
+                  <p class="person__link">
+                    <a class="link" href={p.link.href} rel="noopener">{p.link.label}</a>
+                  </p>
+                )}
               </div>
             </li>
           ))
@@ -152,6 +157,10 @@ import { TEAM, SITE, LINKS } from '../data/site';
     margin-top: var(--s-4);
     max-width: 46ch;
     color: var(--ink-2);
+  }
+
+  .person__link {
+    margin-top: var(--s-4);
   }
 
   .person__bio p + p {

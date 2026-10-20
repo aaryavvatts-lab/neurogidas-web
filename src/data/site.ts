@@ -18,6 +18,8 @@ export const LINKS = {
   textbook: 'https://aaryavvatts-lab.github.io/neuroscience-textbook/',
   mircore: 'https://mircore.org/',
   gidas: 'https://mircore.org/gidas/',
+  rishikPaper: 'https://aclanthology.org/2026.bionlp-1.13/',
+  rishikPaperPdf: 'https://aclanthology.org/2026.bionlp-1.13.pdf',
 };
 
 export const NAV = [
@@ -36,9 +38,10 @@ export const TEAM = [
     school: 'Eastview High School, 11th grade',
     photo: '/team/rishik-kondadadi.webp',
     photoSmall: '/team/rishik-kondadadi-480.webp',
+    link: { href: 'https://aclanthology.org/2026.bionlp-1.13/', label: 'Read Rishik’s paper' },
     bio: [
-      'Rishik is a junior at Eastview and started NeuroGIDAS with Aaryav. Research is what he loves most, especially taking real data and figuring out what it actually says.',
-      'He wanted a club where high school students get to do that kind of work now, instead of waiting until college to try it.',
+      'Rishik is a junior at Eastview and co-founded NeuroGIDAS with Aaryav. He does research on finding new uses for existing drugs, and his paper on drug repurposing, including a test on epilepsy, was published at BioNLP 2026.',
+      'He started the club to share his passion for genetics research with other students. He hopes precision medicine, where treatment is matched to a person’s genes, becomes common in the future.',
     ],
   },
   {

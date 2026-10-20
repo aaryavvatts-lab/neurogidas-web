@@ -111,6 +111,37 @@ const neuro = [
     </div>
   </section>
 
+  <section class="section rule-top" aria-labelledby="member-h">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 class="h2" id="member-h">Research by our members</h2>
+        <p class="muted">Real, published work from people in the club.</p>
+      </div>
+      <article class="paper bezel">
+        <div class="bezel__core paper__core">
+          <div class="paper__meta">
+            <span class="tag" data-track="gidas">GIDAS research</span>
+            <span class="paper__venue">BioNLP 2026, Association for Computational Linguistics</span>
+          </div>
+          <h3 class="paper__title">Beyond Knowledge Graphs: PubMedBERT Embeddings as a Competitive Standalone Modality for Drug Repurposing</h3>
+          <p class="paper__authors">Rishik K. Kondadadi and John E. Ortega</p>
+          <p class="paper__sum">
+            Can an AI model that learned from medical research papers predict which existing drugs might treat a disease? Rishik
+            tested this on a large drug and disease dataset and on epilepsy. The text-based model did better than four common
+            methods that rely on hand-built knowledge graphs.
+          </p>
+          <div class="paper__actions">
+            <a class="btn btn-ink btn--icon" href={LINKS.rishikPaperPdf} rel="noopener">
+              Read the paper
+              <span class="btn__icon" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M4 12 12 4M6 4h6v6" /></svg></span>
+            </a>
+            <a class="link" href={LINKS.rishikPaper} rel="noopener">See it on the ACL Anthology</a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+
   <section class="section rule-top" aria-labelledby="neuro-h">
     <div class="wrap">
       <div class="sec-head">
@@ -222,6 +253,56 @@ const neuro = [
     text-decoration: underline;
     text-underline-offset: 0.2em;
     text-decoration-thickness: 1px;
+  }
+
+  .paper {
+    margin-top: var(--s-7);
+    max-width: 62rem;
+  }
+
+  .paper__core {
+    padding: clamp(1.5rem, 1rem + 2vw, 2.75rem);
+  }
+
+  .paper__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--s-2) var(--s-4);
+  }
+
+  .paper__venue {
+    font-size: var(--step--1);
+    color: var(--ink-2);
+  }
+
+  .paper__title {
+    margin-top: var(--s-4);
+    font-size: var(--step-2);
+    font-weight: 740;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    font-variation-settings: 'wdth' 106;
+    max-width: 34ch;
+  }
+
+  .paper__authors {
+    margin-top: var(--s-3);
+    font-weight: 600;
+  }
+
+  .paper__sum {
+    margin-top: var(--s-4);
+    color: var(--ink-2);
+    max-width: 62ch;
+  }
+
+  .paper__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--s-4) var(--s-6);
+    margin-top: var(--s-6);
   }
 
   .sec-head {
