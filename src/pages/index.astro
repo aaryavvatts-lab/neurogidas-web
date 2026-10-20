@@ -1,0 +1,439 @@
+---
+import Base from '../layouts/Base.astro';
+import Emblem from '../components/Emblem.astro';
+import NextMeeting from '../components/NextMeeting.astro';
+import YearIdeogram from '../components/YearIdeogram.astro';
+import JoinBand from '../components/JoinBand.astro';
+import { LINKS } from '../data/site';
+
+const chapters = [
+  'Neurons, Glia, and the Nervous System',
+  'The Action Potential',
+  'Synapses and Neurotransmitters',
+  'A Tour of the Brain',
+  'Vision',
+  'Hearing, Touch, Taste, Smell, and Pain',
+  'Movement',
+  'The Developing and Teenage Brain',
+  'Learning, Memory, and Neuroplasticity',
+  'Sleep and Brain States',
+  'Emotion, Stress, and the Body',
+  'Language, Attention, and Decision-Making',
+  'The Aging Brain and Neurodegeneration',
+  'Brain Injury, Stroke, and Epilepsy',
+  'Psychiatric Disorders and Addiction',
+  'How Doctors Examine the Brain',
+];
+
+const outcomes = [
+  { t: 'A question you picked', d: 'You choose what to study within this year’s cancer focus.' },
+  { t: 'Real data you analyzed', d: 'A public gene expression dataset, run through the same tools researchers use.' },
+  { t: 'An abstract with your name on it', d: 'Written, revised, and submitted for the April conference.' },
+  { t: 'A talk in April', d: 'You present your project at the miRcore High School Research Conference.' },
+];
+---
+
+<Base>
+  <section class="hero wrap">
+    <div class="hero__copy">
+      <h1 class="display">Brain science one week. Real genetics research the next.</h1>
+      <p class="lede">
+        NeuroGIDAS is Eastview’s neuroscience and genetics research club. We meet Wednesdays after school in B327. You do not
+        need any experience.
+      </p>
+      <div class="hero__actions">
+        <a class="btn btn-primary" href={LINKS.groupme} rel="noopener">Join the GroupMe</a>
+        <a class="btn btn-quiet" href="#next">See the next meeting</a>
+      </div>
+    </div>
+
+    <figure class="hero__fig" data-fire>
+      <Emblem variant="hero" class="hero__emblem" />
+      <figcaption class="caption">
+        <b>Fig. 1</b>
+        One club, drawn as one cell. The neuron is the neuroscience track. Its axon turns into DNA, which is GIDAS.
+      </figcaption>
+    </figure>
+  </section>
+
+  <div class="wrap next-wrap">
+    <NextMeeting />
+  </div>
+
+  <section class="section tracks" aria-labelledby="tracks-h">
+    <div class="wrap">
+      <div class="tracks__head">
+        <h2 class="h1" id="tracks-h">Two tracks, one club.</h2>
+        <p class="lede">
+          The weeks alternate. You can come to both, or just the one you care about.
+        </p>
+      </div>
+
+      <div class="tracks__grid">
+        <article class="track track--neuro">
+          <h3 class="h2">Neuroscience</h3>
+          <p class="track__line">The part you can see and do.</p>
+          <ul class="track__list">
+            <li>How neurons fire, how memory works, why your eyes get fooled</li>
+            <li>Labs you run on your own brain: reaction time, Stroop, memory</li>
+            <li>Prep for the Brain Bee, a neuroscience competition</li>
+            <li>Guest speakers from medicine and brain science</li>
+          </ul>
+        </article>
+
+        <article class="track track--gidas">
+          <h3 class="h2">GIDAS research</h3>
+          <p class="track__line">Real research, on real data.</p>
+          <ul class="track__list">
+            <li>GIDAS stands for Genes in Diseases and Symptoms</li>
+            <li>You learn NCBI GEO, STRING, KEGG, and the UCSC Genome Browser</li>
+            <li>You build one project all year, step by step</li>
+            <li>It ends with your own abstract at a conference in April</li>
+          </ul>
+        </article>
+      </div>
+
+      <p class="tracks__more"><a class="link" href="/about/">More about how the club works</a></p>
+    </div>
+  </section>
+
+  <section class="section year rule-top" aria-labelledby="year-h">
+    <div class="wrap">
+      <div class="year__head">
+        <h2 class="h1" id="year-h">The whole year, at a glance.</h2>
+        <p class="lede">Hover or tap a band to see that week. Indigo is neuroscience. Teal is GIDAS.</p>
+      </div>
+      <YearIdeogram />
+      <p class="year__more"><a class="link" href="/meetings/">Full schedule and past meetings</a></p>
+    </div>
+  </section>
+
+  <section class="section outcomes rule-top" aria-labelledby="out-h">
+    <div class="wrap">
+      <h2 class="h1" id="out-h">What you leave with by April.</h2>
+      <ol class="path">
+        {
+          outcomes.map((o, i) => (
+            <li class="path__step">
+              <span class="path__n tnum" aria-hidden="true">{i + 1}</span>
+              <h3 class="h3">{o.t}</h3>
+              <p class="muted">{o.d}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section class="book" aria-labelledby="book-h">
+    <div class="wrap book__grid">
+      <div class="book__copy">
+        <h2 class="h1" id="book-h">From Neuron to Bedside</h2>
+        <p class="lede">
+          A free, interactive neuroscience textbook for high school students, written by our co-president Aaryav Sharma.
+        </p>
+        <p class="muted book__facts">16 chapters, each with a quiz. 17 hands-on simulations. A Brain Bee strategy guide and mock exam.</p>
+        <a class="btn btn-ink" href={LINKS.textbook} rel="noopener">Read the textbook</a>
+      </div>
+      <figure class="book__toc">
+        <ol>
+          {
+            chapters.map((c, i) => (
+              <li>
+                <span class="tnum">{i + 1}</span>
+                {c}
+              </li>
+            ))
+          }
+        </ol>
+        <figcaption class="caption"><b>Fig. 3</b> The table of contents.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <JoinBand />
+</Base>
+
+<style>
+  .hero {
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    gap: var(--s-7);
+    align-items: center;
+    padding-top: clamp(2.5rem, 1rem + 5vw, 6rem);
+    padding-bottom: clamp(2.5rem, 1.5rem + 3vw, 4.5rem);
+  }
+
+  .hero__copy .display {
+    max-width: 14.5ch;
+  }
+
+  .hero__copy .lede {
+    margin-top: var(--s-6);
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-3);
+    margin-top: var(--s-6);
+  }
+
+  .hero__fig {
+    margin: 0;
+    display: grid;
+    justify-items: center;
+    gap: var(--s-5);
+  }
+
+  .hero__fig :global(.hero__emblem) {
+    width: auto;
+    height: clamp(17rem, 12rem + 16vw, 27rem);
+  }
+
+  .hero__fig .caption {
+    max-width: 30ch;
+    justify-self: center;
+  }
+
+  .next-wrap {
+    padding-bottom: var(--section);
+  }
+
+  .tracks {
+    background: var(--paper-2);
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .tracks__head,
+  .year__head {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--s-6);
+    align-items: end;
+  }
+
+  .tracks__head .lede,
+  .year__head .lede {
+    justify-self: end;
+  }
+
+  .tracks__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(2rem, 1rem + 4vw, 5rem);
+    margin-top: var(--s-8);
+  }
+
+  .track {
+    border-top: 3px solid var(--c);
+    padding-top: var(--s-5);
+  }
+
+  .track--neuro {
+    --c: var(--neuro);
+  }
+
+  .track--gidas {
+    --c: var(--gidas);
+  }
+
+  .track__line {
+    margin-top: var(--s-2);
+    font-size: var(--step-1);
+    color: var(--ink-2);
+  }
+
+  .track__list {
+    list-style: none;
+    margin-top: var(--s-5);
+  }
+
+  .track__list li {
+    padding: 0.85rem 0;
+    border-top: 1px solid var(--rule-strong);
+  }
+
+  .tracks__more,
+  .year__more {
+    margin-top: var(--s-7);
+  }
+
+  .year__head {
+    margin-bottom: var(--s-5);
+  }
+
+  .path {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--s-6);
+    margin-top: var(--s-8);
+    position: relative;
+  }
+
+  .path::before {
+    content: '';
+    position: absolute;
+    top: 1.25rem;
+    left: 1.25rem;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--neuro), var(--gidas));
+  }
+
+  .path__step {
+    position: relative;
+    display: grid;
+    gap: var(--s-3);
+    align-content: start;
+  }
+
+  .path__n {
+    display: grid;
+    place-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    background: var(--paper);
+    border: 2px solid var(--ink);
+    font-weight: 750;
+    margin-bottom: var(--s-3);
+  }
+
+  .path__step:last-child .path__n {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .book {
+    background: var(--indigo-wash);
+    padding-block: var(--section);
+  }
+
+  .book__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    gap: clamp(2rem, 1rem + 5vw, 6rem);
+    align-items: start;
+  }
+
+  .book__copy .lede {
+    margin-top: var(--s-5);
+  }
+
+  .book__facts {
+    margin-top: var(--s-4);
+    margin-bottom: var(--s-6);
+    max-width: 40ch;
+  }
+
+  .book__toc {
+    margin: 0;
+  }
+
+  .book__toc ol {
+    list-style: none;
+    columns: 2;
+    column-gap: var(--s-6);
+    border-top: 2px solid var(--indigo);
+    padding-top: var(--s-3);
+  }
+
+  .book__toc li {
+    display: grid;
+    grid-template-columns: 1.6rem 1fr;
+    break-inside: avoid;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid color-mix(in srgb, var(--indigo) 18%, transparent);
+    font-size: 0.95rem;
+    line-height: 1.35;
+  }
+
+  .book__toc li span {
+    color: var(--indigo-deep);
+    font-weight: 650;
+  }
+
+  .book__toc .caption {
+    margin-top: var(--s-3);
+  }
+
+  @media (max-width: 900px) {
+    .hero {
+      grid-template-columns: 1fr;
+    }
+
+    .hero__fig {
+      grid-row: 1;
+      grid-template-columns: auto minmax(0, 1fr);
+      justify-items: start;
+      align-items: end;
+    }
+
+    .hero__fig :global(.hero__emblem) {
+      height: clamp(9rem, 6rem + 14vw, 14rem);
+    }
+
+    .hero__fig .caption {
+      justify-self: start;
+    }
+
+    .tracks__head,
+    .year__head,
+    .tracks__grid,
+    .book__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .tracks__head .lede,
+    .year__head .lede {
+      justify-self: start;
+    }
+
+    .path {
+      grid-template-columns: 1fr 1fr;
+      row-gap: var(--s-7);
+    }
+
+    .path::before {
+      display: none;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .path {
+      grid-template-columns: 1fr;
+    }
+
+    .book__toc ol {
+      columns: 1;
+    }
+
+    .hero__actions .btn {
+      flex: 1 1 100%;
+    }
+  }
+</style>
+
+<script>
+  // Fire the signal once on load, and again whenever the figure is hovered.
+  const fig = document.querySelector<HTMLElement>('[data-fire]');
+  if (fig) {
+    const fire = () => {
+      fig.classList.remove('is-firing');
+      void fig.offsetWidth;
+      fig.classList.add('is-firing');
+    };
+    setTimeout(fire, 450);
+    let last = 0;
+    fig.addEventListener('pointerenter', (e) => {
+      if (e.pointerType !== 'mouse') return;
+      if (Date.now() - last > 2600) {
+        last = Date.now();
+        fire();
+      }
+    });
+  }
+</script>

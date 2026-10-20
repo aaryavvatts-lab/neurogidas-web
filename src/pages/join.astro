@@ -1,0 +1,195 @@
+---
+import Base from '../layouts/Base.astro';
+import NextMeeting from '../components/NextMeeting.astro';
+import { LINKS, SITE } from '../data/site';
+
+const faqs = [
+  {
+    q: 'Do I need any experience?',
+    a: 'No. Most people start with none. The first meetings of each track cover the basics, so everyone starts on the same footing.',
+  },
+  {
+    q: 'Can I join partway through the year?',
+    a: 'Yes. Come to any meeting. The GIDAS project builds step by step, so if you start late, ask an officer which steps to catch up on.',
+  },
+  {
+    q: 'Do I have to come to both tracks?',
+    a: 'No. Neuroscience and GIDAS weeks take turns, and you can come to one, the other, or both.',
+  },
+  {
+    q: 'Do I need to sign up first?',
+    a: `No. You can just walk into ${SITE.room} on a Wednesday. Joining the GroupMe is the easiest way to get reminders and hear about changes.`,
+  },
+  {
+    q: 'What should I bring to GIDAS weeks?',
+    a: 'A laptop, if you have one. The research tools are free websites, so there is nothing to install.',
+  },
+  {
+    q: 'What is GIDAS?',
+    a: 'Genes in Diseases and Symptoms. It is the high school research program of miRcore, a nonprofit affiliated with the University of Michigan.',
+  },
+];
+
+const routes = [
+  { name: 'GroupMe', what: 'Meeting reminders, schedule changes, and club news.', href: LINKS.groupme, cta: 'Join the GroupMe', primary: true },
+  { name: 'Instagram', what: `Follow ${LINKS.instagramHandle} for meeting posts and updates.`, href: LINKS.instagram, cta: 'Follow on Instagram' },
+  { name: 'Email', what: `Questions for the officers? Write to ${LINKS.email}.`, href: `mailto:${LINKS.email}`, cta: 'Send an email' },
+];
+---
+
+<Base title="Join" description="How to join NeuroGIDAS at Eastview: just come to B327 on a Wednesday at 2:45, or join the GroupMe, follow @neurogidas.evhs, or email neurogidas@gmail.com.">
+  <header class="page-head">
+    <div class="wrap">
+      <h1 class="h1">Join NeuroGIDAS</h1>
+      <p class="lede">
+        There is no application. Come to Room {SITE.room} any Wednesday at 2:45. If you want reminders first, pick one of these.
+      </p>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="wrap">
+      <ul class="routes">
+        {
+          routes.map((r) => (
+            <li class="route">
+              <h2 class="h2">{r.name}</h2>
+              <p class="muted">{r.what}</p>
+              <a class:list={['btn', r.primary ? 'btn-primary' : 'btn-quiet']} href={r.href} rel={r.href.startsWith('http') ? 'noopener' : undefined}>
+                {r.cta}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <div class="wrap next-pad">
+    <NextMeeting heading="Or just show up to the next meeting" id="join-next" />
+  </div>
+
+  <section class="section rule-top" aria-labelledby="faq-h">
+    <div class="wrap split">
+      <h2 class="h2" id="faq-h">Questions</h2>
+      <div class="faq">
+        {
+          faqs.map((f) => (
+            <details>
+              <summary>
+                <span>{f.q}</span>
+                <svg viewBox="0 0 20 20" aria-hidden="true"><path class="h" d="M4 10h12" /><path class="v" d="M10 4v12" /></svg>
+              </summary>
+              <p>{f.a}</p>
+            </details>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .routes {
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1.15fr 1fr 1fr;
+    gap: var(--s-6) clamp(1.5rem, 1rem + 3vw, 4rem);
+  }
+
+  .route {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    gap: var(--s-3);
+    padding-top: var(--s-5);
+    border-top: 1px solid var(--ink);
+  }
+
+  .route:first-child {
+    border-top: 3px solid var(--indigo);
+  }
+
+  .route .muted {
+    max-width: 34ch;
+    margin-bottom: var(--s-3);
+  }
+
+  .route .btn {
+    justify-self: start;
+  }
+
+  .next-pad {
+    padding-bottom: var(--section);
+  }
+
+  .split {
+    display: grid;
+    grid-template-columns: minmax(0, 4fr) minmax(0, 7fr);
+    gap: var(--s-6) clamp(2rem, 1rem + 5vw, 6rem);
+    align-items: start;
+  }
+
+  .faq {
+    border-top: 1px solid var(--rule-strong);
+  }
+
+  details {
+    border-bottom: 1px solid var(--rule-strong);
+  }
+
+  summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--s-4);
+    padding: 1.2rem 0;
+    cursor: pointer;
+    list-style: none;
+    font-weight: 650;
+    font-size: var(--step-1);
+    letter-spacing: -0.01em;
+    font-variation-settings: 'wdth' 104;
+  }
+
+  summary::-webkit-details-marker {
+    display: none;
+  }
+
+  summary:hover span {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.2em;
+  }
+
+  summary svg {
+    flex: none;
+    width: 1.1rem;
+    height: 1.1rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+  }
+
+  summary .v {
+    transform-origin: 10px 10px;
+    transition: transform var(--dur-2) var(--ease-out);
+  }
+
+  details[open] summary .v {
+    transform: scaleY(0);
+  }
+
+  details p {
+    padding-bottom: var(--s-5);
+    color: var(--ink-2);
+    max-width: 60ch;
+  }
+
+  @media (max-width: 860px) {
+    .routes,
+    .split {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

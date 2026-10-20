@@ -1,0 +1,236 @@
+---
+import Base from '../layouts/Base.astro';
+import JoinBand from '../components/JoinBand.astro';
+import { LINKS } from '../data/site';
+
+const tb = LINKS.textbook;
+const bookLinks = [
+  { href: tb, t: 'Start reading', d: 'All 16 chapters, each with a quiz and references.' },
+  { href: `${tb}sims/`, t: 'Simulations', d: '17 interactive models, from an action potential to a stroke territory map.' },
+  { href: `${tb}appendices/brain-bee/`, t: 'Brain Bee guide', d: 'Strategy for the competition, plus a full mock exam.' },
+  { href: `${tb}club-kit/`, t: 'Club and study group kit', d: 'Ideas for working through the book with a club or study group.' },
+];
+
+const tools = [
+  { name: 'NCBI GEO', href: 'https://www.ncbi.nlm.nih.gov/geo/', d: 'A public library of gene expression studies. Where your dataset comes from.' },
+  { name: 'GEO2R', href: 'https://www.ncbi.nlm.nih.gov/geo/geo2r/', d: 'Compares groups of samples in a GEO study to find genes that change.' },
+  { name: 'STRING', href: 'https://string-db.org/', d: 'Shows how proteins interact, as a network you can explore.' },
+  { name: 'KEGG Pathway', href: 'https://www.genome.jp/kegg/pathway.html', d: 'Maps of biological pathways, so you can see what your genes do together.' },
+  { name: 'GeneCards', href: 'https://www.genecards.org/', d: 'A summary page for nearly every human gene.' },
+  { name: 'OMIM', href: 'https://www.omim.org/', d: 'A catalog of human genes and the genetic disorders tied to them.' },
+  { name: 'Gene Ontology', href: 'https://geneontology.org/', d: 'A shared vocabulary for what genes do, where, and in which processes.' },
+  { name: 'UCSC Genome Browser', href: 'https://genome.ucsc.edu/', d: 'Lets you look at any gene in its spot on the genome.' },
+];
+
+const neuro = [
+  { name: 'The Brain Facts book', href: 'https://www.brainfacts.org/the-brain-facts-book', d: 'The standard study book for the Brain Bee. Free to read online.' },
+  { name: 'BrainFacts.org', href: 'https://www.brainfacts.org/', d: 'Short, reliable articles on how the brain works.' },
+  { name: 'The Brain Bee', href: 'https://www.thebrainbee.org/', d: 'Official site for the competition, with rules and how regionals work.' },
+  { name: 'miRcore GIDAS', href: LINKS.gidas, d: 'The program behind our research track, run by miRcore.' },
+];
+---
+
+<Base title="Resources" description="Free resources NeuroGIDAS uses: the From Neuron to Bedside neuroscience textbook, the GIDAS research databases, and Brain Bee study material.">
+  <header class="page-head">
+    <div class="wrap">
+      <h1 class="h1">Resources</h1>
+      <p class="lede">Everything we use is free, and you can use all of it on your own time.</p>
+    </div>
+  </header>
+
+  <section class="book" aria-labelledby="book-h">
+    <div class="wrap book__grid">
+      <div>
+        <h2 class="h1" id="book-h">From Neuron to Bedside</h2>
+        <p class="lede">
+          A free, interactive neuroscience textbook for high school students and future doctors, written by our co-president
+          Aaryav Sharma. It goes deeper on the topics from our neuroscience weeks.
+        </p>
+        <a class="btn btn-ink book__cta" href={tb} rel="noopener">Read the textbook</a>
+      </div>
+      <ul class="book__links">
+        {
+          bookLinks.map((l) => (
+            <li>
+              <a href={l.href} rel="noopener">
+                <span class="bl__t">{l.t}</span>
+                <span class="bl__d">{l.d}</span>
+                <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 15 15 5M7 5h8v8" /></svg>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="tools-h">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 class="h2" id="tools-h">Research tools</h2>
+        <p class="muted">The databases from GIDAS weeks, in the order you will use them.</p>
+      </div>
+      <ul class="res res--gidas">
+        {
+          tools.map((t) => (
+            <li>
+              <a href={t.href} rel="noopener">
+                <span class="res__name">{t.name}</span>
+                <span class="res__d">{t.d}</span>
+                <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 15 15 5M7 5h8v8" /></svg>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section rule-top" aria-labelledby="neuro-h">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 class="h2" id="neuro-h">Brain Bee and further reading</h2>
+        <p class="muted">For neuroscience weeks and competition prep.</p>
+      </div>
+      <ul class="res res--neuro">
+        {
+          neuro.map((t) => (
+            <li>
+              <a href={t.href} rel="noopener">
+                <span class="res__name">{t.name}</span>
+                <span class="res__d">{t.d}</span>
+                <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 15 15 5M7 5h8v8" /></svg>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <JoinBand />
+</Base>
+
+<style>
+  .book {
+    background: var(--indigo-wash);
+    padding-block: var(--section);
+  }
+
+  .book__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    gap: clamp(2rem, 1rem + 5vw, 6rem);
+    align-items: start;
+  }
+
+  .book .lede {
+    margin-top: var(--s-5);
+    max-width: 40ch;
+  }
+
+  .book__cta {
+    margin-top: var(--s-6);
+  }
+
+  .book__links {
+    list-style: none;
+    border-top: 2px solid var(--indigo);
+  }
+
+  .book__links li {
+    border-bottom: 1px solid color-mix(in srgb, var(--indigo) 22%, transparent);
+  }
+
+  .book__links a,
+  .res a {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 0.2rem var(--s-4);
+    padding: 1.1rem 0;
+    text-decoration: none;
+  }
+
+  .bl__t,
+  .res__name {
+    font-weight: 700;
+    font-size: var(--step-1);
+    letter-spacing: -0.01em;
+    font-variation-settings: 'wdth' 108;
+  }
+
+  .bl__d,
+  .res__d {
+    grid-row: 2;
+    color: var(--ink-2);
+  }
+
+  .book__links svg,
+  .res svg {
+    grid-row: 1 / span 2;
+    grid-column: 2;
+    align-self: center;
+    width: 1.2rem;
+    height: 1.2rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: transform var(--dur-2) var(--ease-out);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .book__links a:hover svg,
+    .res a:hover svg {
+      transform: translate(3px, -3px);
+    }
+  }
+
+  .book__links a:hover .bl__t,
+  .res a:hover .res__name {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+    text-decoration-thickness: 1px;
+  }
+
+  .sec-head {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--s-3) var(--s-6);
+  }
+
+  .res {
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: clamp(2rem, 1rem + 4vw, 5rem);
+    margin-top: var(--s-7);
+  }
+
+  .res li {
+    border-top: 1px solid var(--rule-strong);
+  }
+
+  .res--gidas li:nth-child(-n + 2) {
+    border-top: 2px solid var(--gidas);
+  }
+
+  .res--neuro li:nth-child(-n + 2) {
+    border-top: 2px solid var(--neuro);
+  }
+
+  @media (max-width: 860px) {
+    .book__grid,
+    .res {
+      grid-template-columns: 1fr;
+    }
+
+    .res--gidas li:nth-child(2),
+    .res--neuro li:nth-child(2) {
+      border-top: 1px solid var(--rule-strong);
+    }
+  }
+</style>

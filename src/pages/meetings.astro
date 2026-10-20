@@ -1,0 +1,468 @@
+---
+import Base from '../layouts/Base.astro';
+import NextMeeting from '../components/NextMeeting.astro';
+import JoinBand from '../components/JoinBand.astro';
+import { MEETINGS, ROADMAP, EVENTS, splitMeetings, parts, shortDate, TRACK_LABEL, meetingEnd } from '../data/meetings';
+import { SITE } from '../data/site';
+
+const { past } = splitMeetings();
+const recaps = past.filter((m) => m.recap).reverse();
+
+const monthName = (ym: string) => parts(`${ym}-01`).monthLong;
+const roadmap = ROADMAP.map((r) => ({
+  ...r,
+  name: monthName(r.month),
+  meetings: MEETINGS.filter((m) => m.date.startsWith(r.month)),
+  events: EVENTS.filter((e) => e.month === r.month),
+}));
+---
+
+<Base title="Meetings" description="NeuroGIDAS meets Wednesdays 2:45 to 3:30 PM in B327. The next meeting, what we have done so far, and the full 2026 to 2027 schedule.">
+  <header class="page-head">
+    <div class="wrap">
+      <h1 class="h1">Meetings</h1>
+      <p class="lede">
+        {SITE.day}, {SITE.time}, Room {SITE.room}. Neuroscience and GIDAS weeks take turns. Dates after this week can still move.
+      </p>
+    </div>
+  </header>
+
+  <div class="wrap section-sm">
+    <NextMeeting id="next" />
+  </div>
+
+  {
+    recaps.length > 0 && (
+      <section class="section rule-top" aria-labelledby="recap-h">
+        <div class="wrap">
+          <h2 class="h2" id="recap-h">What we have done so far</h2>
+          <ol class="recaps">
+            {recaps.map((m) => (
+              <li class="recap">
+                <p class="recap__date tnum">{shortDate(m.date)}</p>
+                <div>
+                  <span class="tag" data-track={m.track}>{TRACK_LABEL[m.track]}</span>
+                  <h3 class="h3 recap__title">{m.title}</h3>
+                  <p class="muted">{m.recap}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+    )
+  }
+
+  <section class="section rule-top" aria-labelledby="road-h">
+    <div class="wrap">
+      <h2 class="h2" id="road-h">The year, month by month</h2>
+      <ol class="road">
+        {
+          roadmap.map((r) => (
+            <li class="road__m">
+              <p class="road__name">{r.name}</p>
+              <div class="road__bands" aria-hidden="true">
+                {r.meetings.map((m) => (
+                  <span class:list={['rb', `rb--${m.track}`, { 'rb--t': !m.confirmed }]} />
+                ))}
+              </div>
+              <h3 class="h3">{r.theme}</h3>
+              <p class="muted small">{r.line}</p>
+              {r.events.length > 0 && (
+                <ul class="road__events">
+                  {r.events.map((e) => (
+                    <li><span class="tag" data-track={e.track}>{e.name}</span></li>
+                  ))}
+                </ul>
+              )}
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section class="section rule-top" aria-labelledby="cal-h">
+    <div class="wrap">
+      <div class="cal-head">
+        <h2 class="h2" id="cal-h">Full schedule</h2>
+        <div class="filters" role="group" aria-label="Show meetings by track">
+          <button type="button" aria-pressed="true" data-filter="all">All</button>
+          <button type="button" aria-pressed="false" data-filter="neuro">Neuroscience</button>
+          <button type="button" aria-pressed="false" data-filter="gidas">GIDAS</button>
+        </div>
+      </div>
+
+      <table class="cal">
+        <caption class="visually-hidden">All NeuroGIDAS meetings for 2026 to 2027</caption>
+        <thead>
+          <tr>
+            <th scope="col">Date</th>
+            <th scope="col">Track</th>
+            <th scope="col">Meeting</th>
+            <th scope="col">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            MEETINGS.map((m) => (
+              <tr data-track={m.track} data-end={meetingEnd(m).toISOString()} data-confirmed={String(m.confirmed)}>
+                <td class="tnum cal__date">{shortDate(m.date)}</td>
+                <td>
+                  <span class="tag" data-track={m.track}>{TRACK_LABEL[m.track]}</span>
+                </td>
+                <td>
+                  <span class="cal__title">{m.title}</span>
+                  <span class="cal__sum">{m.summary}</span>
+                </td>
+                <td class="cal__status" data-status>
+                  {m.confirmed ? 'Set' : 'Tentative'}
+                </td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+      <p class="caption cal-note">
+        No meetings on Nov 25, Dec 23, Dec 30, Mar 10, or Mar 31. There is no school those days.
+      </p>
+    </div>
+  </section>
+
+  <JoinBand />
+</Base>
+
+<style>
+  .section-sm {
+    padding-block: var(--s-8) var(--section);
+  }
+
+  .recaps {
+    list-style: none;
+    margin-top: var(--s-7);
+    border-top: 1px solid var(--rule-strong);
+  }
+
+  .recap {
+    display: grid;
+    grid-template-columns: 8.5rem minmax(0, 1fr);
+    gap: var(--s-5);
+    padding: var(--s-6) 0;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .recap__date {
+    white-space: nowrap;
+    font-size: var(--step-2);
+    font-weight: 760;
+    letter-spacing: -0.02em;
+    font-variation-settings: 'wdth' 118;
+    line-height: 1.1;
+  }
+
+  .recap__title {
+    margin: var(--s-2) 0 var(--s-2);
+  }
+
+  .recap .muted {
+    max-width: 62ch;
+  }
+
+  .road {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: var(--s-7) var(--s-5);
+    margin-top: var(--s-7);
+  }
+
+  .road__m {
+    display: grid;
+    gap: var(--s-2);
+    align-content: start;
+    padding-top: var(--s-4);
+    border-top: 1px solid var(--ink);
+  }
+
+  .road__name {
+    font-weight: 650;
+    color: var(--ink-2);
+  }
+
+  .road__bands {
+    display: flex;
+    gap: 3px;
+    height: 1.6rem;
+    margin-bottom: var(--s-2);
+  }
+
+  .rb {
+    width: 0.7rem;
+    border-radius: 2px;
+  }
+
+  .rb--neuro {
+    background: var(--neuro);
+  }
+
+  .rb--gidas {
+    background: var(--gidas);
+  }
+
+  .rb--joint {
+    background: linear-gradient(180deg, var(--neuro) 50%, var(--gidas) 50%);
+  }
+
+  .rb--t {
+    opacity: 0.45;
+  }
+
+  .road__events {
+    list-style: none;
+    margin-top: var(--s-2);
+    display: grid;
+    gap: var(--s-1);
+  }
+
+  .road__events li {
+    font-size: var(--step--1);
+    font-weight: 650;
+  }
+
+  .cal-head {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: end;
+    gap: var(--s-4);
+  }
+
+  .filters {
+    display: inline-flex;
+    padding: 3px;
+    border: 1px solid var(--rule-strong);
+    border-radius: var(--radius);
+  }
+
+  .filters button {
+    font: inherit;
+    font-size: var(--step--1);
+    font-weight: 600;
+    min-height: 2.5rem;
+    padding: 0.4rem 0.9rem;
+    border: 0;
+    border-radius: 4px;
+    background: transparent;
+    color: var(--ink-2);
+    cursor: pointer;
+    transition: background-color var(--dur-1) var(--ease-out), color var(--dur-1) var(--ease-out);
+  }
+
+  .filters button:hover {
+    color: var(--ink);
+  }
+
+  .filters button[aria-pressed='true'] {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .cal {
+    width: 100%;
+    margin-top: var(--s-6);
+    border-collapse: collapse;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .cal th {
+    text-align: left;
+    font-size: var(--step--1);
+    font-weight: 600;
+    color: var(--ink-3);
+    padding: 0 var(--s-4) var(--s-3) 0;
+    border-bottom: 1px solid var(--ink);
+  }
+
+  .cal td {
+    padding: var(--s-4) var(--s-4) var(--s-4) 0;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: top;
+  }
+
+  .cal__date {
+    font-weight: 700;
+    white-space: nowrap;
+    width: 6rem;
+  }
+
+  .cal td:nth-child(2) {
+    width: 11rem;
+    padding-top: calc(var(--s-4) + 0.3rem);
+  }
+
+  .cal__title {
+    display: block;
+    font-weight: 650;
+  }
+
+  .cal__sum {
+    display: block;
+    margin-top: 0.15rem;
+    color: var(--ink-2);
+    font-size: var(--step--1);
+  }
+
+  .cal__status {
+    width: 7rem;
+    font-size: var(--step--1);
+    color: var(--ink-2);
+    white-space: nowrap;
+  }
+
+  .cal tr.is-past {
+    color: var(--ink-3);
+  }
+
+  .cal tr.is-past .cal__title {
+    font-weight: 560;
+  }
+
+  .cal tr.is-next {
+    background: color-mix(in srgb, var(--salmon) 8%, transparent);
+  }
+
+  .cal tr.is-next .cal__status {
+    color: var(--salmon-ink);
+    font-weight: 700;
+  }
+
+  .cal tr.is-next td:first-child {
+    box-shadow: inset 3px 0 0 var(--salmon);
+    padding-left: var(--s-3);
+  }
+
+  .cal tr[hidden] {
+    display: none;
+  }
+
+  .cal-note {
+    margin-top: var(--s-5);
+  }
+
+  @media (max-width: 1080px) {
+    .road {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 760px) {
+    .road {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .recap {
+      grid-template-columns: 1fr;
+      gap: var(--s-2);
+    }
+
+    .cal thead {
+      display: none;
+    }
+
+    .cal,
+    .cal tbody,
+    .cal tr,
+    .cal td {
+      display: block;
+      width: auto;
+    }
+
+    .cal tr {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: var(--s-1) var(--s-3);
+      padding: var(--s-4) 0;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .cal tr[hidden] {
+      display: none;
+    }
+
+    .cal td {
+      padding: 0;
+      border: 0;
+      width: auto !important;
+    }
+
+    .cal td:nth-child(2) {
+      padding-top: 0.2rem;
+    }
+
+    .cal td:nth-child(3) {
+      grid-column: 1 / -1;
+    }
+
+    .cal__status {
+      grid-row: 1;
+      grid-column: 3;
+      text-align: right;
+    }
+
+    .cal tr.is-next {
+      padding-inline: var(--s-3);
+    }
+
+    .cal tr.is-next td:first-child {
+      box-shadow: none;
+      padding-left: 0;
+    }
+  }
+
+  @media (max-width: 440px) {
+    .road {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<script>
+  // Mark past and next rows by today's date, so the table stays right without a rebuild.
+  const rows = Array.from(document.querySelectorAll<HTMLTableRowElement>('.cal tbody tr'));
+  const now = Date.now();
+  let nextFound = false;
+  for (const row of rows) {
+    const ended = new Date(row.dataset.end!).getTime() < now;
+    const status = row.querySelector<HTMLElement>('[data-status]')!;
+    row.classList.remove('is-past', 'is-next');
+    if (ended) {
+      row.classList.add('is-past');
+      status.textContent = 'Done';
+    } else if (!nextFound) {
+      nextFound = true;
+      row.classList.add('is-next');
+      status.textContent = 'Next up';
+    } else {
+      status.textContent = row.dataset.confirmed === 'true' ? 'Set' : 'Tentative';
+    }
+  }
+
+  // Filter by track. The choice lives in the URL (?track=neuro) so it can be shared.
+  const buttons = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-filter]'));
+  const apply = (f: string) => {
+    buttons.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.filter === f)));
+    rows.forEach((r) => (r.hidden = f !== 'all' && r.dataset.track !== f && r.dataset.track !== 'joint'));
+  };
+  buttons.forEach((btn) =>
+    btn.addEventListener('click', () => {
+      const f = btn.dataset.filter ?? 'all';
+      apply(f);
+      const url = new URL(location.href);
+      if (f === 'all') url.searchParams.delete('track');
+      else url.searchParams.set('track', f);
+      history.replaceState(null, '', url);
+    })
+  );
+  const initial = new URLSearchParams(location.search).get('track');
+  if (initial === 'neuro' || initial === 'gidas') apply(initial);
+</script>

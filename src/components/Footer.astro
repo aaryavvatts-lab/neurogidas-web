@@ -1,0 +1,152 @@
+---
+import Emblem from './Emblem.astro';
+import { NAV, LINKS, SITE } from '../data/site';
+---
+
+<footer class="site-footer">
+  <div class="wrap grid">
+    <div class="id">
+      <a class="brand" href="/" aria-label="NeuroGIDAS home">
+        <Emblem variant="mark" class="mark" />
+        <span translate="no">NeuroGIDAS</span>
+      </a>
+      <p class="where">
+        Neuroscience and genetics research at {SITE.school}.<br />
+        {SITE.day}, {SITE.time}, Room {SITE.room}.
+      </p>
+    </div>
+
+    <nav aria-label="Footer">
+      <h2 class="col-title">Pages</h2>
+      <ul>
+        <li><a href="/">Home</a></li>
+        {NAV.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+        <li><a href="/join/">Join</a></li>
+      </ul>
+    </nav>
+
+    <div>
+      <h2 class="col-title">Get in touch</h2>
+      <ul>
+        <li><a href={LINKS.groupme} rel="noopener">GroupMe</a></li>
+        <li><a href={LINKS.instagram} rel="noopener">Instagram {LINKS.instagramHandle}</a></li>
+        <li><a href={`mailto:${LINKS.email}`}>{LINKS.email}</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="wrap fine">
+    <p>
+      NeuroGIDAS is a student-led group. Its views are not necessarily those of {SITE.school} or District 196.
+      GIDAS is the high school program of <a href={LINKS.mircore} rel="noopener">miRcore</a>.
+    </p>
+    <p class="tnum">2026 to 2027</p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--ink);
+    color: #d9dbe0;
+    padding-top: var(--s-9);
+    padding-bottom: var(--s-6);
+  }
+
+  .site-footer a {
+    color: #fff;
+    text-decoration-color: rgba(255, 255, 255, 0.3);
+  }
+
+  .site-footer a:hover {
+    text-decoration-color: currentColor;
+  }
+
+  .site-footer :focus-visible {
+    outline-color: #fff;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr 1.2fr;
+    gap: var(--s-7) var(--s-6);
+  }
+
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    font-weight: 780;
+    font-size: var(--step-2);
+    letter-spacing: -0.025em;
+    font-variation-settings: 'wdth' 116;
+    text-decoration: none;
+  }
+
+  .brand :global(.mark) {
+    height: 2.6rem;
+    width: auto;
+    color: #fff;
+  }
+
+  .brand :global(.mark path[stroke='var(--paper)']) {
+    stroke: var(--ink);
+  }
+
+  .where {
+    margin-top: var(--s-5);
+    max-width: 34ch;
+    color: #b8bcc6;
+  }
+
+  .col-title {
+    font-size: var(--step--1);
+    font-weight: 600;
+    letter-spacing: 0;
+    color: #9aa0ad;
+    margin-bottom: var(--s-4);
+    font-variation-settings: 'wdth' 100;
+  }
+
+  ul {
+    list-style: none;
+    display: grid;
+    gap: 0.55rem;
+  }
+
+  ul a {
+    text-decoration: none;
+  }
+
+  ul a:hover {
+    text-decoration: underline;
+  }
+
+  .fine {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--s-5);
+    margin-top: var(--s-9);
+    padding-top: var(--s-5);
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    font-size: var(--step--1);
+    color: #9aa0ad;
+  }
+
+  .fine p:first-child {
+    max-width: 70ch;
+  }
+
+  @media (max-width: 760px) {
+    .grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .id {
+      grid-column: 1 / -1;
+    }
+
+    .fine {
+      flex-direction: column;
+    }
+  }
+</style>

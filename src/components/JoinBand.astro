@@ -1,0 +1,145 @@
+---
+import { LINKS, SITE } from '../data/site';
+
+interface Props {
+  heading?: string;
+}
+const { heading = 'Come Wednesday.' } = Astro.props;
+---
+
+<section class="join" aria-labelledby="join-h">
+  <div class="wrap join__grid">
+    <div>
+      <h2 class="h1" id="join-h">{heading}</h2>
+      <p class="join__lede">
+        {SITE.time}, Room {SITE.room}. You can just walk in. If you want reminders first, pick whichever is easiest.
+      </p>
+    </div>
+
+    <ul class="routes">
+      <li>
+        <a class="route" href={LINKS.groupme} rel="noopener">
+          <span class="route__name">GroupMe</span>
+          <span class="route__what">Meeting reminders and club news</span>
+          <svg class="route__arrow" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 15 15 5M7 5h8v8" /></svg>
+        </a>
+      </li>
+      <li>
+        <a class="route" href={LINKS.instagram} rel="noopener">
+          <span class="route__name">Instagram</span>
+          <span class="route__what">{LINKS.instagramHandle}</span>
+          <svg class="route__arrow" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 15 15 5M7 5h8v8" /></svg>
+        </a>
+      </li>
+      <li>
+        <a class="route" href={`mailto:${LINKS.email}`}>
+          <span class="route__name">Email</span>
+          <span class="route__what">{LINKS.email}</span>
+          <svg class="route__arrow" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 15 15 5M7 5h8v8" /></svg>
+        </a>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<style>
+  .join {
+    background: var(--indigo);
+    color: #fff;
+    padding-block: var(--section);
+  }
+
+  .join :focus-visible {
+    outline-color: #fff;
+  }
+
+  .join__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--s-7);
+    align-items: end;
+  }
+
+  .join__lede {
+    margin-top: var(--s-5);
+    font-size: var(--step-1);
+    line-height: 1.5;
+    color: #e4e1fb;
+    max-width: 34ch;
+  }
+
+  .routes {
+    list-style: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.28);
+  }
+
+  .routes li {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.28);
+  }
+
+  .route {
+    display: grid;
+    grid-template-columns: 7.5rem minmax(0, 1fr) auto;
+    align-items: center;
+    gap: var(--s-4);
+    padding: 1.15rem 0.25rem;
+    color: #fff;
+    text-decoration: none;
+    transition: background-color var(--dur-1) ease;
+  }
+
+  .route__name {
+    font-size: var(--step-1);
+    font-weight: 720;
+    font-variation-settings: 'wdth' 110;
+  }
+
+  .route__what {
+    color: #e4e1fb;
+    overflow-wrap: anywhere;
+  }
+
+  .route__arrow {
+    width: 1.25rem;
+    height: 1.25rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: transform var(--dur-2) var(--ease-out);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .route:hover {
+      background: rgba(255, 255, 255, 0.07);
+    }
+
+    .route:hover .route__arrow {
+      transform: translate(3px, -3px);
+    }
+  }
+
+  @media (max-width: 860px) {
+    .join__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .route {
+      grid-template-columns: minmax(0, 1fr) auto;
+      row-gap: 0.15rem;
+    }
+
+    .route__what {
+      grid-row: 2;
+      font-size: var(--step--1);
+    }
+
+    .route__arrow {
+      grid-row: 1 / span 2;
+      grid-column: 2;
+    }
+  }
+</style>

@@ -1,0 +1,107 @@
+---
+// The NeuroGIDAS emblem as line art: a neuron (Neuroscience) whose axon becomes a DNA helix (GIDAS).
+// variant "hero" draws the full figure with an animated signal pulse; "mark" is the small logo.
+interface Props {
+  variant?: 'hero' | 'mark';
+  class?: string;
+  title?: string;
+}
+const { variant = 'hero', class: className = '', title } = Astro.props;
+
+const s1 =
+  'M120 196 C140 202.92 160 206.45 160 215 C160 223.55 140 227.08 120 234 C100 240.92 80 244.45 80 253 C80 261.55 100 265.08 120 272 C140 278.92 160 282.45 160 291 C160 299.55 140 303.08 120 310 C100 316.92 80 320.45 80 329 C80 337.55 100 341.08 120 348 C140 354.92 160 358.45 160 367 C160 375.55 140 379.08 120 386 C100 392.92 80 396.45 80 405 C80 413.55 100 417.08 120 424';
+const s2 =
+  'M120 196 C100 202.92 80 206.45 80 215 C80 223.55 100 227.08 120 234 C140 240.92 160 244.45 160 253 C160 261.55 140 265.08 120 272 C100 278.92 80 282.45 80 291 C80 299.55 100 303.08 120 310 C140 316.92 160 320.45 160 329 C160 337.55 140 341.08 120 348 C100 354.92 80 358.45 80 367 C80 375.55 100 379.08 120 386 C140 392.92 160 396.45 160 405 C160 413.55 140 417.08 120 424';
+const rungs =
+  'M97.7 205.5 H142.3 M86 215 H154 M97.7 224.5 H142.3 M97.7 243.5 H142.3 M86 253 H154 M97.7 262.5 H142.3 M97.7 281.5 H142.3 M86 291 H154 M97.7 300.5 H142.3 M97.7 319.5 H142.3 M86 329 H154 M97.7 338.5 H142.3 M97.7 357.5 H142.3 M86 367 H154 M97.7 376.5 H142.3 M97.7 395.5 H142.3 M86 405 H154 M97.7 414.5 H142.3';
+const dendrites = [
+  [120, 82, 120, 20],
+  [136.8, 87.1, 170.3, 37.4],
+  [103.2, 87.1, 69.7, 37.4],
+  [147.8, 100.8, 201.6, 79],
+  [92.2, 100.8, 38.4, 79],
+];
+const signal = 'M120 20 L120 196 ' + s1.slice('M120 196 '.length);
+const isHero = variant === 'hero';
+const sw = isHero ? 6 : 14;
+const id = isHero ? 'emblem-hero' : 'emblem-mark';
+---
+
+<svg
+  class:list={['emblem', `emblem--${variant}`, className]}
+  viewBox={isHero ? '20 8 200 428' : '28 6 184 432'}
+  role={title ? 'img' : undefined}
+  aria-hidden={title ? undefined : 'true'}
+  aria-label={title}
+  fill="none"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  {
+    isHero && (
+      <defs>
+        <linearGradient id={`${id}-signal`} gradientUnits="userSpaceOnUse" x1="0" y1="20" x2="0" y2="424">
+          <stop offset="0.38" stop-color="var(--indigo)" />
+          <stop offset="0.52" stop-color="var(--teal)" />
+        </linearGradient>
+      </defs>
+    )
+  }
+  {isHero && <path d={rungs} stroke="var(--rule-strong)" stroke-width="4" />}
+  {!isHero && <path d={rungs} stroke="currentColor" stroke-width="7" opacity="0.4" />}
+  <path d={s2} stroke="currentColor" stroke-width={sw} />
+  <path d={s1} stroke="var(--paper)" stroke-width={sw + (isHero ? 7 : 10)} />
+  <path d={s1} stroke="currentColor" stroke-width={sw} />
+  <path d="M120 140 V196" stroke="currentColor" stroke-width={sw} />
+  {dendrites.map(([x1, y1, x2, y2]) => <path d={`M${x1} ${y1} L${x2} ${y2}`} stroke="currentColor" stroke-width={sw} />)}
+  {dendrites.map(([, , x2, y2]) => <circle cx={x2} cy={y2} r={isHero ? 7.5 : 14} fill="currentColor" stroke="none" />)}
+  <circle cx="120" cy="112" r="30" fill="currentColor" stroke="none" />
+  {
+    isHero && (
+      <path
+        class="emblem__signal"
+        d={signal}
+        pathLength="1000"
+        stroke={`url(#${id}-signal)`}
+        stroke-width={sw + 0.5}
+      />
+    )
+  }
+</svg>
+
+<style>
+  .emblem {
+    color: var(--ink);
+    overflow: visible;
+  }
+
+  /* A 70-unit dash travels the 1000-unit signal path from the top dendrite into the helix. */
+  .emblem__signal {
+    stroke-dasharray: 70 1100;
+    stroke-dashoffset: 70;
+    opacity: 0;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    :global(.is-firing) .emblem__signal {
+      animation: fire 2.6s var(--ease-in-out) both;
+    }
+  }
+
+  @keyframes fire {
+    0% {
+      stroke-dashoffset: 70;
+      opacity: 0;
+    }
+    5% {
+      opacity: 1;
+    }
+    90% {
+      opacity: 1;
+    }
+    100% {
+      stroke-dashoffset: -1000;
+      opacity: 0;
+    }
+  }
+</style>

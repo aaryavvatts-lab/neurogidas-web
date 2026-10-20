@@ -1,0 +1,131 @@
+---
+import Base from '../layouts/Base.astro';
+import JoinBand from '../components/JoinBand.astro';
+import { TEAM, SITE, LINKS } from '../data/site';
+---
+
+<Base title="Team" description="NeuroGIDAS was founded and is run by co-presidents Aaryav Sharma and Rishik Kondadadi at Eastview High School.">
+  <header class="page-head">
+    <div class="wrap">
+      <h1 class="h1">The people running it</h1>
+      <p class="lede">NeuroGIDAS is student-led. It was started, and is run, by two Eastview students.</p>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="wrap">
+      <ul class="people">
+        {
+          TEAM.map((p, i) => (
+            <li class="person">
+              <div class:list={['mono', i % 2 ? 'mono--b' : 'mono--a']} aria-hidden="true">
+                <span>{p.initials}</span>
+              </div>
+              <h2 class="h2 person__name">{p.name}</h2>
+              <p class="person__role">{p.role}</p>
+              {p.note && <p class="muted person__note">{p.note}</p>}
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section rule-top">
+    <div class="wrap split">
+      <h2 class="h2">Want to help run it?</h2>
+      <div class="prose">
+        <p>
+          If you like the club and want a bigger part in it, like teaching a lesson, helping with Brain Awareness Week, or running
+          the Instagram, talk to Aaryav or Rishik at a meeting. You can also send a message to{' '}
+          <a href={`mailto:${LINKS.email}`}>{LINKS.email}</a>.
+        </p>
+        <p>
+          {SITE.advisor} hosts the club in Room {SITE.room}.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <JoinBand />
+</Base>
+
+<style>
+  .people {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--s-8) clamp(2rem, 1rem + 4vw, 5rem);
+    max-width: 62rem;
+  }
+
+  .person {
+    display: grid;
+    align-content: start;
+  }
+
+  .mono {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    display: grid;
+    place-items: center;
+    margin-bottom: var(--s-6);
+    background: var(--paper-2);
+    border: 1px solid var(--rule);
+  }
+
+  /* Each tile splits into the two track colors, like the joint bands on the year chromosome */
+  .mono::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, var(--neuro) 0 50%, var(--gidas) 50% 100%);
+    clip-path: inset(0 0 0 62%);
+  }
+
+  .mono--b::before {
+    background: linear-gradient(180deg, var(--gidas) 0 50%, var(--neuro) 50% 100%);
+  }
+
+  .mono span {
+    position: absolute;
+    left: 0;
+    width: 62%;
+    top: 50%;
+    transform: translateY(-50%);
+    text-align: center;
+    font-size: clamp(3.5rem, 2rem + 5vw, 6.5rem);
+    font-weight: 800;
+    letter-spacing: -0.05em;
+    font-variation-settings: 'wdth' 125;
+    line-height: 1;
+    color: var(--ink);
+  }
+
+  .person__role {
+    margin-top: var(--s-2);
+    font-weight: 600;
+    color: var(--ink-2);
+  }
+
+  .person__note {
+    margin-top: var(--s-4);
+    max-width: 44ch;
+  }
+
+  .split {
+    display: grid;
+    grid-template-columns: minmax(0, 4fr) minmax(0, 7fr);
+    gap: var(--s-6) clamp(2rem, 1rem + 5vw, 6rem);
+    align-items: start;
+  }
+
+  @media (max-width: 760px) {
+    .people,
+    .split {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

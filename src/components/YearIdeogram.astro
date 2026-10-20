@@ -1,0 +1,575 @@
+---
+// "The year as a chromosome." Each Wednesday of the school year is one band, colored by track.
+// Winter break is the centromere. Big events sit underneath as labeled loci.
+import { MEETINGS, splitMeetings, shortDate, TRACK_LABEL, meetingEnd } from '../data/meetings';
+
+const DAY = 86400000;
+const toDate = (s: string) => new Date(`${s}T12:00:00Z`);
+const iso = (d: Date) => d.toISOString().slice(0, 10);
+
+function weeks(from: string, to: string) {
+  const out: string[] = [];
+  for (let t = toDate(from).getTime(); t <= toDate(to).getTime(); t += 7 * DAY) out.push(iso(new Date(t)));
+  return out;
+}
+
+const byDate = new Map(MEETINGS.map((m) => [m.date, m]));
+const { next } = splitMeetings();
+
+const arms = [
+  { key: 'p', label: 'Fall', weeks: weeks('2026-09-23', '2026-12-16') },
+  { key: 'q', label: 'Winter and spring', weeks: weeks('2027-01-06', '2027-06-02') },
+].map((arm) => ({
+  ...arm,
+  bands: arm.weeks.map((date) => {
+    const m = byDate.get(date);
+    return {
+      date,
+      m,
+      label: m
+        ? `${shortDate(date)}. ${TRACK_LABEL[m.track]}: ${m.title}${m.confirmed ? '' : ' (tentative)'}`
+        : `${shortDate(date)}. No meeting, no school.`,
+      end: m ? meetingEnd(m).toISOString() : null,
+      isNext: next?.date === date,
+    };
+  }),
+}));
+
+// Month ticks: the first band of each month.
+function ticks(bands: { date: string }[]) {
+  const seen = new Set<string>();
+  return bands
+    .map((b, i) => ({ i, mon: shortDate(b.date).split(' ')[0], key: b.date.slice(0, 7) }))
+    .filter((t) => (seen.has(t.key) ? false : (seen.add(t.key), true)));
+}
+
+// Loci on the spring arm, placed by week index.
+const q = arms[1].weeks;
+const at = (date: string) => (q.findIndex((d) => d >= date) + 0.5) / q.length;
+const loci = [
+  { name: 'Genes and Health Contest', when: 'January', x: at('2027-01-13'), track: 'gidas' },
+  { name: 'Brain Bee regionals', when: 'January to March', x: at('2027-02-10'), span: [at('2027-01-06'), at('2027-03-24')], track: 'neuro' },
+  { name: 'Brain Awareness Week', when: 'March', x: at('2027-03-17'), track: 'neuro' },
+  { name: 'miRcore Research Conference', when: 'April', x: at('2027-04-14'), track: 'gidas' },
+];
+---
+
+<figure class="ideo" data-ideo>
+  <div class="readout" aria-live="polite">
+    <p class="readout__date tnum" data-r="date"></p>
+    <p class="readout__title" data-r="title"></p>
+    <p class="readout__track" data-r="track"></p>
+  </div>
+
+  <div class="chromo">
+    {
+      arms.map((arm) => [
+        <div class:list={['arm', `arm--${arm.key}`]} style={`--n:${arm.bands.length}`}>
+          <p class="arm__label">{arm.label}</p>
+          <div class="arm__frame" style={`--ni:${arm.bands.findIndex((b) => b.isNext)}`}>
+          <span class="now" aria-hidden="true" />
+          <div class="arm__body" role="group" aria-label={`${arm.label} meetings`}>
+            {arm.bands.map((b) => (
+              <button
+                type="button"
+                class:list={['band', b.m ? `band--${b.m.track}` : 'band--none', { 'band--tentative': b.m && !b.m.confirmed }]}
+                data-date={b.date}
+                data-end={b.end}
+                data-title={b.m ? b.m.title : 'No meeting'}
+                data-track={b.m ? TRACK_LABEL[b.m.track] + (b.m.confirmed ? '' : ', tentative') : 'No school this Wednesday'}
+                data-short={shortDate(b.date)}
+                data-next={b.isNext ? 'true' : undefined}
+                aria-label={b.label}
+              >
+                <span class="band__fill" />
+              </button>
+            ))}
+          </div>
+          </div>
+          <div class="ticks" aria-hidden="true">
+            {ticks(arm.bands).map((t) => (
+              <span class="tick" style={`--i:${t.i}`}>
+                {t.mon}
+              </span>
+            ))}
+          </div>
+          {arm.key === 'q' && (
+            <ul class="loci">
+              {loci.map((l, i) => (
+                <li class="locus" data-track={l.track} style={`--x:${l.x}; --row:${i % 2}`}>
+                  {l.span && <span class="locus__span" style={`--a:${l.span[0]}; --b:${l.span[1]}`} />}
+                  <span class="locus__name">{l.name}</span>
+                  <span class="locus__when">{l.when}</span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>,
+        arm.key === 'p' && (
+          <div class="cen" aria-hidden="true">
+            <p class="arm__label">&nbsp;</p>
+            <div class="cen__body">
+              <span />
+            </div>
+          </div>
+        ),
+      ])
+    }
+  </div>
+
+  <figcaption class="caption legend">
+    <b>Fig. 2</b>
+    The 2026 to 2027 year drawn as a chromosome. Each band is one Wednesday. Winter break is the centromere.
+    <span class="keys">
+      <span class="key key--neuro">Neuroscience</span>
+      <span class="key key--gidas">GIDAS research</span>
+      <span class="key key--joint">Both tracks</span>
+      <span class="key key--none">No school</span>
+      <span class="key key--tent">Tentative</span>
+    </span>
+  </figcaption>
+</figure>
+
+<style>
+  .ideo {
+    margin: 0;
+  }
+
+  .readout {
+    min-height: 6.25rem;
+    display: grid;
+    align-content: end;
+    gap: 0.2rem;
+    padding-bottom: var(--s-5);
+  }
+
+  .readout__date {
+    font-weight: 650;
+    color: var(--ink-2);
+  }
+
+  .readout__title {
+    font-size: var(--step-2);
+    font-weight: 740;
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+    font-variation-settings: 'wdth' 110;
+    max-width: 30ch;
+  }
+
+  .readout__track {
+    font-size: var(--step--1);
+    color: var(--ink-2);
+  }
+
+  .chromo {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 13fr) clamp(0.9rem, 0.4rem + 1.2vw, 1.6rem) minmax(0, 22fr);
+    --arm-h: clamp(4.5rem, 3.5rem + 3vw, 6.5rem);
+  }
+
+  .cen__body {
+    height: var(--arm-h);
+    display: grid;
+    align-items: center;
+  }
+
+  .cen__body span {
+    display: block;
+    height: 44%;
+    margin-inline: -2px;
+    background: var(--paper-2);
+    border-block: 1.5px solid var(--ink);
+  }
+
+  .arm__frame {
+    position: relative;
+  }
+
+  .now {
+    position: absolute;
+    z-index: 3;
+    top: -0.75rem;
+    left: calc((var(--ni) + 0.5) / var(--n) * 100%);
+    width: 0.6rem;
+    height: 0.6rem;
+    margin-left: -0.3rem;
+    border-radius: 50%;
+    background: var(--salmon);
+    pointer-events: none;
+  }
+
+  .arm__frame[style*='--ni:-1'] .now {
+    display: none;
+  }
+
+  .arm__label {
+    font-size: var(--step--1);
+    font-weight: 600;
+    color: var(--ink-2);
+    margin-bottom: var(--s-2);
+  }
+
+  .arm__body {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(var(--n), minmax(0, 1fr));
+    height: var(--arm-h);
+    padding: 0;
+    background: var(--paper-2);
+    border: 1.5px solid var(--ink);
+    overflow: hidden;
+  }
+
+  /* Rounded telomeres on the outside ends, pinched toward the centromere */
+  .arm--p .arm__body {
+    border-radius: calc(var(--arm-h) / 2) 22px 22px calc(var(--arm-h) / 2);
+  }
+
+  .arm--q .arm__body {
+    border-radius: 22px calc(var(--arm-h) / 2) calc(var(--arm-h) / 2) 22px;
+  }
+
+  .band {
+    position: relative;
+    appearance: none;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    background: transparent;
+    cursor: pointer;
+    min-width: 0;
+  }
+
+  .band + .band {
+    box-shadow: inset 1px 0 0 color-mix(in srgb, var(--paper) 55%, transparent);
+  }
+
+  .band__fill {
+    position: absolute;
+    inset: 0;
+    transition:
+      transform var(--dur-2) var(--ease-out),
+      filter var(--dur-1) var(--ease-out);
+    transform-origin: center;
+  }
+
+  .band--neuro .band__fill {
+    background: var(--neuro);
+  }
+
+  .band--gidas .band__fill {
+    background: var(--gidas);
+  }
+
+  .band--joint .band__fill {
+    background: linear-gradient(180deg, var(--neuro) 50%, var(--gidas) 50%);
+  }
+
+  .band--none .band__fill {
+    background: var(--paper-2);
+  }
+
+  .band--tentative .band__fill {
+    opacity: 0.45;
+  }
+
+  .band:hover .band__fill {
+    filter: brightness(1.08);
+  }
+
+  .band.is-active .band__fill {
+    opacity: 1;
+  }
+
+  .band.is-active::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    box-shadow: inset 0 0 0 2px var(--ink);
+    z-index: 1;
+  }
+
+  .band:focus-visible {
+    outline: none;
+  }
+
+  .band:focus-visible::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    box-shadow:
+      inset 0 0 0 2px var(--paper),
+      inset 0 0 0 4px var(--ink);
+    z-index: 2;
+  }
+
+  .ticks {
+    position: relative;
+    height: 1.6rem;
+    margin-top: 0.4rem;
+  }
+
+  .tick {
+    position: absolute;
+    left: calc(var(--i) / var(--n) * 100%);
+    font-size: 0.78rem;
+    color: var(--ink-3);
+    padding-left: 0.25rem;
+    border-left: 1px solid var(--rule-strong);
+    line-height: 1;
+    padding-top: 0.3rem;
+  }
+
+  .loci {
+    position: relative;
+    list-style: none;
+    height: 6.2rem;
+    margin-top: var(--s-2);
+  }
+
+  .locus {
+    position: absolute;
+    left: calc(var(--x) * 100%);
+    top: calc(var(--row) * 2.9rem);
+    display: grid;
+    padding-left: 0.6rem;
+    border-left: 1px solid var(--locus, var(--ink));
+    max-width: 13rem;
+    line-height: 1.2;
+  }
+
+  .locus[data-track='neuro'] {
+    --locus: var(--neuro);
+  }
+
+  .locus[data-track='gidas'] {
+    --locus: var(--gidas);
+  }
+
+  .locus__name {
+    font-size: 0.86rem;
+    font-weight: 650;
+  }
+
+  .locus__when {
+    font-size: 0.78rem;
+    color: var(--ink-2);
+  }
+
+  .locus__span {
+    display: none;
+  }
+
+  .legend {
+    margin-top: var(--s-4);
+    max-width: none;
+  }
+
+  .keys {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1.1rem;
+    margin-top: var(--s-3);
+  }
+
+  .key {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+  }
+
+  .key::before {
+    content: '';
+    width: 0.9rem;
+    height: 0.9rem;
+    border-radius: 2px;
+  }
+
+  .key--neuro::before {
+    background: var(--neuro);
+  }
+
+  .key--gidas::before {
+    background: var(--gidas);
+  }
+
+  .key--joint::before {
+    background: linear-gradient(180deg, var(--neuro) 50%, var(--gidas) 50%);
+  }
+
+  .key--none::before {
+    background: var(--paper-2);
+    box-shadow: inset 0 0 0 1px var(--rule-strong);
+  }
+
+  .key--tent::before {
+    background: var(--neuro);
+    opacity: 0.45;
+  }
+
+  /* Phones: the chromosome stands upright, fall and spring arms side by side, one tappable band per Wednesday. */
+  @media (max-width: 760px) {
+    .readout {
+      position: sticky;
+      top: 4.25rem;
+      z-index: 5;
+      min-height: 0;
+      padding-block: var(--s-3);
+      margin-bottom: var(--s-3);
+      background: var(--paper);
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .readout__title {
+      font-size: var(--step-1);
+    }
+
+    .chromo {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      column-gap: var(--s-5);
+      align-items: start;
+    }
+
+    .cen {
+      display: none;
+    }
+
+    .arm {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 2.4rem;
+      column-gap: var(--s-2);
+    }
+
+    .arm__label {
+      grid-column: 1 / -1;
+    }
+
+    .arm__body {
+      grid-template-columns: 1fr;
+      grid-template-rows: repeat(var(--n), 1.65rem);
+      height: auto;
+    }
+
+    .arm--p .arm__body,
+    .arm--q .arm__body {
+      border-radius: 28px;
+    }
+
+    .band + .band {
+      box-shadow: inset 0 1px 0 color-mix(in srgb, var(--paper) 55%, transparent);
+    }
+
+    .now {
+      top: calc((var(--ni) + 0.5) / var(--n) * 100%);
+      left: -0.85rem;
+      margin-left: 0;
+      margin-top: -0.3rem;
+    }
+
+    .ticks {
+      height: auto;
+      margin-top: 0;
+    }
+
+    .tick {
+      left: 0;
+      top: calc(var(--i) / var(--n) * 100%);
+      padding: 0.15rem 0 0 0.3rem;
+      border-left: 0;
+      border-top: 1px solid var(--rule-strong);
+    }
+
+    .loci {
+      grid-column: 1 / -1;
+      height: auto;
+      display: grid;
+      gap: var(--s-3);
+      margin-top: var(--s-5);
+    }
+
+    .locus {
+      position: static;
+      max-width: none;
+    }
+
+    .js .ideo:not(.is-drawn) .band__fill {
+      transform: scaleX(0.12);
+    }
+  }
+
+  /* Bands grow in once, left to right, when the figure scrolls into view. */
+  @media (prefers-reduced-motion: no-preference) {
+    .js .ideo:not(.is-drawn) .band__fill {
+      transform: scaleY(0.12);
+    }
+
+    .js .ideo.is-drawn .band__fill {
+      transition:
+        transform 650ms var(--ease-out) calc(var(--d, 0) * 16ms),
+        filter var(--dur-1) var(--ease-out);
+    }
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-ideo]').forEach((fig) => {
+    const bands = Array.from(fig.querySelectorAll<HTMLButtonElement>('.band'));
+    const r = (k: string) => fig.querySelector<HTMLElement>(`[data-r="${k}"]`)!;
+    const now = Date.now();
+
+    // Recompute "next" on the client so the mark stays right after the build ages.
+    const live = bands.find((b) => b.dataset.end && new Date(b.dataset.end).getTime() >= now);
+    bands.forEach((b) => delete b.dataset.next);
+    if (live) live.dataset.next = 'true';
+    fig.querySelectorAll<HTMLElement>('.arm__frame').forEach((frame) => {
+      const own = Array.from(frame.querySelectorAll<HTMLButtonElement>('.band'));
+      const ni = live ? own.indexOf(live) : -1;
+      frame.style.setProperty('--ni', String(ni));
+      frame.querySelector<HTMLElement>('.now')!.style.display = ni < 0 ? 'none' : '';
+    });
+
+    const show = (b: HTMLButtonElement) => {
+      bands.forEach((x) => x.classList.toggle('is-active', x === b));
+      const isNext = b === live;
+      const past = b.dataset.end && new Date(b.dataset.end).getTime() < now;
+      r('date').textContent = `${isNext ? 'Next up, ' : past ? 'Past, ' : ''}Wednesday, ${b.dataset.short}`;
+      r('title').textContent = b.dataset.title ?? '';
+      r('track').textContent = b.dataset.track ?? '';
+    };
+
+    bands.forEach((b, i) => {
+      b.style.setProperty('--d', String(i));
+      b.addEventListener('mouseenter', () => show(b));
+      b.addEventListener('focus', () => show(b));
+      b.addEventListener('click', () => show(b));
+    });
+
+    // Arrow keys move along the chromosome.
+    fig.addEventListener('keydown', (e) => {
+      const i = bands.indexOf(document.activeElement as HTMLButtonElement);
+      if (i < 0) return;
+      const fwd = e.key === 'ArrowRight' || e.key === 'ArrowDown';
+      const back = e.key === 'ArrowLeft' || e.key === 'ArrowUp';
+      const j = fwd ? i + 1 : back ? i - 1 : -1;
+      if (j >= 0 && j < bands.length) {
+        e.preventDefault();
+        bands[j].focus();
+      }
+    });
+
+    show(live ?? bands[bands.length - 1]);
+
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (e.isIntersecting) {
+          fig.classList.add('is-drawn');
+          io.disconnect();
+        }
+      },
+      { threshold: 0.15 }
+    );
+    io.observe(fig);
+  });
+</script>

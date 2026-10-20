@@ -1,0 +1,251 @@
+---
+import Emblem from './Emblem.astro';
+import { NAV, LINKS } from '../data/site';
+
+const path = Astro.url.pathname.replace(/\/?$/, '/');
+const isCurrent = (href: string) => path === href;
+---
+
+<header class="site-header">
+  <div class="wrap bar">
+    <a class="brand" href="/" aria-label="NeuroGIDAS home">
+      <Emblem variant="mark" class="brand__mark" />
+      <span class="brand__name" translate="no">NeuroGIDAS</span>
+    </a>
+
+    <nav class="nav" aria-label="Main">
+      <ul class="nav__list">
+        {
+          NAV.map((item) => (
+            <li>
+              <a href={item.href} aria-current={isCurrent(item.href) ? 'page' : undefined}>
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <a class="btn btn-primary join-btn" href="/join/" aria-current={isCurrent('/join/') ? 'page' : undefined}>Join</a>
+
+    <button class="menu-btn" type="button" aria-expanded="false" aria-controls="mobile-menu">
+      <span class="visually-hidden">Menu</span>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path class="l1" d="M4 8h16" /><path class="l2" d="M4 16h16" /></svg>
+    </button>
+  </div>
+
+  <div class="sheet" id="mobile-menu" hidden>
+    <nav class="wrap" aria-label="Mobile">
+      <ul>
+        <li><a href="/" aria-current={isCurrent('/') ? 'page' : undefined}>Home</a></li>
+        {
+          NAV.map((item) => (
+            <li>
+              <a href={item.href} aria-current={isCurrent(item.href) ? 'page' : undefined}>
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+        <li><a href="/join/" aria-current={isCurrent('/join/') ? 'page' : undefined}>Join</a></li>
+      </ul>
+      <a class="btn btn-primary sheet__cta" href={LINKS.groupme} rel="noopener">Join the GroupMe</a>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: color-mix(in srgb, var(--paper) 94%, transparent);
+    backdrop-filter: saturate(1.2) blur(10px);
+    -webkit-backdrop-filter: saturate(1.2) blur(10px);
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .bar {
+    display: flex;
+    align-items: center;
+    gap: var(--s-5);
+    min-height: 4.25rem;
+  }
+
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    text-decoration: none;
+    margin-right: auto;
+  }
+
+  .brand :global(.brand__mark) {
+    width: auto;
+    height: 2.1rem;
+  }
+
+  .brand__name {
+    font-weight: 780;
+    font-size: 1.12rem;
+    letter-spacing: -0.02em;
+    font-variation-settings: 'wdth' 116;
+  }
+
+  .nav__list {
+    display: flex;
+    gap: var(--s-1);
+    list-style: none;
+  }
+
+  .nav__list a {
+    display: block;
+    padding: 0.5rem 0.75rem;
+    border-radius: var(--radius);
+    font-weight: 560;
+    font-size: 0.97rem;
+    color: var(--ink-2);
+    text-decoration: none;
+    transition: color var(--dur-1) var(--ease-out), background-color var(--dur-1) var(--ease-out);
+  }
+
+  .nav__list a:hover {
+    color: var(--ink);
+    background: var(--paper-2);
+  }
+
+  .nav__list a[aria-current='page'] {
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-color: var(--indigo);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.45em;
+  }
+
+  .join-btn {
+    min-height: 2.6rem;
+    padding: 0.5rem 1.1rem;
+    font-size: 0.97rem;
+  }
+
+  .menu-btn {
+    display: none;
+    width: 2.75rem;
+    height: 2.75rem;
+    margin-right: -0.5rem;
+    border: 0;
+    background: transparent;
+    color: var(--ink);
+    border-radius: var(--radius);
+    cursor: pointer;
+  }
+
+  .menu-btn svg {
+    width: 1.5rem;
+    height: 1.5rem;
+    margin: auto;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+  }
+
+  .menu-btn path {
+    transform-origin: 12px 12px;
+    transition: transform var(--dur-2) var(--ease-out);
+  }
+
+  .menu-btn[aria-expanded='true'] .l1 {
+    transform: translateY(4px) rotate(45deg);
+  }
+
+  .menu-btn[aria-expanded='true'] .l2 {
+    transform: translateY(-4px) rotate(-45deg);
+  }
+
+  .sheet {
+    border-top: 1px solid var(--rule);
+    background: var(--paper);
+    max-height: calc(100dvh - 4.25rem);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .sheet ul {
+    list-style: none;
+    padding-block: var(--s-3);
+  }
+
+  .sheet li + li {
+    border-top: 1px solid var(--rule);
+  }
+
+  .sheet ul a {
+    display: block;
+    padding: 0.95rem 0;
+    font-size: var(--step-2);
+    font-weight: 720;
+    letter-spacing: -0.02em;
+    font-variation-settings: 'wdth' 112;
+    text-decoration: none;
+  }
+
+  .sheet ul a[aria-current='page'] {
+    color: var(--indigo);
+  }
+
+  .sheet__cta {
+    width: 100%;
+    margin-bottom: var(--s-6);
+  }
+
+  @media (max-width: 860px) {
+    .nav,
+    .join-btn {
+      display: none;
+    }
+
+    .menu-btn {
+      display: grid;
+    }
+  }
+
+  @media (min-width: 861px) {
+    .sheet {
+      display: none !important;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .sheet:not([hidden]) {
+      animation: sheet-in 200ms var(--ease-out);
+    }
+  }
+
+  @keyframes sheet-in {
+    from {
+      opacity: 0;
+      transform: translateY(-6px);
+    }
+  }
+</style>
+
+<script>
+  const btn = document.querySelector<HTMLButtonElement>('.menu-btn');
+  const sheet = document.getElementById('mobile-menu');
+  if (btn && sheet) {
+    const set = (open: boolean) => {
+      btn.setAttribute('aria-expanded', String(open));
+      sheet.hidden = !open;
+      document.documentElement.style.overflow = open ? 'hidden' : '';
+    };
+    btn.addEventListener('click', () => set(btn.getAttribute('aria-expanded') !== 'true'));
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && btn.getAttribute('aria-expanded') === 'true') {
+        set(false);
+        btn.focus();
+      }
+    });
+    matchMedia('(min-width: 861px)').addEventListener('change', (e) => e.matches && set(false));
+  }
+</script>
