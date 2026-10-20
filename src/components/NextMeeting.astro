@@ -1,5 +1,5 @@
 ---
-import { MEETINGS, splitMeetings, parts, TRACK_LABEL, meetingEnd } from '../data/meetings';
+import { MEETINGS, splitMeetings, parts, TRACK_LABEL, meetingEnd, roomOf } from '../data/meetings';
 import { SITE, LINKS } from '../data/site';
 
 interface Props {
@@ -10,7 +10,7 @@ const { heading = 'Next meeting', id = 'next' } = Astro.props;
 const { next } = splitMeetings();
 
 // Everything the client needs to swap in a later meeting after this build goes stale.
-const payload = MEETINGS.map((m) => ({ ...m, end: meetingEnd(m).toISOString() }));
+const payload = MEETINGS.map((m) => ({ ...m, end: meetingEnd(m).toISOString(), roomName: roomOf(m) }));
 const p = next ? parts(next.date) : null;
 
 function calHref(m: NonNullable<typeof next>) {
@@ -22,7 +22,7 @@ function calHref(m: NonNullable<typeof next>) {
     text: `NeuroGIDAS: ${m.title}`,
     dates: `${f(start)}/${f(end)}`,
     details: `${m.summary}\n\nhttps://neurogidas-web.vercel.app/meetings/`,
-    location: 'Room B327, Eastview High School',
+    location: `${roomOf(m)}, Eastview High School`,
   });
   return `https://calendar.google.com/calendar/render?${q}`;
 }
@@ -40,7 +40,7 @@ function calHref(m: NonNullable<typeof next>) {
     <div class="main">
       <p class="meta">
         <span class="tag" data-track={next?.track} data-f="track">{next && TRACK_LABEL[next.track]}</span>
-        <span class="tentative" data-f="tentative" hidden={!next || next.confirmed}>Date is tentative</span>
+        <span class="tentative" data-f="tentative" hidden={!next || next.confirmed}>Date might change</span>
       </p>
       <h3 class="title h2" data-f="title">{next?.title}</h3>
       <p class="summary" data-f="summary">{next?.summary}</p>
@@ -55,7 +55,7 @@ function calHref(m: NonNullable<typeof next>) {
       </div>
       <div>
         <dt>Where</dt>
-        <dd>Room {SITE.room}</dd>
+        <dd data-f="room">{next ? roomOf(next) : ''}</dd>
       </div>
       </dl>
       <div class="actions">
@@ -67,7 +67,7 @@ function calHref(m: NonNullable<typeof next>) {
     </div>
 
     <div class="empty">
-      <p class="h3">That is it for this school year.</p>
+      <p class="h3">That’s it for this school year.</p>
       <p class="muted">Meetings start again in the fall. Join the <a href={LINKS.groupme} rel="noopener">GroupMe</a> to hear when.</p>
     </div>
   </div>
@@ -245,7 +245,7 @@ function calHref(m: NonNullable<typeof next>) {
   const LONG = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
   const LABEL: Record<string, string> = { neuro: 'Neuroscience', gidas: 'GIDAS research', joint: 'Both tracks' };
 
-  type M = { date: string; track: string; title: string; summary: string; confirmed: boolean; openToAll?: boolean; end: string };
+  type M = { date: string; track: string; title: string; summary: string; confirmed: boolean; openToAll?: boolean; end: string; roomName: string };
 
   function calUrl(m: M) {
     const end = new Date(m.end);
@@ -256,7 +256,7 @@ function calHref(m: NonNullable<typeof next>) {
       text: `NeuroGIDAS: ${m.title}`,
       dates: `${f(start)}/${f(end)}`,
       details: `${m.summary}\n\nhttps://neurogidas-web.vercel.app/meetings/`,
-      location: 'Room B327, Eastview High School',
+      location: `${m.roomName}, Eastview High School`,
     });
     return `https://calendar.google.com/calendar/render?${q}`;
   }
@@ -283,6 +283,7 @@ function calHref(m: NonNullable<typeof next>) {
     set('title', next.title);
     set('summary', next.summary);
     set('long', `Wednesday, ${LONG[mo - 1]} ${d}`);
+    set('room', next.roomName);
     const track = root.querySelector<HTMLElement>('[data-f="track"]');
     if (track) {
       track.dataset.track = next.track;

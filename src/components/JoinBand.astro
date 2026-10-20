@@ -4,7 +4,7 @@ import { LINKS, SITE } from '../data/site';
 interface Props {
   heading?: string;
 }
-const { heading = 'Come Wednesday.' } = Astro.props;
+const { heading = 'Come to a meeting' } = Astro.props;
 ---
 
 <section class="join" aria-labelledby="join-h">
@@ -12,7 +12,7 @@ const { heading = 'Come Wednesday.' } = Astro.props;
     <div>
       <h2 class="h1" id="join-h">{heading}</h2>
       <p class="join__lede">
-        {SITE.time}, Room {SITE.room}. You can just walk in. If you want reminders first, pick whichever is easiest.
+        Wednesdays, {SITE.time}, in Room {SITE.room}. You can just show up. If you want reminders, use any of these.
       </p>
     </div>
 
@@ -20,7 +20,7 @@ const { heading = 'Come Wednesday.' } = Astro.props;
       <li>
         <a class="route" href={LINKS.groupme} rel="noopener">
           <span class="route__name">GroupMe</span>
-          <span class="route__what">Meeting reminders and club news</span>
+          <span class="route__what">Reminders and club news</span>
           <svg class="route__arrow" viewBox="0 0 20 20" aria-hidden="true"><path d="M5 15 15 5M7 5h8v8" /></svg>
         </a>
       </li>

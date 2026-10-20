@@ -3,7 +3,7 @@ export const SITE = {
   school: 'Eastview High School',
   url: 'https://neurogidas-web.vercel.app',
   description:
-    "Eastview's neuroscience and genetics research club. Brain science one week, real genetics research the next. Wednesdays after school in B327. No experience needed.",
+    "Eastview's brain science and genetics club. One week we learn how the brain works, the next we do genetics research. Wednesdays after school in B327. No experience needed.",
   room: 'B327',
   time: '2:45 to 3:30 PM',
   day: 'Wednesdays',
@@ -30,14 +30,25 @@ export const NAV = [
 
 export const TEAM = [
   {
-    name: 'Aaryav Sharma',
-    initials: 'AS',
-    role: 'Co-Founder and Co-President',
-    note: 'Wrote From Neuron to Bedside, a free interactive neuroscience textbook for high school students.',
-  },
-  {
     name: 'Rishik Kondadadi',
     initials: 'RK',
     role: 'Co-Founder and Co-President',
+    school: 'Eastview High School, 11th grade',
+    photo: '/team/rishik-kondadadi.webp',
+    photoSmall: '/team/rishik-kondadadi-480.webp',
+    bio: [
+      'Rishik is a junior at Eastview and started NeuroGIDAS with Aaryav. Research is what he loves most, especially taking real data and figuring out what it actually says.',
+      'He wanted a club where high school students get to do that kind of work now, instead of waiting until college to try it.',
+    ],
+  },
+  {
+    name: 'Aaryav Sharma',
+    initials: 'AS',
+    role: 'Co-Founder and Co-President',
+    school: 'Eastview High School, 10th grade',
+    bio: [
+      'Aaryav is a sophomore at Eastview and started NeuroGIDAS with Rishik. He also wrote From Neuron to Bedside, a free neuroscience textbook for high school students.',
+      'Most high schools barely teach how the brain works. He started the club so Eastview students could learn it, and do real research with it, before college.',
+    ],
   },
 ];

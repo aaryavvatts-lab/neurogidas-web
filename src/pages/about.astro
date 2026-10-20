@@ -2,111 +2,116 @@
 import Base from '../layouts/Base.astro';
 import JoinBand from '../components/JoinBand.astro';
 import HeadFigure from '../components/HeadFigure.astro';
+import Emblem from '../components/Emblem.astro';
 import { SITE, LINKS } from '../data/site';
 
 const neuroFormats = [
-  { t: 'Labs', d: 'Short experiments you run on yourself, like reaction time, the Stroop test, and memory span. Then we look at the class results together.' },
-  { t: 'Guest speakers', d: 'People who work in medicine and brain science. You bring the questions.' },
-  { t: 'Journal club', d: 'One published paper, broken down into what they asked, what they did, and what they found.' },
-  { t: 'Ethics debates', d: 'An open question in neuroscience, with sides assigned at random.' },
-  { t: 'Brain Bee prep', d: 'High-yield topics and timed practice for the Brain Bee competition.' },
-  { t: 'Brain Awareness Week', d: 'In March we take quick brain science demos to the rest of the school.' },
+  { t: 'Labs', d: 'Quick experiments you run on yourself, like reaction time and memory tests. Then we compare everyone’s results.' },
+  { t: 'Guest speakers', d: 'People who work in medicine and brain science come in, and you get to ask them anything.' },
+  { t: 'Journal club', d: 'We read one real research paper and break it down: what they asked, what they did, and what they found.' },
+  { t: 'Debates', d: 'Two teams, picked at random, argue a real question about the brain.' },
+  { t: 'Brain Bee practice', d: 'The topics that come up most, plus timed practice questions.' },
+  { t: 'Brain Awareness Week', d: 'In March we run quick brain science demos for the rest of the school.' },
 ];
 ---
 
-<Base title="About" description="How NeuroGIDAS works: alternating neuroscience and GIDAS research weeks, what GIDAS and miRcore are, and who the club is for.">
+<Base title="About" description="How NeuroGIDAS works: one week neuroscience, the next week genetics research. What GIDAS is, and who can join.">
   <header class="page-head">
     <div class="wrap head-grid">
       <div>
-      <h1 class="h1">A brain science club and a research lab, sharing one room.</h1>
-      <p class="lede">
-        NeuroGIDAS brings two things together that usually live in separate clubs: how the brain works, and hands-on genetics
-        research with the same databases scientists use.
-      </p>
-    </div>
+        <h1 class="h1">About NeuroGIDAS</h1>
+        <p class="lede">
+          We’re two clubs in one. One week we learn how the brain works. The next week we do genetics research with real data.
+        </p>
+      </div>
       <HeadFigure kind="weeks" n={5} />
     </div>
   </header>
 
   <section class="section">
     <div class="wrap split">
-      <h2 class="h2">How the weeks work</h2>
+      <h2 class="h2">How it works</h2>
       <div class="prose">
         <p>
-          We meet every Wednesday after school. One week is neuroscience, the next is GIDAS research, and the year runs on both
-          tracks at once. Come to both, or just the one you care about.
+          We meet every Wednesday after school. The weeks switch back and forth between neuroscience and GIDAS. You can come to
+          both, or only the one you care about.
         </p>
         <p>
-          The two tracks meet in the middle. Cancer is this year’s research focus across the GIDAS network, so later in the year
-          we spend time on brain cancer, where the biology of the brain and the genetics of disease overlap.
+          The two sides connect. Cancer is this year’s research focus, so later in the year we spend time on brain cancer, where
+          brain science and genetics overlap.
         </p>
       </div>
     </div>
   </section>
 
-  <section class="section rule-top track-sec" style="--c: var(--neuro)">
-    <div class="wrap split">
-      <div>
-        <h2 class="h2">Neuroscience weeks</h2>
-        <p class="track-sub">The part you can see and do.</p>
-      </div>
-      <div>
-        <p class="prose">
-          We cover how the brain is built and how it works: neurons and how signals travel, memory, perception, sleep, and what
-          happens when things go wrong. Most meetings pair a short lesson with something you actually do.
-        </p>
-        <dl class="formats">
-          {
-            neuroFormats.map((f) => (
-              <div>
-                <dt>{f.t}</dt>
-                <dd>{f.d}</dd>
-              </div>
-            ))
-          }
-        </dl>
-      </div>
+  <section class="section-tight">
+    <div class="wrap">
+      <article class="trackcard trackcard--neuro">
+        <div class="trackcard__head">
+          <Emblem variant="neuron" class="trackcard__fig" />
+          <div>
+            <h2 class="h2">Neuroscience weeks</h2>
+            <p class="trackcard__sub">Labs, speakers, and the Brain Bee.</p>
+          </div>
+        </div>
+        <div class="trackcard__body">
+          <p class="trackcard__intro">
+            We cover how the brain is built and how it works: neurons, memory, how you see, sleep, and what happens when something
+            goes wrong. Most meetings have a short lesson and then something hands-on.
+          </p>
+          <dl class="formats">
+            {
+              neuroFormats.map((f) => (
+                <div>
+                  <dt>{f.t}</dt>
+                  <dd>{f.d}</dd>
+                </div>
+              ))
+            }
+          </dl>
+        </div>
+      </article>
+
+      <article class="trackcard trackcard--gidas">
+        <div class="trackcard__head">
+          <Emblem variant="helix" class="trackcard__fig trackcard__fig--helix" />
+          <div>
+            <h2 class="h2">GIDAS weeks</h2>
+            <p class="trackcard__sub">Genetics research with real data.</p>
+          </div>
+        </div>
+        <div class="trackcard__body">
+          <p class="trackcard__intro">
+            GIDAS stands for Genes in Diseases and Symptoms. It’s the high school program of{' '}
+            <a href={LINKS.gidas} rel="noopener">miRcore</a>, a nonprofit connected to the University of Michigan with more than
+            130 chapters.
+          </p>
+          <p class="trackcard__intro">
+            You start with the basics, like DNA. Then you learn the real tools: NCBI GEO and GEO2R to find genes that change in a
+            disease, STRING to see how proteins connect, KEGG to find pathways, and GeneCards, OMIM, Gene Ontology, and the UCSC
+            Genome Browser to learn about your genes.
+          </p>
+          <p class="trackcard__intro">
+            You work on one project all year. In April you write it up as an abstract and present it at the miRcore High School
+            Research Conference.
+          </p>
+          <p><a class="link link--light" href="/research/">See each step of the research</a></p>
+        </div>
+      </article>
     </div>
   </section>
 
-  <section class="section rule-top track-sec" style="--c: var(--gidas)">
+  <section class="section">
     <div class="wrap split">
-      <div>
-        <h2 class="h2">GIDAS weeks</h2>
-        <p class="track-sub">Research on public data.</p>
-      </div>
+      <h2 class="h2">Who can join</h2>
       <div class="prose">
         <p>
-          <strong>GIDAS stands for Genes in Diseases and Symptoms.</strong> It is the high school program of{' '}
-          <a href={LINKS.mircore} rel="noopener">miRcore</a>, a nonprofit affiliated with the University of Michigan, with more than
-          130 chapters.
+          <strong>Anyone at Eastview. You don’t need any experience.</strong> Some people have taken AP Biology, some have
+          coded, and plenty have done neither. The first few meetings get everyone caught up.
         </p>
         <p>
-          You start with the basics, like DNA and the central dogma. Then you move on to the research tools: NCBI GEO and GEO2R to pull
-          and analyze gene expression data, STRING to map how proteins interact, KEGG to find shared pathways, and GeneCards,
-          OMIM, Gene Ontology, and the UCSC Genome Browser to understand the genes you find.
-        </p>
-        <p>
-          Each member builds one project across the whole year. It ends with a written abstract and a presentation at the miRcore
-          High School Research Conference in April.
-        </p>
-        <p><a class="link" href="/research/">See the research path step by step</a></p>
-      </div>
-    </div>
-  </section>
-
-  <section class="section rule-top">
-    <div class="wrap split">
-      <h2 class="h2">Who it is for</h2>
-      <div class="prose">
-        <p>
-          <strong>Anyone at Eastview. No experience needed.</strong> You might have taken AP Biology, written some code, or done
-          neither. The first meetings are there to put everyone on the same footing.
-        </p>
-        <p>
-          It helps most if you are curious about medicine, neuroscience, genetics, bioinformatics, or research in general. Not
-          many high schoolers get to finish a year with their own research question, data they analyzed themselves, and an abstract with their name on
-          it.
+          It’s a good fit if you’re curious about medicine, the brain, genetics, or research. Not many high schoolers finish a year
+          with their own research question, data they analyzed, and an abstract with their name on it.
         </p>
       </div>
     </div>
@@ -135,19 +140,81 @@ const neuroFormats = [
     align-items: start;
   }
 
-  .track-sec .h2 {
-    padding-top: var(--s-4);
-    border-top: 3px solid var(--c);
+  .section-tight {
+    padding-bottom: var(--section);
   }
 
-  .track-sub {
-    margin-top: var(--s-3);
+  .section-tight .wrap {
+    display: grid;
+    gap: var(--s-4);
+  }
+
+  .trackcard {
+    display: grid;
+    grid-template-columns: minmax(0, 4fr) minmax(0, 7fr);
+    gap: var(--s-6) clamp(2rem, 1rem + 5vw, 6rem);
+    padding: clamp(1.75rem, 1rem + 3vw, 3.5rem);
+    border-radius: var(--radius-xl);
+    color: #fff;
+    box-shadow: var(--shadow-soft);
+  }
+
+  .trackcard--neuro {
+    background: var(--indigo);
+    --halo: var(--indigo);
+  }
+
+  .trackcard--gidas {
+    background: var(--teal-ink);
+    --halo: var(--teal-ink);
+  }
+
+  .trackcard__head {
+    display: grid;
+    gap: var(--s-5);
+    align-content: start;
+  }
+
+  .trackcard :global(.trackcard__fig) {
+    color: #fff;
+    height: 6.5rem;
+    width: auto;
+  }
+
+  .trackcard :global(.trackcard__fig--helix) {
+    height: 8rem;
+  }
+
+  .trackcard__sub {
+    margin-top: var(--s-2);
     font-size: var(--step-1);
-    color: var(--ink-2);
+    color: rgba(255, 255, 255, 0.82);
+  }
+
+  .trackcard__intro {
+    color: rgba(255, 255, 255, 0.88);
+    max-width: 62ch;
+  }
+
+  .trackcard__intro + .trackcard__intro,
+  .trackcard__body > p:last-child {
+    margin-top: var(--s-4);
+  }
+
+  .trackcard a {
+    color: #fff;
+  }
+
+  .trackcard :focus-visible {
+    outline-color: #fff;
+  }
+
+  .link--light {
+    text-decoration-color: rgba(255, 255, 255, 0.5);
   }
 
   .formats {
-    margin: var(--s-7) 0 0;
+    margin: var(--s-6) 0 0;
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 0 var(--s-6);
@@ -155,7 +222,7 @@ const neuroFormats = [
 
   .formats div {
     padding: var(--s-4) 0 var(--s-5);
-    border-top: 1px solid var(--rule-strong);
+    border-top: 1px solid rgba(255, 255, 255, 0.24);
   }
 
   .formats dt {
@@ -165,7 +232,7 @@ const neuroFormats = [
 
   .formats dd {
     margin: var(--s-1) 0 0;
-    color: var(--ink-2);
+    color: rgba(255, 255, 255, 0.82);
   }
 
   .facts {
@@ -191,7 +258,8 @@ const neuroFormats = [
   }
 
   @media (max-width: 860px) {
-    .split {
+    .split,
+    .trackcard {
       grid-template-columns: 1fr;
     }
   }

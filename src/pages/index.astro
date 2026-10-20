@@ -6,111 +6,119 @@ import YearIdeogram from '../components/YearIdeogram.astro';
 import JoinBand from '../components/JoinBand.astro';
 import { LINKS } from '../data/site';
 
-const chapters = [
-  'Neurons, Glia, and the Nervous System',
-  'The Action Potential',
-  'Synapses and Neurotransmitters',
-  'A Tour of the Brain',
-  'Vision',
-  'Hearing, Touch, Taste, Smell, and Pain',
-  'Movement',
-  'The Developing and Teenage Brain',
-  'Learning, Memory, and Neuroplasticity',
-  'Sleep and Brain States',
-  'Emotion, Stress, and the Body',
-  'Language, Attention, and Decision-Making',
-  'The Aging Brain and Neurodegeneration',
-  'Brain Injury, Stroke, and Epilepsy',
-  'Psychiatric Disorders and Addiction',
-  'How Doctors Examine the Brain',
-];
-
 const outcomes = [
-  { t: 'A question you picked', d: 'You choose what to study within this year’s cancer focus.' },
-  { t: 'Real data you analyzed', d: 'A public gene expression dataset, run through the same tools researchers use.' },
-  { t: 'An abstract with your name on it', d: 'Written, revised, and submitted for the April conference.' },
-  { t: 'A talk in April', d: 'You present your project at the miRcore High School Research Conference.' },
+  { t: 'A research question you picked', d: 'You choose what to study inside this year’s cancer focus.' },
+  { t: 'Real data you looked at yourself', d: 'A public gene dataset, run through the same tools scientists use.' },
+  { t: 'An abstract with your name on it', d: 'You write it, fix it up, and send it in for the April conference.' },
+  { t: 'A presentation at a real conference', d: 'You present your project at the miRcore High School Research Conference.' },
 ];
 ---
 
 <Base>
   <section class="hero wrap">
     <div class="hero__copy">
-      <h1 class="display">Brain science one week. Real genetics research the next.</h1>
+      <h1 class="display">Learn how the brain works. Do real genetics research.</h1>
       <p class="lede">
-        NeuroGIDAS is Eastview’s neuroscience and genetics research club. We meet Wednesdays after school in B327. You do not
-        need any experience.
+        NeuroGIDAS is Eastview’s brain science and genetics club. We meet every Wednesday after school in B327, and you don’t
+        need any experience to join.
       </p>
       <div class="hero__actions">
-        <a class="btn btn-primary" href={LINKS.groupme} rel="noopener">Join the GroupMe</a>
+        <a class="btn btn-primary btn--icon" href={LINKS.groupme} rel="noopener">
+          Join the GroupMe
+          <span class="btn__icon" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M4 12 12 4M6 4h6v6" /></svg></span>
+        </a>
         <a class="btn btn-quiet" href="#next">See the next meeting</a>
       </div>
     </div>
 
     <figure class="hero__fig" data-fire>
-      <Emblem variant="hero" class="hero__emblem" />
+      <div class="bezel hero__plate">
+        <div class="bezel__core hero__core">
+          <Emblem variant="hero" class="hero__emblem" />
+        </div>
+      </div>
       <figcaption class="caption">
         <b>Fig. 1</b>
-        One club, drawn as one cell. The neuron is the neuroscience track. Its axon turns into DNA, which is GIDAS.
+        Our logo. The neuron stands for neuroscience, and its axon turns into DNA, which stands for genetics research.
       </figcaption>
     </figure>
   </section>
 
   <div class="wrap next-wrap">
-    <NextMeeting />
+    <div class="bezel">
+      <div class="bezel__core next-core">
+        <NextMeeting />
+      </div>
+    </div>
   </div>
 
   <section class="section tracks" aria-labelledby="tracks-h">
     <div class="wrap">
-      <div class="tracks__head">
-        <h2 class="h1" id="tracks-h">Two tracks, one club.</h2>
-        <p class="lede">
-          The weeks alternate. You can come to both, or just the one you care about.
-        </p>
+      <div class="sec-head">
+        <h2 class="h1" id="tracks-h">Two kinds of meetings</h2>
+        <p class="lede">We switch every week. Come to both, or just the one you like.</p>
       </div>
 
-      <div class="tracks__grid">
-        <article class="track track--neuro">
-          <h3 class="h2">Neuroscience</h3>
-          <p class="track__line">The part you can see and do.</p>
-          <ul class="track__list">
-            <li>How neurons fire, how memory works, why your eyes get fooled</li>
-            <li>Labs you run on your own brain: reaction time, Stroop, memory</li>
-            <li>Prep for the Brain Bee, a neuroscience competition</li>
-            <li>Guest speakers from medicine and brain science</li>
-          </ul>
+      <div class="bento">
+        <article class="panel panel--neuro">
+          <div class="panel__text">
+            <h3 class="h2">Neuroscience weeks</h3>
+            <p class="panel__line">How the brain works, with labs you run on yourself.</p>
+            <ul class="panel__list">
+              <li>Labs on memory, attention, and reaction time</li>
+              <li>Guest speakers who work in medicine</li>
+              <li>Practice for the Brain Bee</li>
+              <li>Reading real brain research together</li>
+            </ul>
+          </div>
+          <Emblem variant="neuron" class="panel__fig" />
         </article>
 
-        <article class="track track--gidas">
-          <h3 class="h2">GIDAS research</h3>
-          <p class="track__line">Real research, on real data.</p>
-          <ul class="track__list">
-            <li>GIDAS stands for Genes in Diseases and Symptoms</li>
-            <li>You learn NCBI GEO, STRING, KEGG, and the UCSC Genome Browser</li>
-            <li>You build one project all year, step by step</li>
-            <li>It ends with your own abstract at a conference in April</li>
-          </ul>
+        <article class="panel panel--gidas">
+          <div class="panel__text">
+            <h3 class="h2">GIDAS weeks</h3>
+            <p class="panel__line">Genetics research with the same free tools scientists use.</p>
+            <ul class="panel__list">
+              <li>DNA, genes, and how they cause disease</li>
+              <li>NCBI GEO, STRING, and KEGG</li>
+              <li>One project you build all year</li>
+              <li>A presentation at a conference in April</li>
+            </ul>
+          </div>
+          <Emblem variant="helix" class="panel__fig panel__fig--helix" />
         </article>
+
+        <a class="panel panel--meet" href="/about/">
+          <p class="panel__meet-text">
+            <span class="panel__meet-h">Where they meet: brain cancer.</span>
+            Cancer is this year’s research focus, so in February both tracks work on brain cancer together.
+          </p>
+          <span class="btn__icon" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M4 12 12 4M6 4h6v6" /></svg></span>
+          <span class="visually-hidden">Read more about how the club works</span>
+        </a>
       </div>
-
-      <p class="tracks__more"><a class="link" href="/about/">More about how the club works</a></p>
     </div>
   </section>
 
-  <section class="section year rule-top" aria-labelledby="year-h">
+  <section class="lab" aria-labelledby="year-h">
     <div class="wrap">
-      <div class="year__head">
-        <h2 class="h1" id="year-h">The whole year, at a glance.</h2>
-        <p class="lede">Hover or tap a band to see that week. Indigo is neuroscience. Teal is GIDAS.</p>
+      <div class="sec-head">
+        <h2 class="h1" id="year-h">This year’s schedule</h2>
+        <p class="lede">Each stripe is one Wednesday. Tap one to see what we’re doing that week.</p>
       </div>
-      <YearIdeogram />
-      <p class="year__more"><a class="link" href="/meetings/">Full schedule and past meetings</a></p>
+      <YearIdeogram dark />
+      <p class="lab__more">
+        <a class="btn btn-light btn--icon" href="/meetings/">
+          See the full schedule
+          <span class="btn__icon" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M4 12 12 4M6 4h6v6" /></svg></span>
+        </a>
+      </p>
     </div>
   </section>
 
-  <section class="section outcomes rule-top" aria-labelledby="out-h">
+  <section class="section outcomes" aria-labelledby="out-h">
     <div class="wrap">
-      <h2 class="h1" id="out-h">What you leave with by April.</h2>
+      <h2 class="h1" id="out-h">What you’ll have by April</h2>
       <ol class="path">
         {
           outcomes.map((o, i) => (
@@ -130,23 +138,34 @@ const outcomes = [
       <div class="book__copy">
         <h2 class="h1" id="book-h">From Neuron to Bedside</h2>
         <p class="lede">
-          A free, interactive neuroscience textbook for high school students, written by our co-president Aaryav Sharma.
+          Aaryav wrote a free neuroscience textbook for high school students. It has 16 chapters with quizzes, 16 simulations you
+          can play with, and a full Brain Bee practice test.
         </p>
-        <p class="muted book__facts">16 chapters, each with a quiz. 17 hands-on simulations. A Brain Bee strategy guide and mock exam.</p>
-        <a class="btn btn-ink" href={LINKS.textbook} rel="noopener">Read the textbook</a>
+        <a class="btn btn-ink btn--icon" href={LINKS.textbook} rel="noopener">
+          Read the textbook
+          <span class="btn__icon" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M4 12 12 4M6 4h6v6" /></svg></span>
+        </a>
       </div>
-      <figure class="book__toc">
-        <ol>
-          {
-            chapters.map((c, i) => (
-              <li>
-                <span class="tnum">{i + 1}</span>
-                {c}
-              </li>
-            ))
-          }
-        </ol>
-        <figcaption class="caption"><b>Fig. 3</b> The table of contents.</figcaption>
+      <figure class="book__shot">
+        <div class="bezel">
+          <div class="bezel__core browser">
+            <div class="browser__bar" aria-hidden="true">
+              <i></i><i></i><i></i>
+              <span class="browser__url">aaryavvatts-lab.github.io/neuroscience-textbook</span>
+            </div>
+            <img
+              src="/media/textbook.webp"
+              srcset="/media/textbook-800.webp 800w, /media/textbook.webp 1600w"
+              sizes="(max-width: 900px) 92vw, 640px"
+              width="1600"
+              height="1000"
+              loading="lazy"
+              decoding="async"
+              alt="The home page of From Neuron to Bedside, showing the book's cover and its list of chapters."
+            />
+          </div>
+        </div>
+        <figcaption class="caption"><b>Fig. 3</b> The textbook’s home page. It works on a phone too.</figcaption>
       </figure>
     </div>
   </section>
@@ -158,18 +177,19 @@ const outcomes = [
   .hero {
     display: grid;
     grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
-    gap: var(--s-7);
+    gap: var(--s-7) clamp(2rem, 1rem + 4vw, 5rem);
     align-items: center;
-    padding-top: clamp(2.5rem, 1rem + 5vw, 6rem);
+    padding-top: clamp(2.5rem, 1rem + 5vw, 5.5rem);
     padding-bottom: clamp(2.5rem, 1.5rem + 3vw, 4.5rem);
   }
 
   .hero__copy .display {
-    max-width: 14.5ch;
+    max-width: 13ch;
   }
 
   .hero__copy .lede {
     margin-top: var(--s-6);
+    max-width: 40ch;
   }
 
   .hero__actions {
@@ -182,88 +202,184 @@ const outcomes = [
   .hero__fig {
     margin: 0;
     display: grid;
-    justify-items: center;
-    gap: var(--s-5);
+    gap: var(--s-4);
+  }
+
+  .hero__core {
+    display: grid;
+    place-items: center;
+    padding: clamp(1.5rem, 1rem + 2vw, 2.75rem) var(--s-6);
+    background:
+      radial-gradient(120% 70% at 50% 0%, color-mix(in srgb, var(--indigo) 10%, transparent), transparent 60%),
+      radial-gradient(120% 70% at 50% 100%, color-mix(in srgb, var(--teal) 12%, transparent), transparent 60%),
+      #fff;
+    --paper: #fff;
   }
 
   .hero__fig :global(.hero__emblem) {
     width: auto;
-    height: clamp(17rem, 12rem + 16vw, 27rem);
+    height: clamp(16rem, 11rem + 13vw, 24rem);
   }
 
   .hero__fig .caption {
-    max-width: 30ch;
-    justify-self: center;
+    padding-inline: var(--s-3);
   }
 
   .next-wrap {
     padding-bottom: var(--section);
   }
 
-  .tracks {
-    background: var(--paper-2);
-    border-top: 1px solid var(--rule);
-    border-bottom: 1px solid var(--rule);
+  .next-core {
+    padding: var(--s-6) clamp(1.25rem, 0.5rem + 3vw, 3rem) clamp(1.75rem, 1rem + 2vw, 2.75rem);
   }
 
-  .tracks__head,
-  .year__head {
+  .next-core :global(.next) {
+    border-top: 0;
+    padding-top: 0;
+  }
+
+  .sec-head {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    gap: var(--s-6);
+    gap: var(--s-5) var(--s-6);
     align-items: end;
+    margin-bottom: var(--s-7);
   }
 
-  .tracks__head .lede,
-  .year__head .lede {
+  .sec-head .lede {
     justify-self: end;
+    max-width: 34ch;
   }
 
-  .tracks__grid {
+  /* Tracks bento */
+  .tracks {
+    padding-top: 0;
+  }
+
+  .bento {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: clamp(2rem, 1rem + 4vw, 5rem);
-    margin-top: var(--s-8);
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: var(--s-4);
   }
 
-  .track {
-    border-top: 3px solid var(--c);
-    padding-top: var(--s-5);
+  .panel {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--radius-xl);
+    color: #fff;
+    padding: clamp(1.75rem, 1rem + 2.5vw, 3rem);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: var(--s-5);
+    box-shadow: var(--shadow-soft);
   }
 
-  .track--neuro {
-    --c: var(--neuro);
+  .panel--neuro {
+    grid-column: span 7;
+    background: var(--indigo);
+    --halo: var(--indigo);
   }
 
-  .track--gidas {
-    --c: var(--gidas);
+  .panel--gidas {
+    grid-column: span 5;
+    background: var(--teal-ink);
+    --halo: var(--teal-ink);
   }
 
-  .track__line {
-    margin-top: var(--s-2);
+  .panel__line {
+    margin-top: var(--s-3);
     font-size: var(--step-1);
-    color: var(--ink-2);
+    line-height: 1.4;
+    color: rgba(255, 255, 255, 0.86);
+    max-width: 26ch;
   }
 
-  .track__list {
+  .panel__list {
     list-style: none;
-    margin-top: var(--s-5);
+    margin-top: var(--s-6);
+    max-width: 30rem;
   }
 
-  .track__list li {
-    padding: 0.85rem 0;
-    border-top: 1px solid var(--rule-strong);
+  .panel__list li {
+    padding: 0.8rem 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.24);
   }
 
-  .tracks__more,
-  .year__more {
+  .panel :global(.panel__fig) {
+    color: #fff;
+    width: auto;
+    height: clamp(7rem, 5rem + 5vw, 10.5rem);
+    opacity: 0.95;
+  }
+
+  .panel :global(.panel__fig--helix) {
+    height: clamp(9rem, 6rem + 7vw, 13rem);
+  }
+
+  .panel--meet {
+    grid-column: span 12;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    background: var(--ink);
+    padding-block: var(--s-6);
+    text-decoration: none;
+    transition: background-color var(--dur-2) var(--ease-out);
+  }
+
+  .panel--meet .btn__icon {
+    background: rgba(255, 255, 255, 0.12);
+    width: 2.75rem;
+    height: 2.75rem;
+  }
+
+  .panel__meet-text {
+    font-size: var(--step-1);
+    line-height: 1.45;
+    color: rgba(255, 255, 255, 0.82);
+    max-width: 62ch;
+  }
+
+  .panel__meet-h {
+    color: #fff;
+    font-weight: 720;
+    margin-right: 0.3em;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .panel--meet:hover {
+      background: #2a2f3a;
+    }
+
+    .panel--meet:hover .btn__icon {
+      transform: translate(2px, -2px);
+    }
+  }
+
+  .panel--meet:focus-visible {
+    outline: 3px solid var(--indigo);
+    outline-offset: 3px;
+  }
+
+  /* Dark lab band for the year */
+  .lab {
+    background: var(--lab);
+    color: #f2f1ec;
+    padding-block: var(--section);
+  }
+
+  .lab .lede {
+    color: #b7bcc8;
+  }
+
+  .lab__more {
     margin-top: var(--s-7);
   }
 
-  .year__head {
-    margin-bottom: var(--s-5);
+  .lab :focus-visible {
+    outline-color: #fff;
   }
 
+  /* Outcomes */
   .path {
     list-style: none;
     display: grid;
@@ -307,6 +423,7 @@ const outcomes = [
     color: var(--paper);
   }
 
+  /* Textbook */
   .book {
     background: var(--indigo-wash);
     padding-block: var(--section);
@@ -314,81 +431,42 @@ const outcomes = [
 
   .book__grid {
     display: grid;
-    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
-    gap: clamp(2rem, 1rem + 5vw, 6rem);
-    align-items: start;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: clamp(2rem, 1rem + 5vw, 5.5rem);
+    align-items: center;
   }
 
   .book__copy .lede {
     margin-top: var(--s-5);
-  }
-
-  .book__facts {
-    margin-top: var(--s-4);
     margin-bottom: var(--s-6);
-    max-width: 40ch;
+    max-width: 36ch;
   }
 
-  .book__toc {
+  .book__shot {
     margin: 0;
-  }
-
-  .book__toc ol {
-    list-style: none;
-    columns: 2;
-    column-gap: var(--s-6);
-    border-top: 2px solid var(--indigo);
-    padding-top: var(--s-3);
-  }
-
-  .book__toc li {
     display: grid;
-    grid-template-columns: 1.6rem 1fr;
-    break-inside: avoid;
-    padding: 0.5rem 0;
-    border-bottom: 1px solid color-mix(in srgb, var(--indigo) 18%, transparent);
-    font-size: 0.95rem;
-    line-height: 1.35;
+    gap: var(--s-4);
   }
 
-  .book__toc li span {
-    color: var(--indigo-deep);
-    font-weight: 650;
+  .book__shot .caption {
+    padding-inline: var(--s-3);
   }
 
-  .book__toc .caption {
-    margin-top: var(--s-3);
+  @media (max-width: 960px) {
+    .panel--neuro,
+    .panel--gidas {
+      grid-column: span 12;
+    }
   }
 
   @media (max-width: 900px) {
-    .hero {
+    .hero,
+    .book__grid,
+    .sec-head {
       grid-template-columns: 1fr;
     }
 
-    .hero__fig {
-      grid-row: 1;
-      grid-template-columns: auto minmax(0, 1fr);
-      justify-items: start;
-      align-items: end;
-    }
-
-    .hero__fig :global(.hero__emblem) {
-      height: clamp(13rem, 9rem + 14vw, 17rem);
-    }
-
-    .hero__fig .caption {
-      justify-self: start;
-    }
-
-    .tracks__head,
-    .year__head,
-    .tracks__grid,
-    .book__grid {
-      grid-template-columns: 1fr;
-    }
-
-    .tracks__head .lede,
-    .year__head .lede {
+    .sec-head .lede {
       justify-self: start;
     }
 
@@ -402,23 +480,40 @@ const outcomes = [
     }
   }
 
-  @media (max-width: 520px) {
-    .path {
+  @media (max-width: 560px) {
+    .panel {
       grid-template-columns: 1fr;
     }
 
-    .book__toc ol {
-      columns: 1;
+    .panel :global(.panel__fig) {
+      grid-row: 1;
+      height: 6rem;
+    }
+
+    .panel :global(.panel__fig--helix) {
+      height: 7.5rem;
+    }
+
+    .panel--meet {
+      grid-template-columns: minmax(0, 1fr) auto;
+    }
+
+    .path {
+      grid-template-columns: 1fr;
     }
 
     .hero__actions .btn {
       flex: 1 1 100%;
     }
+
+    .hero__fig :global(.hero__emblem) {
+      height: 15rem;
+    }
   }
 </style>
 
 <script>
-  // Fire the signal once on load, and again whenever the figure is hovered.
+  // Fire the signal once on load, and again when a mouse moves onto the figure.
   const fig = document.querySelector<HTMLElement>('[data-fire]');
   if (fig) {
     const fire = () => {

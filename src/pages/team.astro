@@ -1,14 +1,15 @@
 ---
 import Base from '../layouts/Base.astro';
 import JoinBand from '../components/JoinBand.astro';
+import Emblem from '../components/Emblem.astro';
 import { TEAM, SITE, LINKS } from '../data/site';
 ---
 
-<Base title="Team" description="NeuroGIDAS was founded and is run by co-presidents Aaryav Sharma and Rishik Kondadadi at Eastview High School.">
+<Base title="Team" description="NeuroGIDAS was started by Eastview students Rishik Kondadadi and Aaryav Sharma, who run it as co-presidents.">
   <header class="page-head">
     <div class="wrap">
-      <h1 class="h1">The people running it</h1>
-      <p class="lede">NeuroGIDAS is student-led. It was started, and is run, by two Eastview students.</p>
+      <h1 class="h1">Our team</h1>
+      <p class="lede">NeuroGIDAS is run by students. Two of us started it, and we still run it today.</p>
     </div>
   </header>
 
@@ -18,12 +19,35 @@ import { TEAM, SITE, LINKS } from '../data/site';
         {
           TEAM.map((p, i) => (
             <li class="person">
-              <div class:list={['mono', i % 2 ? 'mono--b' : 'mono--a']} aria-hidden="true">
-                <span>{p.initials}</span>
+              <div class="bezel person__frame">
+                <div class="bezel__core person__core">
+                  {p.photo ? (
+                    <img
+                      src={p.photoSmall}
+                      srcset={`${p.photoSmall} 480w, ${p.photo} 960w`}
+                      sizes="(max-width: 760px) 90vw, 420px"
+                      width="960"
+                      height="1200"
+                      loading={i === 0 ? 'eager' : 'lazy'}
+                      decoding="async"
+                      alt={`Portrait of ${p.name}`}
+                    />
+                  ) : (
+                    <div class="mono" aria-hidden="true">
+                      <Emblem variant="mark" class="mono__mark" />
+                      <span class="mono__initials">{p.initials}</span>
+                    </div>
+                  )}
+                </div>
               </div>
-              <h2 class="h2 person__name">{p.name}</h2>
-              <p class="person__role">{p.role}</p>
-              {p.note && <p class="muted person__note">{p.note}</p>}
+              <div class="person__text">
+                <h2 class="person__name">{p.name}</h2>
+                <p class="person__meta">{p.school}</p>
+                <p class="person__role">{p.role}</p>
+                <div class="person__bio">
+                  {p.bio.map((para) => <p>{para}</p>)}
+                </div>
+              </div>
             </li>
           ))
         }
@@ -33,16 +57,14 @@ import { TEAM, SITE, LINKS } from '../data/site';
 
   <section class="section rule-top">
     <div class="wrap split">
-      <h2 class="h2">Want to help run it?</h2>
+      <h2 class="h2">Want to help out?</h2>
       <div class="prose">
         <p>
-          If you like the club and want a bigger part in it, like teaching a lesson, helping with Brain Awareness Week, or running
-          the Instagram, talk to Aaryav or Rishik at a meeting. You can also send a message to{' '}
+          If you like the club and want to do more, like teaching a lesson, helping with Brain Awareness Week, or running the
+          Instagram, talk to Rishik or Aaryav at a meeting. You can also email us at{' '}
           <a href={`mailto:${LINKS.email}`}>{LINKS.email}</a>.
         </p>
-        <p>
-          {SITE.advisor} hosts the club in Room {SITE.room}.
-        </p>
+        <p>{SITE.advisor} hosts the club in Room {SITE.room}.</p>
       </div>
     </div>
   </section>
@@ -55,64 +77,85 @@ import { TEAM, SITE, LINKS } from '../data/site';
     list-style: none;
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: var(--s-8) clamp(2rem, 1rem + 4vw, 5rem);
-    max-width: 62rem;
+    gap: var(--s-9) clamp(2rem, 1rem + 4vw, 5rem);
   }
 
   .person {
     display: grid;
+    gap: var(--s-6);
     align-content: start;
+  }
+
+  .person__frame {
+    max-width: 30rem;
+  }
+
+  .person__core {
+    aspect-ratio: 4 / 5;
+    background: var(--paper-2);
+  }
+
+  .person__core img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 
   .mono {
     position: relative;
-    aspect-ratio: 4 / 3;
-    border-radius: var(--radius-lg);
-    overflow: hidden;
+    height: 100%;
     display: grid;
     place-items: center;
-    margin-bottom: var(--s-6);
-    background: var(--paper-2);
-    border: 1px solid var(--rule);
+    background:
+      radial-gradient(120% 80% at 20% 0%, color-mix(in srgb, #fff 18%, transparent), transparent 55%),
+      linear-gradient(160deg, var(--indigo) 0%, var(--indigo-deep) 55%, var(--teal-ink) 100%);
+    color: #fff;
+    --halo: transparent;
   }
 
-  /* Each tile splits into the two track colors, like the joint bands on the year chromosome */
-  .mono::before {
-    content: '';
+  .mono :global(.mono__mark) {
     position: absolute;
-    inset: 0;
-    background: linear-gradient(180deg, var(--neuro) 0 50%, var(--gidas) 50% 100%);
-    clip-path: inset(0 0 0 62%);
+    right: 8%;
+    bottom: 6%;
+    height: 42%;
+    width: auto;
+    color: rgba(255, 255, 255, 0.22);
   }
 
-  .mono--b::before {
-    background: linear-gradient(180deg, var(--gidas) 0 50%, var(--neuro) 50% 100%);
-  }
-
-  .mono span {
-    position: absolute;
-    left: 0;
-    width: 62%;
-    top: 50%;
-    transform: translateY(-50%);
-    text-align: center;
-    font-size: clamp(3.5rem, 2rem + 5vw, 6.5rem);
+  .mono__initials {
+    position: relative;
+    font-size: clamp(4.5rem, 3rem + 6vw, 8rem);
     font-weight: 800;
     letter-spacing: -0.05em;
-    font-variation-settings: 'wdth' 125;
     line-height: 1;
-    color: var(--ink);
+    font-variation-settings: 'wdth' 125;
+  }
+
+  .person__name {
+    font-size: var(--step-3);
+    font-weight: 780;
+    letter-spacing: -0.03em;
+    font-variation-settings: 'wdth' 114;
+  }
+
+  .person__meta {
+    margin-top: var(--s-2);
+    font-weight: 600;
   }
 
   .person__role {
-    margin-top: var(--s-2);
-    font-weight: 600;
     color: var(--ink-2);
   }
 
-  .person__note {
+  .person__bio {
     margin-top: var(--s-4);
-    max-width: 44ch;
+    max-width: 46ch;
+    color: var(--ink-2);
+  }
+
+  .person__bio p + p {
+    margin-top: 0.8em;
   }
 
   .split {

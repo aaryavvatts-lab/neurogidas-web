@@ -46,8 +46,14 @@
 
   --wrap: 76rem;
   --gutter: clamp(1rem, 0.5rem + 2.5vw, 2.5rem);
-  --radius: 6px;
-  --radius-lg: 12px;
+  --radius: 999px;
+  --radius-sm: 6px;
+  --radius-lg: 14px;
+  --radius-xl: 28px;
+  --shadow-soft: 0 1px 2px rgba(30, 34, 43, 0.04), 0 12px 32px -12px rgba(30, 34, 43, 0.14);
+  --lab: #15181f;
+  --lab-2: #1d2129;
+  --lab-rule: rgba(255, 255, 255, 0.1);
 
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
@@ -317,7 +323,7 @@ a {
   justify-content: center;
   gap: 0.55em;
   min-height: 3rem;
-  padding: 0.7rem 1.25rem;
+  padding: 0.7rem 1.4rem;
   border-radius: var(--radius);
   border: 1px solid transparent;
   font: inherit;
@@ -370,6 +376,102 @@ a {
   width: 1.1em;
   height: 1.1em;
   flex: none;
+}
+
+/* Primary buttons carry their arrow in its own circle, flush to the right edge */
+.btn--icon {
+  padding-right: 0.4rem;
+}
+
+.btn__icon {
+  display: grid;
+  place-items: center;
+  width: 2.2rem;
+  height: 2.2rem;
+  margin-left: 0.35rem;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.16);
+  transition: transform var(--dur-2) var(--ease-out), background-color var(--dur-2) var(--ease-out);
+}
+
+.btn-quiet .btn__icon,
+.btn-light .btn__icon {
+  background: var(--paper-2);
+}
+
+.btn__icon svg {
+  width: 0.95rem;
+  height: 0.95rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .btn:hover .btn__icon {
+    transform: translate(2px, -1px) scale(1.05);
+  }
+}
+
+.btn-light {
+  background: #fff;
+  color: var(--ink);
+}
+
+.btn-light:hover {
+  background: var(--paper-2);
+}
+
+/* Double-bezel frame: an outer tray holding an inner plate with concentric corners */
+.bezel {
+  padding: 0.45rem;
+  border-radius: var(--radius-xl);
+  background: color-mix(in srgb, var(--ink) 4%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--ink) 7%, transparent);
+}
+
+.bezel > .bezel__core {
+  border-radius: calc(var(--radius-xl) - 0.45rem);
+  overflow: hidden;
+  background: #fff;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.6),
+    var(--shadow-soft);
+}
+
+/* Browser frame for real screenshots */
+.browser__bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 2.1rem;
+  padding: 0 0.9rem;
+  background: var(--paper-2);
+  border-bottom: 1px solid var(--rule);
+}
+
+.browser__bar i {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--rule-strong);
+}
+
+.browser__url {
+  margin-left: 0.6rem;
+  font-size: 0.74rem;
+  color: var(--ink-3);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.browser img {
+  display: block;
+  width: 100%;
+  height: auto;
 }
 
 /* Text link */

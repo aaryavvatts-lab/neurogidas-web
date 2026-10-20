@@ -12,7 +12,7 @@ interface Props {
 }
 
 const { title, description = SITE.description } = Astro.props;
-const fullTitle = title ? `${title} | NeuroGIDAS` : 'NeuroGIDAS | Eastview neuroscience and genetics research club';
+const fullTitle = title ? `${title} | NeuroGIDAS` : 'NeuroGIDAS | Eastview brain science and genetics club';
 const canonical = new URL(Astro.url.pathname, SITE.url).href;
 const ogImage = new URL('/og.png', SITE.url).href;
 ---

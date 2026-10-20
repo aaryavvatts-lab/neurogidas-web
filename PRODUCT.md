@@ -55,10 +55,10 @@ Two tracks under one club. Neuroscience weeks are hands-on brain science. GIDAS 
 
 - The club description, meeting plan, Instagram captions, and flyers in `../NeuroGIDAS Info/`.
 - The emblem PNG.
-- The textbook "From Neuron to Bedside" by Aaryav: https://aaryavvatts-lab.github.io/neuroscience-textbook/ (16 chapters, quizzes, 17 MicroSims, Brain Bee appendix).
+- The textbook "From Neuron to Bedside" by Aaryav: https://aaryavvatts-lab.github.io/neuroscience-textbook/ (16 chapters, quizzes, 16 simulations, Brain Bee appendix).
 - Co-founders and co-presidents are Aaryav Sharma and Rishik Kondadadi.
 - Things the site must not invent:
-  - There are no photos, so don't use any.
+  - Only Rishik has a photo (public/team). Aaryav sends his later.
   - No member counts, testimonials, awards, or results exist.
 
 ## Product Principles

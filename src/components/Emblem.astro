@@ -2,7 +2,7 @@
 // The NeuroGIDAS emblem as line art: a neuron (Neuroscience) whose axon becomes a DNA helix (GIDAS).
 // variant "hero" draws the full figure with an animated signal pulse; "mark" is the small logo.
 interface Props {
-  variant?: 'hero' | 'mark';
+  variant?: 'hero' | 'mark' | 'neuron' | 'helix';
   class?: string;
   title?: string;
 }
@@ -23,13 +23,18 @@ const dendrites = [
 ];
 const signal = 'M120 20 L120 196 ' + s1.slice('M120 196 '.length);
 const isHero = variant === 'hero';
-const sw = isHero ? 6 : 14;
+const isPart = variant === 'neuron' || variant === 'helix';
+const sw = isHero || isPart ? 6 : 14;
 const id = isHero ? 'emblem-hero' : 'emblem-mark';
+const viewBox =
+  variant === 'hero' ? '20 8 200 428' : variant === 'neuron' ? '28 8 184 200' : variant === 'helix' ? '70 188 100 244' : '28 6 184 432';
+const showNeuron = variant !== 'helix';
+const showHelix = variant !== 'neuron';
 ---
 
 <svg
   class:list={['emblem', `emblem--${variant}`, className]}
-  viewBox={isHero ? '20 8 200 428' : '28 6 184 432'}
+  viewBox={viewBox}
   role={title ? 'img' : undefined}
   aria-hidden={title ? undefined : 'true'}
   aria-label={title}
@@ -48,14 +53,15 @@ const id = isHero ? 'emblem-hero' : 'emblem-mark';
     )
   }
   {isHero && <path d={rungs} stroke="var(--rule-strong)" stroke-width="4" />}
-  {!isHero && <path d={rungs} stroke="currentColor" stroke-width="7" opacity="0.4" />}
-  <path d={s2} stroke="currentColor" stroke-width={sw} />
-  <path d={s1} stroke="var(--paper)" stroke-width={sw + (isHero ? 7 : 10)} />
-  <path d={s1} stroke="currentColor" stroke-width={sw} />
-  <path d="M120 140 V196" stroke="currentColor" stroke-width={sw} />
-  {dendrites.map(([x1, y1, x2, y2]) => <path d={`M${x1} ${y1} L${x2} ${y2}`} stroke="currentColor" stroke-width={sw} />)}
-  {dendrites.map(([, , x2, y2]) => <circle cx={x2} cy={y2} r={isHero ? 7.5 : 14} fill="currentColor" stroke="none" />)}
-  <circle cx="120" cy="112" r="30" fill="currentColor" stroke="none" />
+  {variant === 'helix' && <path d={rungs} stroke="currentColor" stroke-width="3" opacity="0.4" />}
+  {variant === 'mark' && <path d={rungs} stroke="currentColor" stroke-width="7" opacity="0.4" />}
+  {showHelix && <path d={s2} stroke="currentColor" stroke-width={sw} />}
+  {showHelix && <path d={s1} stroke="var(--halo, var(--paper))" stroke-width={sw + (isHero || isPart ? 7 : 10)} />}
+  {showHelix && <path d={s1} stroke="currentColor" stroke-width={sw} />}
+  <path d={variant === 'neuron' ? 'M120 140 V206' : 'M120 140 V196'} stroke="currentColor" stroke-width={sw} />
+  {showNeuron && dendrites.map(([x1, y1, x2, y2]) => <path d={`M${x1} ${y1} L${x2} ${y2}`} stroke="currentColor" stroke-width={sw} />)}
+  {showNeuron && dendrites.map(([, , x2, y2]) => <circle cx={x2} cy={y2} r={isHero || isPart ? 7.5 : 14} fill="currentColor" stroke="none" />)}
+  {showNeuron && <circle cx="120" cy="112" r="30" fill="currentColor" stroke="none" />}
   {
     isHero && (
       <path

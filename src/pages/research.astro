@@ -5,34 +5,34 @@ import { EVENTS } from '../data/meetings';
 import { LINKS } from '../data/site';
 
 const steps = [
-  { name: 'Pick a question', tool: 'Within cancer', what: 'Choose something about the disease you actually want to know.' },
-  { name: 'Find a dataset', tool: 'NCBI GEO', what: 'Pick a public gene expression study that fits your question.' },
+  { name: 'Pick a question', tool: 'Cancer focus', what: 'Choose something about the disease you actually want to find out.' },
+  { name: 'Find a dataset', tool: 'NCBI GEO', what: 'Pick a public study that measured genes and fits your question.' },
   { name: 'Find what changed', tool: 'GEO2R', what: 'Compare sick and healthy samples to see which genes go up or down.' },
-  { name: 'Map the proteins', tool: 'STRING', what: 'See how the proteins from those genes interact with each other.' },
-  { name: 'Find shared pathways', tool: 'KEGG', what: 'Check which biological pathways your genes have in common.' },
-  { name: 'Know your genes', tool: 'GeneCards, OMIM, GO, UCSC', what: 'Look up what each gene does, where it sits, and what diseases it is tied to.' },
-  { name: 'Write and present', tool: 'April conference', what: 'Turn it into an abstract and present it at the miRcore conference.', focal: true },
+  { name: 'Map the proteins', tool: 'STRING', what: 'See how the proteins from those genes connect to each other.' },
+  { name: 'Find pathways', tool: 'KEGG', what: 'Check which body processes your genes have in common.' },
+  { name: 'Learn your genes', tool: 'GeneCards, OMIM, GO, UCSC', what: 'Look up what each gene does, where it is, and what diseases it’s linked to.' },
+  { name: 'Write and present', tool: 'April conference', what: 'Write it up as an abstract and present it at the miRcore conference.', focal: true },
 ];
 
 const eventCopy: Record<string, string> = {
   'Genes and Health Contest':
-    'A free online contest on genetics concepts and how to use the research tools. We review and practice for it in the meeting before.',
+    'A free online contest about genetics and how to use the research tools. We practice for it in the meeting before.',
   'Brain Bee':
-    'A neuroscience competition for high school students. Regional rounds run from January through March, so prep starts in November.',
+    'A neuroscience competition for high schoolers. Regional rounds are January to March, so we start practicing in December.',
   'Brain Awareness Week':
-    'A week in March where we run quick, hands-on brain science for the rest of Eastview.',
+    'A week in March where we run quick brain science demos for the rest of Eastview.',
   'miRcore Research Conference':
-    'Where the GIDAS year ends. Members submit a written abstract and present their own project.',
+    'The end of the GIDAS year. Members turn in an abstract and present their own project.',
 };
 ---
 
-<Base title="Research" description="How NeuroGIDAS members go from no experience to presenting their own genetics research in April, plus the Brain Bee and other contests.">
+<Base title="Research" description="How a NeuroGIDAS research project works, step by step, from picking a question to presenting in April. Plus the Brain Bee and other contests.">
   <header class="page-head">
     <div class="wrap">
-      <h1 class="h1">From zero to your own research, in one school year.</h1>
+      <h1 class="h1">How the research works</h1>
       <p class="lede">
-        On GIDAS weeks you use the same free databases working scientists use. Each step below is one or two meetings, and each
-        one builds on the last.
+        On GIDAS weeks you use the same free websites real scientists use. Each step takes a meeting or two, and each one builds
+        on the one before it.
       </p>
     </div>
   </header>
@@ -56,8 +56,8 @@ const eventCopy: Record<string, string> = {
           }
         </ol>
         <figcaption class="caption">
-          <b>Fig. 4</b> The GIDAS research path. Every member picks their own dataset in December and carries it through every tool
-          to an April abstract.
+          <b>Fig. 4</b> The steps of a GIDAS project. Everyone picks their own dataset in December and takes it through every step
+          by April.
         </figcaption>
       </figure>
     </div>
@@ -65,15 +65,15 @@ const eventCopy: Record<string, string> = {
 
   <section class="section rule-top" aria-labelledby="meet-h">
     <div class="wrap split">
-      <h2 class="h2" id="meet-h">Where the two tracks meet</h2>
+      <h2 class="h2" id="meet-h">Brain cancer</h2>
       <div class="prose">
         <p>
-          Cancer is this year’s research focus across the miRcore network. That lets the neuroscience side and the genetics side
-          work on the same problem.
+          Cancer is this year’s research focus for every GIDAS chapter. That means both halves of the club can work on the same
+          thing: brain cancer.
         </p>
         <p>
-          In February we hold a brain cancer night and launch the <strong>Brain Cancer Innovation Challenge</strong>. Teams of three
-          or four come up with an idea, check in halfway, and present at the end of May.
+          In February we have a brain cancer night and start the <strong>Brain Cancer Innovation Challenge</strong>. Teams of three
+          or four come up with an idea, check in halfway through, and present it at the end of May.
         </p>
       </div>
     </div>
@@ -97,13 +97,13 @@ const eventCopy: Record<string, string> = {
         }
       </ol>
       <p class="caption events-note">
-        Exact contest dates are set by the organizers. We post them in the GroupMe once they are announced. Learn more about GIDAS at{' '}
+        The organizers set the exact dates. We post them in the GroupMe once they’re out. Learn more about GIDAS at{' '}
         <a href={LINKS.mircore} rel="noopener">mircore.org</a>.
       </p>
     </div>
   </section>
 
-  <JoinBand heading="Start in any week." />
+  <JoinBand />
 </Base>
 
 <style>

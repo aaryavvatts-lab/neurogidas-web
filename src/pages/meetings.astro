@@ -24,7 +24,7 @@ const roadmap = ROADMAP.map((r) => ({
       <div>
       <h1 class="h1">Meetings</h1>
       <p class="lede">
-        Every Wednesday after school in {SITE.room}. Neuroscience and GIDAS weeks take turns, and dates after this week can still move.
+        Every Wednesday after school in {SITE.room}. We switch between neuroscience and GIDAS each week. Dates further out might still change.
       </p>
     </div>
       <HeadFigure kind="year" n={6} />
@@ -39,7 +39,7 @@ const roadmap = ROADMAP.map((r) => ({
     recaps.length > 0 && (
       <section class="section rule-top" aria-labelledby="recap-h">
         <div class="wrap">
-          <h2 class="h2" id="recap-h">What we have done so far</h2>
+          <h2 class="h2" id="recap-h">Past meetings</h2>
           <ol class="recaps">
             {recaps.map((m) => (
               <li class="recap">
@@ -59,7 +59,7 @@ const roadmap = ROADMAP.map((r) => ({
 
   <section class="section rule-top" aria-labelledby="road-h">
     <div class="wrap">
-      <h2 class="h2" id="road-h">The year, month by month</h2>
+      <h2 class="h2" id="road-h">Month by month</h2>
       <ol class="road">
         {
           roadmap.map((r) => (
@@ -89,7 +89,7 @@ const roadmap = ROADMAP.map((r) => ({
   <section class="section rule-top" aria-labelledby="cal-h">
     <div class="wrap">
       <div class="cal-head">
-        <h2 class="h2" id="cal-h">Full schedule</h2>
+        <h2 class="h2" id="cal-h">Every meeting this year</h2>
         <div class="filters" role="group" aria-label="Show meetings by track">
           <button type="button" aria-pressed="true" data-filter="all">All</button>
           <button type="button" aria-pressed="false" data-filter="neuro">Neuroscience</button>
@@ -118,9 +118,10 @@ const roadmap = ROADMAP.map((r) => ({
                 <td>
                   <span class="cal__title">{m.title}</span>
                   <span class="cal__sum">{m.summary}</span>
+                  {m.room && <span class="cal__room">In the {m.room}, not B327</span>}
                 </td>
                 <td class="cal__status" data-status>
-                  {m.confirmed ? 'Set' : 'Tentative'}
+                  {m.confirmed ? 'Confirmed' : 'Might change'}
                 </td>
               </tr>
             ))
@@ -128,7 +129,7 @@ const roadmap = ROADMAP.map((r) => ({
         </tbody>
       </table>
       <p class="caption cal-note">
-        No meetings on Nov 25, Dec 23, Dec 30, Mar 10, or Mar 31. There is no school those days.
+        No meetings on Nov 25, Dec 23, Dec 30, Mar 10, or Mar 31, because there’s no school.
       </p>
     </div>
   </section>
@@ -249,13 +250,13 @@ const roadmap = ROADMAP.map((r) => ({
   }
 
   .filters button {
+    border-radius: 999px;
     font: inherit;
     font-size: var(--step--1);
     font-weight: 600;
     min-height: 2.5rem;
     padding: 0.4rem 0.9rem;
     border: 0;
-    border-radius: 4px;
     background: transparent;
     color: var(--ink-2);
     cursor: pointer;
@@ -320,6 +321,14 @@ const roadmap = ROADMAP.map((r) => ({
     margin-top: 0.15rem;
     color: var(--ink-2);
     font-size: var(--step--1);
+  }
+
+  .cal__room {
+    display: inline-block;
+    margin-top: 0.35rem;
+    font-size: var(--step--1);
+    font-weight: 650;
+    color: var(--salmon-ink);
   }
 
   .cal__status {
@@ -453,7 +462,7 @@ const roadmap = ROADMAP.map((r) => ({
       row.classList.add('is-next');
       status.textContent = 'Next up';
     } else {
-      status.textContent = row.dataset.confirmed === 'true' ? 'Set' : 'Tentative';
+      status.textContent = row.dataset.confirmed === 'true' ? 'Confirmed' : 'Might change';
     }
   }
 

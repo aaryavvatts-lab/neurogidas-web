@@ -3,6 +3,11 @@
 // Winter break is the centromere. Big events sit underneath as labeled loci.
 import { MEETINGS, splitMeetings, shortDate, TRACK_LABEL, meetingEnd } from '../data/meetings';
 
+interface Props {
+  dark?: boolean;
+}
+const { dark = false } = Astro.props;
+
 const DAY = 86400000;
 const toDate = (s: string) => new Date(`${s}T12:00:00Z`);
 const iso = (d: Date) => d.toISOString().slice(0, 10);
@@ -27,7 +32,7 @@ const arms = [
       date,
       m,
       label: m
-        ? `${shortDate(date)}. ${TRACK_LABEL[m.track]}: ${m.title}${m.confirmed ? '' : ' (tentative)'}`
+        ? `${shortDate(date)}. ${TRACK_LABEL[m.track]}: ${m.title}${m.confirmed ? '' : ' (date might change)'}`
         : `${shortDate(date)}. No meeting, no school.`,
       end: m ? meetingEnd(m).toISOString() : null,
       isNext: next?.date === date,
@@ -54,7 +59,7 @@ const loci = [
 ];
 ---
 
-<figure class="ideo" data-ideo>
+<figure class:list={['ideo', { 'ideo--dark': dark }]} data-ideo>
   <div class="readout" aria-live="polite">
     <p class="readout__date tnum" data-r="date"></p>
     <p class="readout__title" data-r="title"></p>
@@ -76,7 +81,7 @@ const loci = [
                 data-date={b.date}
                 data-end={b.end}
                 data-title={b.m ? b.m.title : 'No meeting'}
-                data-track={b.m ? TRACK_LABEL[b.m.track] + (b.m.confirmed ? '' : ', tentative') : 'No school this Wednesday'}
+                data-track={b.m ? TRACK_LABEL[b.m.track] + (b.m.confirmed ? '' : ', date might change') : 'No school this Wednesday'}
                 data-short={shortDate(b.date)}
                 data-next={b.isNext ? 'true' : undefined}
                 aria-label={b.label}
@@ -119,13 +124,13 @@ const loci = [
 
   <figcaption class="caption legend">
     <b>Fig. 2</b>
-    The 2026 to 2027 year drawn as a chromosome. Each band is one Wednesday. Winter break is the centromere.
+    The school year drawn as a chromosome. Each stripe is one Wednesday, and winter break is the pinch in the middle.
     <span class="keys">
       <span class="key key--neuro">Neuroscience</span>
       <span class="key key--gidas">GIDAS research</span>
       <span class="key key--joint">Both tracks</span>
       <span class="key key--none">No school</span>
-      <span class="key key--tent">Tentative</span>
+      <span class="key key--tent">Might change</span>
     </span>
   </figcaption>
 </figure>
@@ -497,6 +502,43 @@ const loci = [
     .js .ideo:not(.is-drawn) .band__fill {
       transform: scaleX(0.12);
     }
+  }
+
+  /* Dark plate, used on the home page */
+  .ideo--dark {
+    --paper: var(--lab);
+    --paper-2: #262b35;
+    --ink: #f2f1ec;
+    --ink-2: #b7bcc8;
+    --ink-3: #8e94a2;
+    --rule: var(--lab-rule);
+    --rule-strong: rgba(255, 255, 255, 0.22);
+    color: var(--ink);
+  }
+
+  .ideo--dark .arm__body {
+    border-color: rgba(255, 255, 255, 0.55);
+    box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.03);
+  }
+
+  .ideo--dark .cen__body span {
+    border-color: rgba(255, 255, 255, 0.55);
+  }
+
+  .ideo--dark .band--tentative .band__fill {
+    opacity: 0.62;
+  }
+
+  .ideo--dark .locus[data-track='neuro'] {
+    --locus: #8e83f0;
+  }
+
+  .ideo--dark .locus[data-track='gidas'] {
+    --locus: #2fc1b3;
+  }
+
+  .ideo--dark .caption b {
+    color: var(--ink);
   }
 
   /* Bands grow in once, left to right, when the figure scrolls into view. */

@@ -11,7 +11,7 @@ import { NAV, LINKS, SITE } from '../data/site';
         <span translate="no">NeuroGIDAS</span>
       </a>
       <p class="where">
-        Neuroscience and genetics research at {SITE.school}.<br />
+        Brain science and genetics research at {SITE.school}.<br />
         {SITE.day}, {SITE.time}, Room {SITE.room}.
       </p>
     </div>
@@ -26,7 +26,7 @@ import { NAV, LINKS, SITE } from '../data/site';
     </nav>
 
     <div>
-      <h2 class="col-title">Get in touch</h2>
+      <h2 class="col-title">Contact</h2>
       <ul>
         <li><a href={LINKS.groupme} rel="noopener">GroupMe</a></li>
         <li><a href={LINKS.instagram} rel="noopener">Instagram {LINKS.instagramHandle}</a></li>
@@ -37,7 +37,7 @@ import { NAV, LINKS, SITE } from '../data/site';
 
   <div class="wrap fine">
     <p>
-      NeuroGIDAS is a student-led group. Its views are not necessarily those of {SITE.school} or District 196.
+      NeuroGIDAS is run by students. Its views are not necessarily those of {SITE.school} or District 196.
       GIDAS is the high school program of <a href={LINKS.mircore} rel="noopener">miRcore</a>.
     </p>
     <p class="tnum">2026 to 2027</p>
@@ -101,8 +101,8 @@ import { NAV, LINKS, SITE } from '../data/site';
     color: #fff;
   }
 
-  .brand :global(.mark path[stroke='var(--paper)']) {
-    stroke: var(--ink);
+  .brand :global(.mark) {
+    --halo: var(--ink);
   }
 
   .where {

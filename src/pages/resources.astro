@@ -6,28 +6,28 @@ import { LINKS } from '../data/site';
 
 const tb = LINKS.textbook;
 const bookLinks = [
-  { href: tb, t: 'Start reading', d: 'All 16 chapters, each with a quiz and references.' },
-  { href: `${tb}sims/`, t: 'Simulations', d: '17 interactive models, from an action potential to a stroke territory map.' },
-  { href: `${tb}appendices/brain-bee/`, t: 'Brain Bee guide', d: 'Strategy for the competition, plus a full mock exam.' },
-  { href: `${tb}club-kit/`, t: 'Club and study group kit', d: 'Ideas for working through the book with a club or study group.' },
+  { href: tb, t: 'Start reading', d: 'All 16 chapters, each with a quiz.' },
+  { href: `${tb}sims/`, t: 'Simulations', d: '16 interactive models you can play with, like firing a neuron.' },
+  { href: `${tb}appendices/brain-bee/`, t: 'Brain Bee guide', d: 'Tips for the competition and a full practice test.' },
+  { href: `${tb}club-kit/`, t: 'Club and study group kit', d: 'How to use the book with a club or a study group.' },
 ];
 
 const tools = [
-  { name: 'NCBI GEO', href: 'https://www.ncbi.nlm.nih.gov/geo/', d: 'A public library of gene expression studies. Where your dataset comes from.' },
-  { name: 'GEO2R', href: 'https://www.ncbi.nlm.nih.gov/geo/geo2r/', d: 'Compares groups of samples in a GEO study to find genes that change.' },
-  { name: 'STRING', href: 'https://string-db.org/', d: 'Shows how proteins interact, as a network you can explore.' },
-  { name: 'KEGG Pathway', href: 'https://www.genome.jp/kegg/pathway.html', d: 'Maps of biological pathways, so you can see what your genes do together.' },
-  { name: 'GeneCards', href: 'https://www.genecards.org/', d: 'A summary page for nearly every human gene.' },
-  { name: 'OMIM', href: 'https://www.omim.org/', d: 'A catalog of human genes and the genetic disorders tied to them.' },
-  { name: 'Gene Ontology', href: 'https://geneontology.org/', d: 'A shared vocabulary for what genes do, where, and in which processes.' },
-  { name: 'UCSC Genome Browser', href: 'https://genome.ucsc.edu/', d: 'Lets you look at any gene in its spot on the genome.' },
+  { name: 'NCBI GEO', href: 'https://www.ncbi.nlm.nih.gov/geo/', d: 'A free library of gene studies. This is where your dataset comes from.' },
+  { name: 'GEO2R', href: 'https://www.ncbi.nlm.nih.gov/geo/geo2r/', d: 'Compares samples in a study to find the genes that change.' },
+  { name: 'STRING', href: 'https://string-db.org/', d: 'Shows how proteins connect, as a map you can click around.' },
+  { name: 'KEGG Pathway', href: 'https://www.genome.jp/kegg/pathway.html', d: 'Maps of body processes, so you can see what your genes do together.' },
+  { name: 'GeneCards', href: 'https://www.genecards.org/', d: 'A summary page for almost every human gene.' },
+  { name: 'OMIM', href: 'https://www.omim.org/', d: 'A list of human genes and the diseases linked to them.' },
+  { name: 'Gene Ontology', href: 'https://geneontology.org/', d: 'Standard labels for what each gene does and where.' },
+  { name: 'UCSC Genome Browser', href: 'https://genome.ucsc.edu/', d: 'Lets you see where any gene sits in our DNA.' },
 ];
 
 const neuro = [
-  { name: 'The Brain Facts book', href: 'https://www.brainfacts.org/the-brain-facts-book', d: 'The standard study book for the Brain Bee. Free to read online.' },
-  { name: 'BrainFacts.org', href: 'https://www.brainfacts.org/', d: 'Short, reliable articles on how the brain works.' },
-  { name: 'The Brain Bee', href: 'https://www.thebrainbee.org/', d: 'Official site for the competition, with rules and how regionals work.' },
-  { name: 'miRcore GIDAS', href: LINKS.gidas, d: 'The program behind our research track, run by miRcore.' },
+  { name: 'The Brain Facts book', href: 'https://www.brainfacts.org/the-brain-facts-book', d: 'The main study book for the Brain Bee. Free to read online.' },
+  { name: 'BrainFacts.org', href: 'https://www.brainfacts.org/', d: 'Short, trustworthy articles about the brain.' },
+  { name: 'The Brain Bee', href: 'https://www.thebrainbee.org/', d: 'The official competition site, with the rules and how regionals work.' },
+  { name: 'miRcore GIDAS', href: LINKS.gidas, d: 'The program behind our research side.' },
 ];
 ---
 
@@ -36,7 +36,7 @@ const neuro = [
     <div class="wrap head-grid">
       <div>
       <h1 class="h1">Resources</h1>
-      <p class="lede">Everything we use is free, and you can use all of it on your own time.</p>
+      <p class="lede">Everything we use is free. You can use all of it at home too.</p>
     </div>
       <HeadFigure kind="shelf" n={7} />
     </div>
@@ -47,10 +47,31 @@ const neuro = [
       <div>
         <h2 class="h1" id="book-h">From Neuron to Bedside</h2>
         <p class="lede">
-          A free, interactive neuroscience textbook for high school students and future doctors, written by our co-president
-          Aaryav Sharma. It goes deeper on the topics from our neuroscience weeks.
+          A free neuroscience textbook for high school students, written by our co-president Aaryav Sharma. It goes deeper on the
+          topics we cover in neuroscience weeks.
         </p>
-        <a class="btn btn-ink book__cta" href={tb} rel="noopener">Read the textbook</a>
+        <a class="btn btn-ink btn--icon book__cta" href={tb} rel="noopener">
+          Read the textbook
+          <span class="btn__icon" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M4 12 12 4M6 4h6v6" /></svg></span>
+        </a>
+        <div class="bezel book__shot">
+          <div class="bezel__core browser">
+            <div class="browser__bar" aria-hidden="true">
+              <i></i><i></i><i></i>
+              <span class="browser__url">aaryavvatts-lab.github.io/neuroscience-textbook</span>
+            </div>
+            <img
+              src="/media/textbook-800.webp"
+              srcset="/media/textbook-800.webp 800w, /media/textbook.webp 1600w"
+              sizes="(max-width: 860px) 92vw, 460px"
+              width="1600"
+              height="1000"
+              loading="lazy"
+              decoding="async"
+              alt="The home page of From Neuron to Bedside."
+            />
+          </div>
+        </div>
       </div>
       <ul class="book__links">
         {
@@ -72,7 +93,7 @@ const neuro = [
     <div class="wrap">
       <div class="sec-head">
         <h2 class="h2" id="tools-h">Research tools</h2>
-        <p class="muted">The databases from GIDAS weeks, in the order you will use them.</p>
+        <p class="muted">The websites we use in GIDAS weeks, in the order you’ll use them.</p>
       </div>
       <ul class="res res--gidas">
         {
@@ -93,8 +114,8 @@ const neuro = [
   <section class="section rule-top" aria-labelledby="neuro-h">
     <div class="wrap">
       <div class="sec-head">
-        <h2 class="h2" id="neuro-h">Brain Bee and further reading</h2>
-        <p class="muted">For neuroscience weeks and competition prep.</p>
+        <h2 class="h2" id="neuro-h">Brain Bee and more reading</h2>
+        <p class="muted">For neuroscience weeks and Brain Bee practice.</p>
       </div>
       <ul class="res res--neuro">
         {
@@ -135,6 +156,11 @@ const neuro = [
 
   .book__cta {
     margin-top: var(--s-6);
+  }
+
+  .book__shot {
+    margin-top: var(--s-7);
+    max-width: 30rem;
   }
 
   .book__links {
