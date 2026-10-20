@@ -61,6 +61,19 @@ import { NAV, LINKS, SITE } from '../data/site';
     text-decoration-color: currentColor;
   }
 
+  .brand :global(.mark) {
+    transition: color var(--dur-1) ease;
+  }
+
+  .brand:hover :global(.mark) {
+    color: #b9b1f5;
+  }
+
+  .fine a {
+    display: inline-block;
+    padding-block: 0.2rem;
+  }
+
   .site-footer :focus-visible {
     outline-color: #fff;
   }
@@ -110,10 +123,12 @@ import { NAV, LINKS, SITE } from '../data/site';
   ul {
     list-style: none;
     display: grid;
-    gap: 0.55rem;
+    gap: 0.1rem;
   }
 
   ul a {
+    display: inline-block;
+    padding-block: 0.3rem;
     text-decoration: none;
   }
 

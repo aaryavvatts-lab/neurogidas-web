@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import JoinBand from '../components/JoinBand.astro';
+import HeadFigure from '../components/HeadFigure.astro';
 import { SITE, LINKS } from '../data/site';
 
 const neuroFormats = [
@@ -15,12 +16,15 @@ const neuroFormats = [
 
 <Base title="About" description="How NeuroGIDAS works: alternating neuroscience and GIDAS research weeks, what GIDAS and miRcore are, and who the club is for.">
   <header class="page-head">
-    <div class="wrap">
+    <div class="wrap head-grid">
+      <div>
       <h1 class="h1">A brain science club and a research lab, sharing one room.</h1>
       <p class="lede">
         NeuroGIDAS brings two things together that usually live in separate clubs: how the brain works, and hands-on genetics
         research with the same databases scientists use.
       </p>
+    </div>
+      <HeadFigure kind="weeks" n={5} />
     </div>
   </header>
 

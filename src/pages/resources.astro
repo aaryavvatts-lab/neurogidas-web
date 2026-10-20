@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import JoinBand from '../components/JoinBand.astro';
+import HeadFigure from '../components/HeadFigure.astro';
 import { LINKS } from '../data/site';
 
 const tb = LINKS.textbook;
@@ -32,9 +33,12 @@ const neuro = [
 
 <Base title="Resources" description="Free resources NeuroGIDAS uses: the From Neuron to Bedside neuroscience textbook, the GIDAS research databases, and Brain Bee study material.">
   <header class="page-head">
-    <div class="wrap">
+    <div class="wrap head-grid">
+      <div>
       <h1 class="h1">Resources</h1>
       <p class="lede">Everything we use is free, and you can use all of it on your own time.</p>
+    </div>
+      <HeadFigure kind="shelf" n={7} />
     </div>
   </header>
 

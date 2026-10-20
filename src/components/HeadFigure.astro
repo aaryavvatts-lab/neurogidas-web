@@ -1,0 +1,220 @@
+---
+// Small, data-driven figures for inner page headers, in the same plate style as Fig. 1 and Fig. 2.
+import { MEETINGS, splitMeetings, meetingEnd } from '../data/meetings';
+
+interface Props {
+  kind: 'weeks' | 'year' | 'shelf';
+  n: number;
+}
+const { kind, n } = Astro.props;
+
+const weeks = ['neuro', 'gidas', 'neuro', 'gidas', 'neuro', 'gidas', 'neuro', 'gidas'];
+
+const now = new Date();
+const { next } = splitMeetings(now);
+const year = MEETINGS.map((m) => ({
+  track: m.track,
+  end: meetingEnd(m).toISOString(),
+  past: meetingEnd(m) < now,
+  isNext: next?.date === m.date,
+}));
+
+// Spine heights for the shelf, fixed so the figure never changes between builds.
+const chapters = [78, 64, 70, 88, 60, 82, 66, 74, 90, 62, 72, 84, 68, 76, 80, 70];
+const tools = [58, 66, 52, 70, 56, 62, 54, 68];
+---
+
+<figure class:list={['hf', `hf--${kind}`]}>
+  {
+    kind === 'weeks' && (
+      <div class="weeks" aria-hidden="true">
+        {weeks.map((t, i) => (
+          <div class="wk">
+            <span class:list={['wk__bar', `wk__bar--${t}`]} />
+            <span class="wk__n tnum">{i + 1}</span>
+          </div>
+        ))}
+      </div>
+    )
+  }
+  {
+    kind === 'year' && (
+      <div class="yr" data-yr aria-hidden="true">
+        {year.map((m) => (
+          <span
+            class:list={['yr__b', `yr__b--${m.track}`, { 'is-past': m.past }]}
+            data-end={m.end}
+            data-next={m.isNext ? 'true' : undefined}
+          />
+        ))}
+      </div>
+    )
+  }
+  {
+    kind === 'shelf' && (
+      <div class="shelf" aria-hidden="true">
+        {chapters.map((h) => (
+          <span class="sp sp--book" style={`--h:${h}%`} />
+        ))}
+        <span class="sp-gap" />
+        {tools.map((h) => (
+          <span class="sp sp--tool" style={`--h:${h}%`} />
+        ))}
+      </div>
+    )
+  }
+  <figcaption class="caption">
+    <b>Fig. {n}</b>
+    {kind === 'weeks' && 'Eight Wednesdays. The tracks take turns, so each one comes around every other week.'}
+    {kind === 'year' && 'Every meeting this year, one bar each. Solid bars already happened. The marked bar is next.'}
+    {kind === 'shelf' && 'This page as a shelf: the 16 chapters of the textbook in indigo, and the 8 research tools in teal.'}
+  </figcaption>
+</figure>
+
+<style>
+  .hf {
+    margin: 0;
+    display: grid;
+    gap: var(--s-4);
+    align-content: end;
+  }
+
+  .hf .caption {
+    max-width: 36ch;
+  }
+
+  .weeks {
+    display: grid;
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+    gap: 6px;
+    height: 9rem;
+    align-items: end;
+  }
+
+  .wk {
+    display: grid;
+    grid-template-rows: 1fr auto;
+    gap: 0.4rem;
+    height: 100%;
+  }
+
+  .wk__bar {
+    border-radius: 3px;
+  }
+
+  .wk__bar--neuro {
+    background: var(--neuro);
+  }
+
+  .wk__bar--gidas {
+    background: var(--gidas);
+    margin-top: 1.25rem;
+  }
+
+  .wk__n {
+    font-size: 0.78rem;
+    color: var(--ink-3);
+    text-align: center;
+  }
+
+  .yr {
+    display: flex;
+    gap: 3px;
+    height: 6.5rem;
+    align-items: stretch;
+    padding-top: 0.9rem;
+  }
+
+  .yr__b {
+    position: relative;
+    flex: 1 1 0;
+    border-radius: 2px;
+    opacity: 0.3;
+  }
+
+  .yr__b.is-past {
+    opacity: 1;
+  }
+
+  .yr__b--neuro {
+    background: var(--neuro);
+  }
+
+  .yr__b--gidas {
+    background: var(--gidas);
+  }
+
+  .yr__b--joint {
+    background: linear-gradient(180deg, var(--neuro) 50%, var(--gidas) 50%);
+  }
+
+  .yr__b[data-next] {
+    opacity: 1;
+    outline: 2px solid var(--ink);
+    outline-offset: 1px;
+  }
+
+  .yr__b[data-next]::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: -0.9rem;
+    width: 0.55rem;
+    height: 0.55rem;
+    margin-left: -0.275rem;
+    border-radius: 50%;
+    background: var(--salmon);
+  }
+
+  .shelf {
+    display: flex;
+    align-items: end;
+    gap: 4px;
+    height: 9rem;
+    border-bottom: 2px solid var(--ink);
+  }
+
+  .sp {
+    flex: 1 1 0;
+    height: var(--h);
+    border-radius: 2px 2px 0 0;
+  }
+
+  .sp--book {
+    background: var(--indigo);
+  }
+
+  .sp--book:nth-child(3n + 2) {
+    background: var(--indigo-deep);
+  }
+
+  .sp--tool {
+    background: var(--teal);
+  }
+
+  .sp--tool:nth-child(2n) {
+    background: var(--teal-ink);
+  }
+
+  .sp-gap {
+    flex: 0 0 1.25rem;
+  }
+</style>
+
+<script>
+  // Recheck which meetings already happened, so the figure stays right as the build ages.
+  document.querySelectorAll<HTMLElement>('[data-yr]').forEach((yr) => {
+    const now = Date.now();
+    const bars = Array.from(yr.querySelectorAll<HTMLElement>('.yr__b'));
+    let found = false;
+    for (const b of bars) {
+      const past = new Date(b.dataset.end!).getTime() < now;
+      b.classList.toggle('is-past', past);
+      delete b.dataset.next;
+      if (!past && !found) {
+        found = true;
+        b.dataset.next = 'true';
+      }
+    }
+  });
+</script>

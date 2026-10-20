@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro';
 import NextMeeting from '../components/NextMeeting.astro';
 import JoinBand from '../components/JoinBand.astro';
+import HeadFigure from '../components/HeadFigure.astro';
 import { MEETINGS, ROADMAP, EVENTS, splitMeetings, parts, shortDate, TRACK_LABEL, meetingEnd } from '../data/meetings';
 import { SITE } from '../data/site';
 
@@ -19,11 +20,14 @@ const roadmap = ROADMAP.map((r) => ({
 
 <Base title="Meetings" description="NeuroGIDAS meets Wednesdays 2:45 to 3:30 PM in B327. The next meeting, what we have done so far, and the full 2026 to 2027 schedule.">
   <header class="page-head">
-    <div class="wrap">
+    <div class="wrap head-grid">
+      <div>
       <h1 class="h1">Meetings</h1>
       <p class="lede">
         Every Wednesday after school in {SITE.room}. Neuroscience and GIDAS weeks take turns, and dates after this week can still move.
       </p>
+    </div>
+      <HeadFigure kind="year" n={6} />
     </div>
   </header>
 
@@ -259,6 +263,12 @@ const roadmap = ROADMAP.map((r) => ({
   }
 
   .filters button:hover {
+    color: var(--ink);
+  }
+
+  .filters button:focus-visible {
+    outline-offset: 1px;
+    background: var(--indigo-wash);
     color: var(--ink);
   }
 

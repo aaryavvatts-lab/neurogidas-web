@@ -60,6 +60,21 @@
   navigation: auto;
 }
 
+/* Page changes: the header holds still while the page underneath crossfades. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 220ms;
+  animation-timing-function: var(--ease-out);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
+
 *,
 *::before,
 *::after {
@@ -144,6 +159,32 @@ a {
   outline: 2px solid var(--indigo);
   outline-offset: 3px;
   border-radius: 2px;
+}
+
+/* Inline links in running text: a clear hover and a tinted focus, not just a color shift */
+.prose a,
+.caption a,
+.muted a {
+  text-decoration-color: color-mix(in srgb, currentColor 45%, transparent);
+  transition:
+    color var(--dur-1) ease,
+    text-decoration-color var(--dur-1) ease,
+    background-color var(--dur-1) ease;
+}
+
+.prose a:hover,
+.caption a:hover,
+.muted a:hover {
+  color: var(--indigo-deep);
+  text-decoration-color: currentColor;
+  text-decoration-thickness: 2px;
+}
+
+.prose a:focus-visible,
+.caption a:focus-visible,
+.muted a:focus-visible {
+  background: var(--indigo-wash);
+  color: var(--indigo-deep);
 }
 
 .tnum {
@@ -344,7 +385,9 @@ a {
 }
 
 .link:hover {
+  color: var(--indigo-deep);
   text-decoration-color: currentColor;
+  text-decoration-thickness: 2px;
 }
 
 /* Track tag */
@@ -380,6 +423,19 @@ a {
 }
 
 /* Page header used on inner pages */
+.head-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
+  gap: var(--s-7) clamp(2rem, 1rem + 5vw, 6rem);
+  align-items: end;
+}
+
+@media (max-width: 860px) {
+  .head-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 .page-head {
   padding-top: clamp(3rem, 2rem + 5vw, 6.5rem);
   padding-bottom: clamp(2.5rem, 2rem + 3vw, 4.5rem);

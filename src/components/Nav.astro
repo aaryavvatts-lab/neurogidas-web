@@ -60,10 +60,9 @@ const isCurrent = (href: string) => path === href;
     position: sticky;
     top: 0;
     z-index: 50;
-    background: color-mix(in srgb, var(--paper) 94%, transparent);
-    backdrop-filter: saturate(1.2) blur(10px);
-    -webkit-backdrop-filter: saturate(1.2) blur(10px);
+    background: var(--paper);
     border-bottom: 1px solid var(--rule);
+    view-transition-name: site-header;
   }
 
   .bar {
@@ -84,6 +83,11 @@ const isCurrent = (href: string) => path === href;
   .brand :global(.brand__mark) {
     width: auto;
     height: 2.1rem;
+    transition: color var(--dur-1) ease;
+  }
+
+  .brand:hover :global(.brand__mark) {
+    color: var(--indigo);
   }
 
   .brand__name {
@@ -113,6 +117,10 @@ const isCurrent = (href: string) => path === href;
   .nav__list a:hover {
     color: var(--ink);
     background: var(--paper-2);
+    text-decoration: underline;
+    text-decoration-color: var(--rule-strong);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.45em;
   }
 
   .nav__list a[aria-current='page'] {
