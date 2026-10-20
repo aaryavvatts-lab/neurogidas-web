@@ -50,5 +50,9 @@ const ogImage = new URL('/og.png', SITE.url).href;
       <slot />
     </main>
     <Footer />
+    <script>
+      import { mountAll } from '../scripts/neural-field';
+      mountAll();
+    </script>
   </body>
 </html>

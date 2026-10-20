@@ -15,7 +15,8 @@ const outcomes = [
 ---
 
 <Base>
-  <section class="hero wrap">
+  <section class="stage" data-neural data-density="1.15">
+  <div class="hero wrap">
     <div class="hero__copy">
       <h1 class="display">Learn how the brain works. Do real genetics research.</h1>
       <p class="lede">
@@ -27,21 +28,20 @@ const outcomes = [
           Join the GroupMe
           <span class="btn__icon" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M4 12 12 4M6 4h6v6" /></svg></span>
         </a>
-        <a class="btn btn-quiet" href="#next">See the next meeting</a>
+        <a class="btn btn-ghost" href="#next">See the next meeting</a>
       </div>
     </div>
 
     <figure class="hero__fig" data-fire>
-      <div class="bezel hero__plate">
-        <div class="bezel__core hero__core">
-          <Emblem variant="hero" class="hero__emblem" />
-        </div>
-      </div>
+      <div class="hero__halo" aria-hidden="true"></div>
+      <Emblem variant="hero" class="hero__emblem" />
       <figcaption class="caption">
         <b>Fig. 1</b>
         Our logo. The neuron stands for neuroscience, and its axon turns into DNA, which stands for genetics research.
       </figcaption>
     </figure>
+  </div>
+  <p class="stage__hint" aria-hidden="true">Tap or move your mouse here to fire the neurons</p>
   </section>
 
   <div class="wrap next-wrap">
@@ -174,13 +174,72 @@ const outcomes = [
 </Base>
 
 <style>
+  /* Dark stage: the live neural network runs behind the hero */
+  .stage {
+    --paper: var(--lab);
+    --ink: #f4f3ee;
+    --ink-2: #c3c7d1;
+    --rule-strong: rgba(255, 255, 255, 0.28);
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    background:
+      radial-gradient(70% 60% at 78% 30%, rgba(91, 75, 214, 0.22), transparent 70%),
+      radial-gradient(60% 55% at 85% 95%, rgba(14, 143, 132, 0.2), transparent 70%),
+      var(--lab);
+    color: var(--ink);
+    padding-bottom: clamp(6rem, 4rem + 6vw, 9rem);
+  }
+
+  .stage::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: linear-gradient(90deg, rgba(21, 24, 31, 0.9) 0%, rgba(21, 24, 31, 0.55) 42%, rgba(21, 24, 31, 0) 75%);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .stage__hint {
+      display: none;
+    }
+  }
+
+  .stage__hint {
+    position: absolute;
+    z-index: 2;
+    right: var(--gutter);
+    bottom: clamp(5rem, 3.5rem + 4vw, 7.5rem);
+    font-size: var(--step--1);
+    color: rgba(255, 255, 255, 0.5);
+  }
+
   .hero {
+    position: relative;
+    z-index: 2;
     display: grid;
     grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
     gap: var(--s-7) clamp(2rem, 1rem + 4vw, 5rem);
     align-items: center;
-    padding-top: clamp(2.5rem, 1rem + 5vw, 5.5rem);
-    padding-bottom: clamp(2.5rem, 1.5rem + 3vw, 4.5rem);
+    min-height: min(calc(100svh - 4.25rem - 4rem), 52rem);
+    padding-top: clamp(2.5rem, 1rem + 5vw, 5rem);
+    padding-bottom: clamp(2rem, 1rem + 3vw, 4rem);
+  }
+
+  .hero :focus-visible {
+    outline-color: #fff;
+  }
+
+  .btn-ghost {
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.32);
+    background: rgba(255, 255, 255, 0.04);
+  }
+
+  .btn-ghost:hover {
+    border-color: #fff;
+    background: rgba(255, 255, 255, 0.1);
   }
 
   .hero__copy .display {
@@ -200,32 +259,48 @@ const outcomes = [
   }
 
   .hero__fig {
+    position: relative;
     margin: 0;
     display: grid;
-    gap: var(--s-4);
+    justify-items: center;
+    gap: var(--s-5);
+    --halo: var(--lab);
   }
 
-  .hero__core {
-    display: grid;
-    place-items: center;
-    padding: clamp(1.5rem, 1rem + 2vw, 2.75rem) var(--s-6);
-    background:
-      radial-gradient(120% 70% at 50% 0%, color-mix(in srgb, var(--indigo) 10%, transparent), transparent 60%),
-      radial-gradient(120% 70% at 50% 100%, color-mix(in srgb, var(--teal) 12%, transparent), transparent 60%),
-      #fff;
-    --paper: #fff;
+  .hero__halo {
+    position: absolute;
+    top: 8%;
+    left: 50%;
+    width: min(26rem, 90%);
+    aspect-ratio: 1;
+    translate: -50% 0;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(124, 110, 240, 0.28), rgba(38, 196, 182, 0.08) 55%, transparent 70%);
+    pointer-events: none;
   }
 
   .hero__fig :global(.hero__emblem) {
+    position: relative;
     width: auto;
-    height: clamp(16rem, 11rem + 13vw, 24rem);
+    height: clamp(17rem, 11rem + 15vw, 27rem);
+    color: #fff;
+    filter: drop-shadow(0 0 24px rgba(124, 110, 240, 0.35));
+  }
+
+  .hero__fig :global(.hero__emblem path[stroke='var(--rule-strong)']) {
+    stroke: rgba(255, 255, 255, 0.28);
   }
 
   .hero__fig .caption {
-    padding-inline: var(--s-3);
+    position: relative;
+    max-width: 30ch;
+    text-align: center;
   }
 
   .next-wrap {
+    position: relative;
+    z-index: 3;
+    margin-top: calc(-1 * clamp(4rem, 3rem + 3vw, 6rem));
     padding-bottom: var(--section);
   }
 

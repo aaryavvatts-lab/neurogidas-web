@@ -538,10 +538,49 @@ a {
   }
 }
 
+/* Living neural network canvas (see src/scripts/neural-field.ts) */
+.neural-field {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: block;
+  pointer-events: none;
+}
+
+/* Inner page headers are dark lab bands with the network running behind them */
 .page-head {
-  padding-top: clamp(3rem, 2rem + 5vw, 6.5rem);
-  padding-bottom: clamp(2.5rem, 2rem + 3vw, 4.5rem);
-  border-bottom: 1px solid var(--rule);
+  --paper: var(--lab);
+  --paper-2: #262b35;
+  --ink: #f2f1ec;
+  --ink-2: #c3c7d1;
+  --ink-3: #9aa0ad;
+  --rule: rgba(255, 255, 255, 0.12);
+  --rule-strong: rgba(255, 255, 255, 0.26);
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--lab);
+  color: var(--ink);
+  padding-top: clamp(3.5rem, 2rem + 6vw, 7.5rem);
+  padding-bottom: clamp(3rem, 2rem + 4vw, 5.5rem);
+}
+
+.page-head::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(90deg, rgba(21, 24, 31, 0.92) 0%, rgba(21, 24, 31, 0.6) 45%, rgba(21, 24, 31, 0.15) 100%);
+}
+
+.page-head > .wrap {
+  position: relative;
+  z-index: 2;
+}
+
+.page-head :focus-visible {
+  outline-color: #fff;
 }
 
 .page-head .h1 {

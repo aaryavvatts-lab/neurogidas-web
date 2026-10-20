@@ -49,9 +49,11 @@ export const TEAM = [
     initials: 'AS',
     role: 'Co-Founder and Co-President',
     school: 'Eastview High School, 10th grade',
+    link: { href: 'https://aaryavvatts-lab.github.io/neuroscience-textbook/', label: 'Read Aaryav’s textbook' },
     bio: [
-      'Aaryav is a sophomore at Eastview and started NeuroGIDAS with Rishik. He also wrote From Neuron to Bedside, a free neuroscience textbook for high school students.',
-      'Most high schools barely teach how the brain works. He started the club so Eastview students could learn it, and do real research with it, before college.',
+      'Aaryav is a sophomore at Eastview and co-founded NeuroGIDAS with Rishik. What pulls him into neuroscience are questions like whether you can read the words someone is trying to say straight from their brain signals. He has shadowed neurosurgeon Dr. Anant Naik, watched two live brain surgeries, and built his own research projects from public brain recordings.',
+      'Along the way he ran into a real gap. Most high schools barely teach neuroscience, and the study material that does exist is mostly flat pages you read once. So he wrote From Neuron to Bedside, a free textbook with 16 chapters and 16 simulations where you can fire a neuron or trace a stroke yourself.',
+      'NeuroGIDAS is the other half of that. A book can teach the basics, but he wanted a place at Eastview where students actually do neuroscience together: test their own brains, ask a surgeon real questions, and start research while they are still in high school.',
     ],
   },
 ];
