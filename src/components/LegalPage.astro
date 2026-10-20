@@ -1,0 +1,183 @@
+---
+// Shared layout for the policy pages: a plain header, a short summary box, then the full text.
+import Base from '../layouts/Base.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  updated: string;
+  summary: string[];
+}
+const { title, description, updated, summary } = Astro.props;
+
+const legal = [
+  { href: '/privacy/', label: 'Privacy Policy' },
+  { href: '/terms/', label: 'Terms of Use' },
+  { href: '/cookies/', label: 'Cookie Policy' },
+  { href: '/accessibility/', label: 'Accessibility' },
+];
+const path = Astro.url.pathname.replace(/\/?$/, '/');
+---
+
+<Base title={title} description={description}>
+  <header class="page-head">
+    <div class="wrap">
+      <h1 class="h1">{title}</h1>
+      <p class="lede">Last updated {updated}</p>
+    </div>
+  </header>
+
+  <div class="wrap legal">
+    <nav class="legal__nav" aria-label="Policies">
+      <ul>
+        {
+          legal.map((l) => (
+            <li>
+              <a href={l.href} aria-current={path === l.href ? 'page' : undefined}>
+                {l.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <article class="legal__body">
+      <section class="bezel legal__summary" aria-label="Short version">
+        <div class="bezel__core legal__summary-core">
+          <h2 class="legal__summary-h">The short version</h2>
+          <ul>
+            {summary.map((s) => <li>{s}</li>)}
+          </ul>
+        </div>
+      </section>
+      <div class="prose legal__text">
+        <slot />
+      </div>
+    </article>
+  </div>
+</Base>
+
+<style>
+  .legal {
+    display: grid;
+    grid-template-columns: minmax(0, 3fr) minmax(0, 8fr);
+    gap: var(--s-7) clamp(2rem, 1rem + 5vw, 6rem);
+    padding-block: var(--s-8) var(--section);
+    align-items: start;
+  }
+
+  .legal__nav {
+    position: sticky;
+    top: 6rem;
+  }
+
+  .legal__nav ul {
+    list-style: none;
+    display: grid;
+    gap: 0.15rem;
+    border-left: 1px solid var(--rule-strong);
+  }
+
+  .legal__nav a {
+    display: block;
+    padding: 0.5rem 0 0.5rem 1rem;
+    margin-left: -1px;
+    border-left: 2px solid transparent;
+    color: var(--ink-2);
+    font-weight: 560;
+    text-decoration: none;
+    transition: color var(--dur-1) ease, border-color var(--dur-1) ease;
+  }
+
+  .legal__nav a:hover {
+    color: var(--ink);
+    border-left-color: var(--rule-strong);
+  }
+
+  .legal__nav a[aria-current='page'] {
+    color: var(--ink);
+    border-left-color: var(--indigo);
+  }
+
+  .legal__summary-core {
+    padding: var(--s-6) clamp(1.25rem, 1rem + 1.5vw, 2rem);
+    background: var(--indigo-wash);
+  }
+
+  .legal__summary-h {
+    font-size: var(--step-1);
+    font-weight: 720;
+    font-variation-settings: 'wdth' 108;
+    margin-bottom: var(--s-3);
+  }
+
+  .legal__summary ul {
+    padding-left: 1.2em;
+    display: grid;
+    gap: 0.45rem;
+    color: var(--ink);
+  }
+
+  .legal__text {
+    margin-top: var(--s-7);
+    max-width: 68ch;
+  }
+
+  .legal__text :global(h2) {
+    font-size: var(--step-2);
+    font-weight: 740;
+    letter-spacing: -0.02em;
+    font-variation-settings: 'wdth' 110;
+    color: var(--ink);
+    margin-top: var(--s-7);
+    margin-bottom: var(--s-3);
+    scroll-margin-top: 6rem;
+  }
+
+  .legal__text :global(h2:first-child) {
+    margin-top: 0;
+  }
+
+  .legal__text :global(p + p),
+  .legal__text :global(ul + p),
+  .legal__text :global(p + ul) {
+    margin-top: 0.9em;
+  }
+
+  .legal__text :global(ul) {
+    padding-left: 1.2em;
+    display: grid;
+    gap: 0.4rem;
+  }
+
+  @media (max-width: 860px) {
+    .legal {
+      grid-template-columns: 1fr;
+      padding-top: var(--s-6);
+    }
+
+    .legal__nav {
+      position: static;
+    }
+
+    .legal__nav ul {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--s-2);
+      border-left: 0;
+    }
+
+    .legal__nav a {
+      padding: 0.45rem 0.9rem;
+      margin: 0;
+      border: 1px solid var(--rule-strong);
+      border-radius: 999px;
+    }
+
+    .legal__nav a[aria-current='page'] {
+      border-color: var(--indigo);
+      background: var(--indigo-wash);
+    }
+  }
+</style>

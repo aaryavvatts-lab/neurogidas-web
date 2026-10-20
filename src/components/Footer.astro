@@ -35,12 +35,19 @@ import { NAV, LINKS, SITE } from '../data/site';
     </div>
   </div>
 
-  <div class="wrap fine">
+  <div class="wrap">
+  <div class="fine">
     <p>
       NeuroGIDAS is run by students. Its views are not necessarily those of {SITE.school} or District 196.
       GIDAS is the high school program of <a href={LINKS.mircore} rel="noopener">miRcore</a>.
     </p>
-    <p class="tnum">2026 to 2027</p>
+    <nav class="legal-links" aria-label="Legal">
+      <a href="/privacy/">Privacy</a>
+      <a href="/terms/">Terms</a>
+      <a href="/cookies/">Cookies</a>
+      <a href="/accessibility/">Accessibility</a>
+    </nav>
+  </div>
   </div>
 </footer>
 
@@ -148,7 +155,26 @@ import { NAV, LINKS, SITE } from '../data/site';
   }
 
   .fine p:first-child {
-    max-width: 70ch;
+    max-width: 60ch;
+  }
+
+  .legal-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.2rem 1.1rem;
+    align-content: start;
+  }
+
+  .legal-links a {
+    display: inline-block;
+    padding-block: 0.3rem;
+    color: #d9dbe0;
+    text-decoration: none;
+  }
+
+  .legal-links a:hover {
+    color: #fff;
+    text-decoration: underline;
   }
 
   @media (max-width: 760px) {

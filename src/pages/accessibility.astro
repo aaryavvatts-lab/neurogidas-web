@@ -1,0 +1,43 @@
+---
+import LegalPage from '../components/LegalPage.astro';
+import { LINKS } from '../data/site';
+---
+
+<LegalPage
+  title="Accessibility"
+  description="How the NeuroGIDAS website is built to be usable by everyone, and how to tell us if something doesn't work for you."
+  updated="October 20, 2026"
+  summary={[
+    'We want everyone to be able to use this site, including people who use screen readers, keyboards, or zoom.',
+    'We aim to meet the WCAG 2.2 Level AA guidelines.',
+    'If something doesn’t work for you, email us and we will fix it.',
+  ]}
+>
+  <h2>Our goal</h2>
+  <p>
+    NeuroGIDAS is for every student at Eastview, so this website should work for everyone too. We aim to meet the Web Content
+    Accessibility Guidelines (WCAG) 2.2 at Level AA.
+  </p>
+
+  <h2>What we’ve done</h2>
+  <ul>
+    <li>Every page can be used with just a keyboard, and there’s a “Skip to content” link at the top.</li>
+    <li>Text and buttons have strong color contrast, and color is never the only way information is shown.</li>
+    <li>Images and figures have text descriptions for screen readers.</li>
+    <li>The site works when you zoom in and on phones, tablets, and computers.</li>
+    <li>If your device is set to reduce motion, the site turns its animations off.</li>
+    <li>Pages use proper headings so screen readers can jump around easily.</li>
+  </ul>
+
+  <h2>Known limits</h2>
+  <p>
+    Some links go to outside websites, like research databases and social media. We can’t control how accessible those sites
+    are.
+  </p>
+
+  <h2>Tell us about a problem</h2>
+  <p>
+    If anything on this site is hard to use, email <a href={`mailto:${LINKS.email}`}>{LINKS.email}</a>. Tell us which page and
+    what went wrong, and we will work on a fix. We can also send you any information from the site in another format.
+  </p>
+</LegalPage>

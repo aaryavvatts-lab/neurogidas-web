@@ -1,0 +1,91 @@
+---
+import LegalPage from '../components/LegalPage.astro';
+import { LINKS } from '../data/site';
+---
+
+<LegalPage
+  title="Terms of Use"
+  description="The rules for using the NeuroGIDAS website, a student-run club site at Eastview High School."
+  updated="October 20, 2026"
+  summary={[
+    'This is a student club’s website. It is not an official Eastview High School or District 196 site.',
+    'Everything here is for general information and learning. It is not medical advice.',
+    'Meeting dates and topics can change. Check the GroupMe for the latest.',
+    'You can share links to the site, but please don’t copy our logo, photos, or text as your own.',
+    'Other websites we link to have their own rules.',
+  ]}
+>
+  <h2>Using this site</h2>
+  <p>
+    By using neurogidas-web.vercel.app, you agree to these terms. If you don’t agree, please don’t use the site. These terms
+    apply to everyone who visits, whether or not you are a club member.
+  </p>
+
+  <h2>Who runs this site</h2>
+  <p>
+    NeuroGIDAS is run by students at Eastview High School. It is a student-led group, and its views are not necessarily those of
+    Eastview High School or Independent School District 196. Nothing on this site is an official statement from the school or the
+    district. GIDAS is the high school program of miRcore, and this site is not run by miRcore.
+  </p>
+
+  <h2>Not medical advice</h2>
+  <p>
+    The site talks about the brain, genes, and diseases so students can learn about them. None of it is medical advice, and it
+    should not be used to diagnose or treat anyone. If you have a health question, talk to a doctor or another qualified
+    professional.
+  </p>
+
+  <h2>Schedules and events</h2>
+  <p>
+    We do our best to keep meeting dates, rooms, and topics correct, but plans change. Dates marked “might change” are not final.
+    For the latest updates, join our GroupMe or follow us on Instagram. We are not responsible for any problems caused by a
+    schedule change.
+  </p>
+
+  <h2>Our content</h2>
+  <p>
+    The text, design, logo, figures, and photos on this site belong to NeuroGIDAS or to the people who made them. Photos of club
+    members are used with their permission and may not be copied or reused. You are welcome to link to any page and to share the
+    site with others. Please don’t copy our content and present it as your own.
+  </p>
+  <p>
+    The textbook From Neuron to Bedside is a separate project by its author and has its own license, which is listed on the
+    textbook’s website.
+  </p>
+
+  <h2>Other websites</h2>
+  <p>
+    We link to outside services such as GroupMe, Instagram, Google Calendar, miRcore, and free research databases. We don’t
+    control those sites and aren’t responsible for their content, availability, or how they handle your information. Their own
+    terms and privacy policies apply when you use them.
+  </p>
+
+  <h2>Acceptable use</h2>
+  <p>Please don’t try to break, overload, or get unauthorized access to the site, and don’t use it for anything illegal.</p>
+
+  <h2>No warranty</h2>
+  <p>
+    The site is provided “as is.” We try to keep it accurate and working, but we can’t promise that everything on it will always
+    be complete, correct, or available.
+  </p>
+
+  <h2>Limitation of liability</h2>
+  <p>
+    To the extent the law allows, NeuroGIDAS and its members are not liable for any loss or damage that comes from using this
+    site, relying on its content, or using any website it links to.
+  </p>
+
+  <h2>Changes to these terms</h2>
+  <p>
+    We may update these terms from time to time. When we do, we will change the date at the top of this page. Using the site
+    after a change means you accept the updated terms.
+  </p>
+
+  <h2>Governing law</h2>
+  <p>These terms are governed by the laws of the State of Minnesota.</p>
+
+  <h2>Contact</h2>
+  <p>
+    Questions about these terms? Email <a href={`mailto:${LINKS.email}`}>{LINKS.email}</a>.
+  </p>
+</LegalPage>

@@ -1,0 +1,90 @@
+---
+import LegalPage from '../components/LegalPage.astro';
+import { LINKS } from '../data/site';
+---
+
+<LegalPage
+  title="Privacy Policy"
+  description="How the NeuroGIDAS website handles your information. Short answer: we don't collect any through the site."
+  updated="October 20, 2026"
+  summary={[
+    'This website does not ask for, collect, or store any personal information.',
+    'There are no forms, accounts, ads, trackers, or analytics on this site.',
+    'Our web host keeps basic server logs to run and protect the site.',
+    'If you email us, we only use your email to reply to you.',
+    'Links to GroupMe, Instagram, and other sites follow those sites’ own privacy policies.',
+  ]}
+>
+  <h2>Who we are</h2>
+  <p>
+    NeuroGIDAS is a student-run neuroscience and genetics club at Eastview High School in Apple Valley, Minnesota (District 196).
+    This policy covers the website at neurogidas-web.vercel.app. When this page says “we” or “us,” it means the club. You can
+    reach us at <a href={`mailto:${LINKS.email}`}>{LINKS.email}</a>.
+  </p>
+
+  <h2>What we collect through this website</h2>
+  <p>
+    Nothing. The site has no sign-up forms, no accounts, no comment boxes, and no newsletter. We don’t use analytics tools,
+    advertising, tracking pixels, or social media widgets. You can read every page without telling us who you are.
+  </p>
+
+  <h2>Information our web host handles</h2>
+  <p>
+    The site is hosted by <a href="https://vercel.com" rel="noopener">Vercel</a>. Like almost every web host, Vercel’s servers
+    automatically record basic technical details when a page is requested, such as your IP address, your browser type, the page
+    you asked for, and the time. Vercel uses this to deliver the site and protect it from attacks. We don’t use these logs to
+    figure out who you are. You can read how Vercel handles this data in the{' '}
+    <a href="https://vercel.com/legal/privacy-policy" rel="noopener">Vercel Privacy Policy</a>.
+  </p>
+  <p>Our fonts and images are stored on the same host, so your browser doesn’t contact any other company to load them.</p>
+
+  <h2>If you contact us</h2>
+  <p>
+    If you email us, we get your email address and whatever you write. We only use it to answer you and to keep you updated
+    about the club if you ask us to. We don’t sell it, trade it, or give it to anyone else.
+  </p>
+
+  <h2>Links to other websites</h2>
+  <p>
+    The site links to other services, including GroupMe, Instagram, Google Calendar, Gmail, miRcore, our co-president’s
+    textbook, and free research databases like NCBI. When you click a link, you leave our site and that service’s own privacy
+    policy applies. For example, joining our GroupMe is covered by GroupMe’s privacy policy, not this one. We don’t control
+    those sites.
+  </p>
+
+  <h2>Students and children</h2>
+  <p>
+    This site is meant for high school students, families, and teachers. Because we don’t collect personal information through
+    the site, we don’t knowingly collect information from anyone, including children under 13. If you think a child has sent us
+    personal information by email, contact us and we will delete it.
+  </p>
+
+  <h2>Photos and names on this site</h2>
+  <p>
+    The names and photos of club officers appear on the Team page with their permission. If you are pictured or named on this
+    site and want something changed or taken down, email us and we will do it as soon as we can.
+  </p>
+
+  <h2>Your choices</h2>
+  <p>
+    You can ask us what information we have about you (usually just emails you sent us) and ask us to delete it. Email{' '}
+    <a href={`mailto:${LINKS.email}`}>{LINKS.email}</a> and we will respond within a reasonable time.
+  </p>
+
+  <h2>Security</h2>
+  <p>
+    The whole site is served over a secure connection (HTTPS). Since we don’t collect personal information through the site,
+    there is no personal data stored here to be exposed.
+  </p>
+
+  <h2>Changes to this policy</h2>
+  <p>
+    If we ever change how the site works, for example by adding a sign-up form or analytics, we will update this page first and
+    change the date at the top.
+  </p>
+
+  <h2>Contact</h2>
+  <p>
+    Questions about this policy? Email <a href={`mailto:${LINKS.email}`}>{LINKS.email}</a>.
+  </p>
+</LegalPage>
