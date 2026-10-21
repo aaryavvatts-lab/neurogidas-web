@@ -49,6 +49,8 @@ export const TEAM = [
     initials: 'AS',
     role: 'Co-Founder and Co-President',
     school: 'Eastview High School, 10th grade',
+    photo: '/team/aaryav-sharma.webp',
+    photoSmall: '/team/aaryav-sharma-480.webp',
     link: { href: 'https://aaryavvatts-lab.github.io/neuroscience-textbook/', label: 'Read Aaryav’s textbook' },
     bio: [
       'Aaryav is a sophomore at Eastview and co-founded NeuroGIDAS with Rishik. Watching two live brain surgeries with neurosurgeon Dr. Anant Naik made him realize how much there is to learn about the brain, and how few high school students ever get the chance to learn it.',
