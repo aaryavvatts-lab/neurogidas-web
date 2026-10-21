@@ -276,8 +276,12 @@ const loci = [
     background: var(--paper-2);
   }
 
-  .band--tentative .band__fill {
-    opacity: 0.45;
+  /* Dates that might change: the track color, lightened with a diagonal hatch so it reads as a pattern, not just a shade */
+  .band--tentative .band__fill::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.5) 0 3px, rgba(255, 255, 255, 0.22) 3px 7px);
   }
 
   .band:hover .band__fill {
@@ -410,8 +414,7 @@ const loci = [
   }
 
   .key--tent::before {
-    background: var(--neuro);
-    opacity: 0.45;
+    background: repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.5) 0 3px, rgba(255, 255, 255, 0.22) 3px 7px), var(--neuro);
   }
 
   /* Phones: the chromosome stands upright, fall and spring arms side by side, one tappable band per Wednesday. */
@@ -523,10 +526,6 @@ const loci = [
 
   .ideo--dark .cen__body span {
     border-color: rgba(255, 255, 255, 0.55);
-  }
-
-  .ideo--dark .band--tentative .band__fill {
-    opacity: 0.62;
   }
 
   .ideo--dark .locus[data-track='neuro'] {
