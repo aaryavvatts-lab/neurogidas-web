@@ -1,7 +1,7 @@
 export const SITE = {
   name: 'NeuroGIDAS',
   school: 'Eastview High School',
-  url: 'https://neurogidas-web.vercel.app',
+  url: 'https://neurogidas.vercel.app',
   description:
     "Eastview's brain science and genetics club. One week we learn how the brain works, the next we do genetics research. Wednesdays after school in B327. No experience needed.",
   room: 'B327',

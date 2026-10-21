@@ -8,7 +8,7 @@ web
 
 ## Stack
 
-Delegated (Aaryav approved the plan): Astro 5 static site, hand-tuned CSS tokens, self-hosted fonts. Public GitHub repo `aaryavvatts-lab/neurogidas-web`, auto-deployed by Vercel to neurogidas-web.vercel.app.
+Delegated (Aaryav approved the plan): Astro 5 static site, hand-tuned CSS tokens, self-hosted fonts. Public GitHub repo `aaryavvatts-lab/neurogidas-web`, auto-deployed by Vercel to neurogidas.vercel.app.
 
 ## Users
 

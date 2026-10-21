@@ -1,6 +1,6 @@
 # NeuroGIDAS website
 
-The site for NeuroGIDAS, Eastview High School's neuroscience and genetics research club. Live at https://neurogidas-web.vercel.app
+The site for NeuroGIDAS, Eastview High School's neuroscience and genetics research club. Live at https://neurogidas.vercel.app
 
 Built with [Astro](https://astro.build). Every push to `main` deploys automatically on Vercel.
 

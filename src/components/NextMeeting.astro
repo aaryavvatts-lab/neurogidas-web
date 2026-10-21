@@ -21,7 +21,7 @@ function calHref(m: NonNullable<typeof next>) {
     action: 'TEMPLATE',
     text: `NeuroGIDAS: ${m.title}`,
     dates: `${f(start)}/${f(end)}`,
-    details: `${m.summary}\n\nhttps://neurogidas-web.vercel.app/meetings/`,
+    details: `${m.summary}\n\nhttps://neurogidas.vercel.app/meetings/`,
     location: `${roomOf(m)}, Eastview High School`,
   });
   return `https://calendar.google.com/calendar/render?${q}`;
@@ -255,7 +255,7 @@ function calHref(m: NonNullable<typeof next>) {
       action: 'TEMPLATE',
       text: `NeuroGIDAS: ${m.title}`,
       dates: `${f(start)}/${f(end)}`,
-      details: `${m.summary}\n\nhttps://neurogidas-web.vercel.app/meetings/`,
+      details: `${m.summary}\n\nhttps://neurogidas.vercel.app/meetings/`,
       location: `${m.roomName}, Eastview High School`,
     });
     return `https://calendar.google.com/calendar/render?${q}`;

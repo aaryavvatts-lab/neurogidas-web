@@ -3,7 +3,7 @@ import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
-  site: 'https://neurogidas-web.vercel.app',
+  site: 'https://neurogidas.vercel.app',
   trailingSlash: 'ignore',
   integrations: [sitemap()],
 });
