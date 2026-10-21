@@ -41,6 +41,16 @@ const ogImage = new URL('/og.png', SITE.url).href;
     <meta name="twitter:card" content="summary_large_image" />
     <script is:inline>
       document.documentElement.classList.add('js');
+      // Turn on the 3D brain-to-gene scene only for devices that can run it smoothly.
+      (function () {
+        try {
+          var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+          var save = navigator.connection && navigator.connection.saveData;
+          var c = document.createElement('canvas');
+          var ok = !!(c.getContext('webgl') || c.getContext('experimental-webgl'));
+          if (!reduce && !save && ok) document.documentElement.classList.add('can-3d');
+        } catch (e) {}
+      })();
     </script>
   </head>
   <body>

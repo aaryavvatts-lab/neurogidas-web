@@ -1,0 +1,346 @@
+---
+// The home page's main attraction: a 3D particle brain that breaks apart, becomes one neuron,
+// then unravels into DNA as you scroll. The 3D only runs when the device can handle it
+// (html.can-3d, set in Base before first paint); otherwise this is a still, finished section.
+const chapters = [
+  { t: 'This is a brain', d: 'About 86 billion neurons, packed into something you could hold in two hands.' },
+  { t: 'Now pull it apart', d: 'Zoom in far enough and the brain breaks down into cells.' },
+  {
+    t: 'One neuron',
+    d: 'Each neuron passes electrical signals to thousands of others. That is what we study in neuroscience weeks.',
+  },
+  {
+    t: 'Inside it, DNA',
+    d: 'Every neuron runs on instructions written in its DNA. Studying those genes is what GIDAS weeks are about.',
+  },
+];
+---
+
+<section class="btg" aria-labelledby="btg-h" data-btg>
+  <div class="btg__stage" data-btg-stage>
+    <div class="wrap btg__ui">
+      <div class="btg__head">
+        <h2 class="btg__title" id="btg-h">From brain to gene</h2>
+        <p class="btg__count tnum" aria-hidden="true"><span data-btg-num>1</span> / 4</p>
+      </div>
+
+      <ol class="btg__chapters">
+        {
+          chapters.map((c, i) => (
+            <li class:list={['btg__chapter', { 'is-on': i === 0 }]} data-chapter={i}>
+              <h3 class="btg__ch-title">{c.t}</h3>
+              <p class="btg__ch-text">{c.d}</p>
+              {i === 3 && (
+                <a class="link btg__link" href="/about/">
+                  See how the two tracks work
+                </a>
+              )}
+            </li>
+          ))
+        }
+      </ol>
+
+      <div class="btg__meter" data-btg-meter aria-hidden="true"><span></span></div>
+      <p class="btg__hint" aria-hidden="true">Drag to spin it. Keep scrolling.</p>
+    </div>
+
+    <div class="btg__still" aria-hidden="true">
+      <img src="/media/btg-brain.webp" width="900" height="900" alt="" loading="lazy" decoding="async" />
+      <img src="/media/btg-helix.webp" width="900" height="900" alt="" loading="lazy" decoding="async" />
+    </div>
+  </div>
+</section>
+
+<style>
+  .btg {
+    position: relative;
+    background:
+      radial-gradient(60% 50% at 70% 40%, rgba(91, 75, 214, 0.2), transparent 70%),
+      radial-gradient(50% 45% at 75% 85%, rgba(14, 143, 132, 0.16), transparent 70%),
+      var(--lab);
+    color: #f4f3ee;
+    --ink: #f4f3ee;
+    --ink-2: #c3c7d1;
+    --rule-strong: rgba(255, 255, 255, 0.3);
+  }
+
+  .btg :focus-visible {
+    outline-color: #fff;
+  }
+
+  .btg__stage {
+    position: relative;
+    padding-block: var(--section);
+  }
+
+  .btg__ui {
+    position: relative;
+    z-index: 2;
+  }
+
+  .btg__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--s-4);
+  }
+
+  .btg__title {
+    font-size: var(--step-4);
+    font-weight: 800;
+    letter-spacing: -0.035em;
+    line-height: 1;
+    font-variation-settings: 'wdth' 118;
+    max-width: 10ch;
+  }
+
+  .btg__count {
+    font-weight: 650;
+    color: #c3c7d1;
+  }
+
+  .btg__chapters {
+    list-style: none;
+    display: grid;
+    gap: var(--s-6);
+    margin-top: var(--s-7);
+    max-width: 30rem;
+  }
+
+  .btg__ch-title {
+    font-size: var(--step-2);
+    font-weight: 740;
+    letter-spacing: -0.02em;
+    font-variation-settings: 'wdth' 110;
+  }
+
+  .btg__ch-text {
+    margin-top: var(--s-2);
+    font-size: var(--step-1);
+    line-height: 1.5;
+    color: #c3c7d1;
+  }
+
+  .btg__link {
+    margin-top: var(--s-4);
+    color: #fff;
+    text-decoration-color: rgba(255, 255, 255, 0.45);
+  }
+
+  .btg__link:hover {
+    color: #fff;
+  }
+
+  .btg__meter,
+  .btg__hint {
+    display: none;
+  }
+
+  /* Still version (no 3D): text on the left, two rendered frames on the right */
+  :global(html:not(.can-3d)) .btg__stage {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    gap: var(--s-7);
+    align-items: center;
+    max-width: var(--wrap);
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+  }
+
+  :global(html:not(.can-3d)) .btg__ui {
+    padding-inline: 0;
+  }
+
+  :global(html:not(.can-3d)) .btg__count {
+    display: none;
+  }
+
+  .btg__still {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--s-4);
+  }
+
+  .btg__still img {
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-lg);
+  }
+
+  /* Live 3D version: a tall section with a sticky stage that plays as you scroll */
+  :global(.can-3d) .btg {
+    height: 440svh;
+  }
+
+  :global(.can-3d) .btg__stage {
+    position: sticky;
+    top: 4.25rem;
+    height: calc(100svh - 4.25rem);
+    padding: 0;
+    overflow: clip;
+    touch-action: pan-y;
+    cursor: grab;
+  }
+
+  :global(.can-3d) .btg__stage:active {
+    cursor: grabbing;
+  }
+
+  :global(.can-3d) .btg__still {
+    display: none;
+  }
+
+  /* Keeps the text readable while particles fly past it */
+  :global(.can-3d) .btg__stage::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: linear-gradient(90deg, rgba(21, 24, 31, 0.92) 0%, rgba(21, 24, 31, 0.7) 30%, rgba(21, 24, 31, 0) 55%);
+  }
+
+  .btg :global(.btg__canvas) {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  :global(.can-3d) .btg__ui {
+    height: 100%;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    padding-block: clamp(2rem, 1rem + 4vw, 4.5rem) var(--s-6);
+    pointer-events: none;
+  }
+
+  :global(.can-3d) .btg__ui a {
+    pointer-events: auto;
+  }
+
+  :global(.can-3d) .btg__chapters {
+    position: relative;
+    align-self: center;
+    margin: 0;
+    height: 14rem;
+  }
+
+  :global(.can-3d) .btg__chapter {
+    position: absolute;
+    inset: 0 auto auto 0;
+    opacity: 0;
+    translate: 0 14px;
+    transition:
+      opacity 520ms var(--ease-out),
+      translate 620ms var(--ease-out);
+  }
+
+  :global(.can-3d) .btg__chapter.is-on {
+    opacity: 1;
+    translate: 0 0;
+  }
+
+  :global(.can-3d) .btg__ch-title {
+    font-size: var(--step-3);
+  }
+
+  :global(.can-3d) .btg__meter {
+    display: block;
+    position: absolute;
+    left: var(--gutter);
+    top: 50%;
+    width: 2px;
+    height: 9rem;
+    translate: -0.9rem -50%;
+    background: rgba(255, 255, 255, 0.14);
+    border-radius: 2px;
+  }
+
+  :global(.can-3d) .btg__meter span {
+    position: absolute;
+    inset: 0;
+    border-radius: 2px;
+    background: linear-gradient(180deg, var(--indigo), var(--teal));
+    transform-origin: top;
+    transform: scaleY(var(--p, 0));
+  }
+
+  :global(.can-3d) .btg__hint {
+    display: block;
+    justify-self: end;
+    font-size: var(--step--1);
+    color: rgba(255, 255, 255, 0.55);
+  }
+
+  @media (max-width: 900px) {
+    :global(html:not(.can-3d)) .btg__stage {
+      grid-template-columns: 1fr;
+    }
+
+    :global(.can-3d) .btg {
+      height: 380svh;
+    }
+
+    :global(.can-3d) .btg__ui {
+      grid-template-rows: auto 1fr auto auto;
+    }
+
+    :global(.can-3d) .btg__chapters {
+      align-self: end;
+      height: 11.5rem;
+      padding-top: var(--s-4);
+    }
+
+    :global(.can-3d) .btg__stage::after {
+      background: linear-gradient(180deg, rgba(21, 24, 31, 0.6) 0%, rgba(21, 24, 31, 0) 22%, rgba(21, 24, 31, 0) 50%, rgba(21, 24, 31, 0.9) 78%);
+    }
+
+    :global(.can-3d) .btg__chapters::before {
+      content: '';
+      position: absolute;
+      inset: -2.5rem calc(-1 * var(--gutter)) -1rem;
+      z-index: -1;
+      background: linear-gradient(180deg, transparent, rgba(21, 24, 31, 0.92) 40%);
+    }
+
+    :global(.can-3d) .btg__ch-title {
+      font-size: var(--step-2);
+    }
+
+    :global(.can-3d) .btg__ch-text {
+      font-size: var(--step-0);
+    }
+
+    :global(.can-3d) .btg__meter {
+      display: none;
+    }
+
+    :global(.can-3d) .btg__hint {
+      justify-self: start;
+    }
+  }
+</style>
+
+<script>
+  // Load the 3D only when the device can run it and the section is close.
+  const section = document.querySelector<HTMLElement>('[data-btg]');
+  if (section && document.documentElement.classList.contains('can-3d')) {
+    const num = section.querySelector<HTMLElement>('[data-btg-num]');
+    new MutationObserver(() => {
+      if (num) num.textContent = String(Number(section.dataset.chapter ?? 0) + 1);
+    }).observe(section, { attributes: true, attributeFilter: ['data-chapter'] });
+
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (!e.isIntersecting) return;
+        io.disconnect();
+        import('../scripts/brain-to-gene/scene').then((m) => m.mount(section));
+      },
+      { rootMargin: '800px 0px' }
+    );
+    io.observe(section);
+  }
+</script>

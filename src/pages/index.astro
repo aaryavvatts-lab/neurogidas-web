@@ -4,6 +4,7 @@ import Emblem from '../components/Emblem.astro';
 import NextMeeting from '../components/NextMeeting.astro';
 import YearIdeogram from '../components/YearIdeogram.astro';
 import JoinBand from '../components/JoinBand.astro';
+import BrainToGene from '../components/BrainToGene.astro';
 import { LINKS } from '../data/site';
 
 const outcomes = [
@@ -51,6 +52,8 @@ const outcomes = [
       </div>
     </div>
   </div>
+
+  <BrainToGene />
 
   <section class="section tracks" aria-labelledby="tracks-h">
     <div class="wrap">
@@ -301,7 +304,7 @@ const outcomes = [
     position: relative;
     z-index: 3;
     margin-top: calc(-1 * clamp(4rem, 3rem + 3vw, 6rem));
-    padding-bottom: var(--section);
+    padding-bottom: var(--s-9);
   }
 
   .next-core {
@@ -328,7 +331,7 @@ const outcomes = [
 
   /* Tracks bento */
   .tracks {
-    padding-top: 0;
+    padding-top: var(--section);
   }
 
   .bento {
