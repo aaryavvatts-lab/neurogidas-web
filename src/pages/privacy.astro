@@ -1,15 +1,29 @@
 ---
 import LegalPage from '../components/LegalPage.astro';
-import { LINKS } from '../data/site';
+import { LINKS, SITE } from '../data/site';
+
+const ga = Boolean(SITE.gaId);
 ---
 
 <LegalPage
   title="Privacy Policy"
-  description="How the NeuroGIDAS website handles your information. Short answer: we don't collect any through the site."
-  updated="October 20, 2026"
+  description={
+    ga
+      ? 'How the NeuroGIDAS website handles your information. Short answer: we count visits with Google Analytics and nothing else.'
+      : "How the NeuroGIDAS website handles your information. Short answer: we don't collect any through the site."
+  }
+  updated={ga ? 'October 21, 2026' : 'October 20, 2026'}
   summary={[
-    'This website does not ask for, collect, or store any personal information.',
-    'There are no forms, accounts, ads, trackers, or analytics on this site.',
+    ...(ga
+      ? [
+          'This website never asks for your name, email, or any other personal information.',
+          'We use Google Analytics to count visits and see which pages people read. No ads, and we never sell the data.',
+          'If your browser sends Global Privacy Control or Do Not Track, analytics does not load at all.',
+        ]
+      : [
+          'This website does not ask for, collect, or store any personal information.',
+          'There are no forms, accounts, ads, trackers, or analytics on this site.',
+        ]),
     'Our web host keeps basic server logs to run and protect the site.',
     'If you email us, we only use your email to reply to you.',
     'Links to GroupMe, Instagram, and other sites follow those sites’ own privacy policies.',
@@ -23,10 +37,43 @@ import { LINKS } from '../data/site';
   </p>
 
   <h2>What we collect through this website</h2>
-  <p>
-    Nothing. The site has no sign-up forms, no accounts, no comment boxes, and no newsletter. We don’t use analytics tools,
-    advertising, tracking pixels, or social media widgets. You can read every page without telling us who you are.
-  </p>
+  {
+    ga ? (
+      <>
+        <p>
+          The site has no sign-up forms, no accounts, no comment boxes, and no newsletter. You can read every page without
+          telling us who you are. The only thing we measure is how the site gets used, with Google Analytics.
+        </p>
+
+        <h2>Google Analytics</h2>
+        <p>
+          When you visit, Google Analytics records things like which pages you open, how long you stay, what kind of device and
+          browser you use, your rough location (city or region), and the site that sent you here. It does not store your IP
+          address, and it never gets your name or email.
+        </p>
+        <p>
+          We use this only to see totals, like how many people visited after an Instagram post or which meetings people read
+          about most. We turned off Google’s advertising and Google signals features, so the data is not used for ads or linked
+          to your Google account. Google keeps the detailed data for a limited time (14 months at most) and then deletes it.
+          You can read how Google handles it in{' '}
+          <a href="https://policies.google.com/technologies/partner-sites" rel="noopener">
+            How Google uses information from sites that use its services
+          </a>
+          .
+        </p>
+        <p>
+          You can turn it off by turning on Global Privacy Control or Do Not Track in your browser, by blocking cookies, or
+          with Google’s <a href="https://tools.google.com/dlpage/gaoptout" rel="noopener">opt-out add-on</a>. Our{' '}
+          <a href="/cookies/">Cookie Policy</a> has the details.
+        </p>
+      </>
+    ) : (
+      <p>
+        Nothing. The site has no sign-up forms, no accounts, no comment boxes, and no newsletter. We don’t use analytics tools,
+        advertising, tracking pixels, or social media widgets. You can read every page without telling us who you are.
+      </p>
+    )
+  }
 
   <h2>Information our web host handles</h2>
   <p>
@@ -36,7 +83,10 @@ import { LINKS } from '../data/site';
     figure out who you are. You can read how Vercel handles this data in the{' '}
     <a href="https://vercel.com/legal/privacy-policy" rel="noopener">Vercel Privacy Policy</a>.
   </p>
-  <p>Our fonts and images are stored on the same host, so your browser doesn’t contact any other company to load them.</p>
+  <p>
+    Our fonts and images are stored on the same host, so your browser doesn’t contact any other company to load them
+    {ga ? ' (Google Analytics is the one exception, described above).' : '.'}
+  </p>
 
   <h2>If you contact us</h2>
   <p>
@@ -54,8 +104,9 @@ import { LINKS } from '../data/site';
 
   <h2>Students and children</h2>
   <p>
-    This site is meant for high school students, families, and teachers. Because we don’t collect personal information through
-    the site, we don’t knowingly collect information from anyone, including children under 13. If you think a child has sent us
+    This site is meant for high school students, families, and teachers. We don’t collect names, emails, or other personal
+    information through the site, so we don’t knowingly collect personal information from anyone, including children under 13.
+    {ga && 'Google Analytics only gives us visit totals that don’t say who anyone is.'} If you think a child has sent us
     personal information by email, contact us and we will delete it.
   </p>
 
@@ -79,8 +130,8 @@ import { LINKS } from '../data/site';
 
   <h2>Changes to this policy</h2>
   <p>
-    If we ever change how the site works, for example by adding a sign-up form or analytics, we will update this page first and
-    change the date at the top.
+    If we ever change how the site works, for example by adding a sign-up form{ga ? '' : ' or analytics'}, we will update this
+    page first and change the date at the top.
   </p>
 
   <h2>Contact</h2>

@@ -1,18 +1,34 @@
 ---
 import LegalPage from '../components/LegalPage.astro';
-import { LINKS } from '../data/site';
+import { LINKS, SITE } from '../data/site';
+
+const ga = Boolean(SITE.gaId);
 ---
 
 <LegalPage
   title="Cookie Policy"
-  description="The NeuroGIDAS website does not use cookies or tracking. Here is what that means for you."
-  updated="October 20, 2026"
-  summary={[
-    'This website does not set any cookies.',
-    'It does not use local storage, tracking pixels, or analytics.',
-    'That is why there is no cookie banner.',
-    'Sites we link to, like Instagram or GroupMe, may use their own cookies after you leave our site.',
-  ]}
+  description={
+    ga
+      ? 'The NeuroGIDAS website uses Google Analytics cookies to count visits. Here is what that means and how to turn it off.'
+      : 'The NeuroGIDAS website does not use cookies or tracking. Here is what that means for you.'
+  }
+  updated={ga ? 'October 21, 2026' : 'October 20, 2026'}
+  summary={
+    ga
+      ? [
+          'This website uses Google Analytics, which sets a few cookies so we can count visits.',
+          'We only use it to see things like how many people visit and which pages they read.',
+          'No ads, and we never sell or share the data.',
+          'If your browser sends Global Privacy Control or Do Not Track, analytics does not load at all.',
+          'Sites we link to, like Instagram or GroupMe, may use their own cookies after you leave our site.',
+        ]
+      : [
+          'This website does not set any cookies.',
+          'It does not use local storage, tracking pixels, or analytics.',
+          'That is why there is no cookie banner.',
+          'Sites we link to, like Instagram or GroupMe, may use their own cookies after you leave our site.',
+        ]
+  }
 >
   <h2>What cookies are</h2>
   <p>
@@ -20,22 +36,72 @@ import { LINKS } from '../data/site';
     what you do for advertising and analytics.
   </p>
 
-  <h2>Cookies on this site</h2>
-  <p>
-    We don’t use any. This site does not set cookies, and it doesn’t use similar tools like local storage, session storage,
-    tracking pixels, or fingerprinting. We also don’t load any outside scripts, ads, or embedded social media posts that could
-    set cookies for other companies.
-  </p>
-  <p>
-    The only small scripts on the site run inside your own browser to do things like open the menu on phones, show which meeting
-    is next, and let you tap through the schedule. They don’t save anything about you.
-  </p>
+  {
+    ga ? (
+      <>
+        <h2>Cookies on this site</h2>
+        <p>
+          We use <a href="https://marketingplatform.google.com/about/analytics/" rel="noopener">Google Analytics</a> to see how
+          many people visit the site, which pages they read, and roughly where they come from (like Instagram or a search). It
+          sets these cookies:
+        </p>
+        <ul>
+          <li>
+            <strong>_ga</strong> stores a random number so Google Analytics can tell if the same browser comes back. It lasts up
+            to 2 years.
+          </li>
+          <li>
+            <strong>_ga_</strong> followed by letters and numbers keeps track of your current visit. It also lasts up to 2 years.
+          </li>
+        </ul>
+        <p>
+          These cookies don’t contain your name, email, or anything you typed. We turned off Google’s advertising features, so
+          the data is not used for ads. We only look at totals, like “40 people visited this week.”
+        </p>
+        <p>
+          The other small scripts on the site run inside your own browser to do things like open the menu on phones, show which
+          meeting is next, and let you tap through the schedule. They don’t save anything about you.
+        </p>
 
-  <h2>Why there’s no cookie banner</h2>
-  <p>
-    Cookie banners ask for your permission to store cookies. Since this site doesn’t store any, there is nothing to ask permission
-    for.
-  </p>
+        <h2>How to turn it off</h2>
+        <p>Any one of these works:</p>
+        <ul>
+          <li>
+            Turn on Global Privacy Control or Do Not Track in your browser. When either is on, this site never loads Google
+            Analytics.
+          </li>
+          <li>Block or delete cookies for this site in your browser settings.</li>
+          <li>
+            Install Google’s{' '}
+            <a href="https://tools.google.com/dlpage/gaoptout" rel="noopener">
+              Google Analytics opt-out add-on
+            </a>
+            .
+          </li>
+        </ul>
+        <p>The site works exactly the same either way.</p>
+      </>
+    ) : (
+      <>
+        <h2>Cookies on this site</h2>
+        <p>
+          We don’t use any. This site does not set cookies, and it doesn’t use similar tools like local storage, session storage,
+          tracking pixels, or fingerprinting. We also don’t load any outside scripts, ads, or embedded social media posts that
+          could set cookies for other companies.
+        </p>
+        <p>
+          The only small scripts on the site run inside your own browser to do things like open the menu on phones, show which
+          meeting is next, and let you tap through the schedule. They don’t save anything about you.
+        </p>
+
+        <h2>Why there’s no cookie banner</h2>
+        <p>
+          Cookie banners ask for your permission to store cookies. Since this site doesn’t store any, there is nothing to ask
+          permission for.
+        </p>
+      </>
+    )
+  }
 
   <h2>Other websites</h2>
   <p>
@@ -46,8 +112,8 @@ import { LINKS } from '../data/site';
 
   <h2>If this changes</h2>
   <p>
-    If we ever add something that uses cookies, like analytics, we will update this page before we do it, change the date at the
-    top, and ask for your consent where the law requires it.
+    If we add or change anything that uses cookies, we will update this page before we do it, change the date at the top, and
+    ask for your consent where the law requires it.
   </p>
 
   <h2>Contact</h2>

@@ -8,6 +8,9 @@ export const SITE = {
   time: '2:45 to 3:30 PM',
   day: 'Wednesdays',
   advisor: 'Mr. Meyer',
+  // Google Analytics 4 measurement ID (G-XXXXXXXXXX). Empty means no analytics load anywhere,
+  // and the privacy and cookie pages say so.
+  gaId: '',
 };
 
 export const LINKS = {

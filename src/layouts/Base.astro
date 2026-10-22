@@ -15,6 +15,7 @@ const { title, description = SITE.description } = Astro.props;
 const fullTitle = title ? `${title} | NeuroGIDAS` : 'NeuroGIDAS | Eastview brain science and genetics club';
 const canonical = new URL(Astro.url.pathname, SITE.url).href;
 const ogImage = new URL('/og.png', SITE.url).href;
+const gaId = SITE.gaId;
 ---
 
 <!doctype html>
@@ -52,6 +53,31 @@ const ogImage = new URL('/og.png', SITE.url).href;
         } catch (e) {}
       })();
     </script>
+    {
+      gaId && (
+        <script is:inline define:vars={{ gaId }}>
+          // Google Analytics, loaded after the page is idle so it never slows the first paint.
+          // Skipped for visitors who send Global Privacy Control or Do Not Track.
+          (function () {
+            if (navigator.globalPrivacyControl || navigator.doNotTrack === '1') return;
+            window.dataLayer = window.dataLayer || [];
+            window.gtag = function () {
+              dataLayer.push(arguments);
+            };
+            gtag('js', new Date());
+            gtag('config', gaId, { allow_google_signals: false, allow_ad_personalization_signals: false });
+            var load = function () {
+              var s = document.createElement('script');
+              s.async = true;
+              s.src = 'https://www.googletagmanager.com/gtag/js?id=' + gaId;
+              document.head.appendChild(s);
+            };
+            if ('requestIdleCallback' in window) requestIdleCallback(load, { timeout: 3000 });
+            else setTimeout(load, 1500);
+          })();
+        </script>
+      )
+    }
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
