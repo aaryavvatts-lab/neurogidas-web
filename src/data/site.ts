@@ -10,7 +10,7 @@ export const SITE = {
   advisor: 'Mr. Meyer',
   // Google Analytics 4 measurement ID (G-XXXXXXXXXX). Empty means no analytics load anywhere,
   // and the privacy and cookie pages say so.
-  gaId: '',
+  gaId: 'G-MDBEHWQSCC',
 };
 
 export const LINKS = {
