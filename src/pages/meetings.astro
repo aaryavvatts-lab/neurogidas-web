@@ -3,6 +3,7 @@ import Base from '../layouts/Base.astro';
 import NextMeeting from '../components/NextMeeting.astro';
 import JoinBand from '../components/JoinBand.astro';
 import HeadFigure from '../components/HeadFigure.astro';
+import SpecialEvents from '../components/SpecialEvents.astro';
 import { MEETINGS, ROADMAP, EVENTS, splitMeetings, parts, shortDate, TRACK_LABEL, meetingEnd } from '../data/meetings';
 import { SITE } from '../data/site';
 
@@ -34,6 +35,10 @@ const roadmap = ROADMAP.map((r) => ({
   <div class="wrap section-sm">
     <NextMeeting id="next" />
   </div>
+
+  <SpecialEvents view="upcoming" />
+
+  <SpecialEvents view="past" />
 
   {
     recaps.length > 0 && (

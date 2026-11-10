@@ -1,0 +1,391 @@
+---
+// Special events, in two views:
+//  upcoming: a big spotlight with the Instagram post and its full caption.
+//  past:     the "Past events" list on the Meetings page.
+// Every event is rendered in both views; the build hides the wrong one, and a small script
+// re-checks the time in the browser so an event moves to "past" at `moveAt` without a redeploy.
+import { SPECIAL_EVENTS, isPast } from '../data/specialEvents';
+import { LINKS } from '../data/site';
+import { shortDate } from '../data/meetings';
+
+interface Props {
+  view: 'upcoming' | 'past';
+}
+
+const { view } = Astro.props;
+const now = new Date();
+const events = view === 'past' ? [...SPECIAL_EVENTS].reverse() : SPECIAL_EVENTS;
+const shownAtBuild = (e: (typeof SPECIAL_EVENTS)[number]) => (view === 'past' ? isPast(e, now) : !isPast(e, now));
+const anyShown = events.some(shownAtBuild);
+
+// Turn @handles in a caption into Instagram links.
+const captionParts = (text: string) =>
+  text.split(/(@[a-z0-9._]+[a-z0-9_])/i).map((part) => (part.startsWith('@') ? { handle: part } : { text: part }));
+
+const headingId = `special-${view}-h`;
+---
+
+<section
+  class:list={['special', `special--${view}`, view === 'past' ? 'section rule-top' : 'section-spot']}
+  aria-labelledby={headingId}
+  data-special={view}
+  hidden={!anyShown}
+>
+  <div class="wrap">
+    {
+      view === 'past' ? (
+        <h2 class="h2" id={headingId}>Past events</h2>
+      ) : (
+        <h2 class="visually-hidden" id={headingId}>Special event</h2>
+      )
+    }
+
+    {
+      view === 'upcoming' &&
+        events.map((e) => (
+          <article class="spot" data-move-at={e.moveAt} hidden={!shownAtBuild(e)}>
+            <figure class="bezel spot__frame">
+              <div class="bezel__core spot__core">
+                <img
+                  src={e.imageSmall}
+                  srcset={`${e.imageSmall} 540w, ${e.image} 1080w`}
+                  sizes="(max-width: 900px) 92vw, 460px"
+                  width="1080"
+                  height="1350"
+                  alt={e.imageAlt}
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+            </figure>
+
+            <div class="spot__text">
+              <p class="spot__kicker">
+                <span class="spot__dot" aria-hidden="true" />
+                {e.kicker}
+              </p>
+              <h3 class="spot__title">{e.title}</h3>
+
+              <dl class="spot__meta">
+                <div>
+                  <dt>When</dt>
+                  <dd>{e.when}</dd>
+                </div>
+                <div>
+                  <dt>Where</dt>
+                  <dd>{e.room}</dd>
+                </div>
+                <div>
+                  <dt>Who</dt>
+                  <dd>Everyone. Bring a friend.</dd>
+                </div>
+              </dl>
+
+              <div class="post">
+                <p class="post__head">
+                  <span class="post__from">From our Instagram</span>
+                  <a class="post__handle" href={LINKS.instagram} rel="noopener">
+                    {LINKS.instagramHandle}
+                  </a>
+                </p>
+                <div class="post__body">
+                  {e.post.caption.map((para) => (
+                    <p>
+                      {captionParts(para).map((p) =>
+                        'handle' in p ? (
+                          <a href={`https://www.instagram.com/${p.handle!.slice(1)}/`} rel="noopener">
+                            {p.handle}
+                          </a>
+                        ) : (
+                          p.text
+                        ),
+                      )}
+                    </p>
+                  ))}
+                </div>
+              </div>
+
+              <p class="spot__actions">
+                <a class="btn btn-primary btn--icon" href={e.post.url} rel="noopener">
+                  See the post on Instagram
+                  <span class="btn__icon" aria-hidden="true">
+                    <svg viewBox="0 0 16 16">
+                      <path d="M4 12 12 4M6 4h6v6" />
+                    </svg>
+                  </span>
+                </a>
+              </p>
+            </div>
+          </article>
+        ))
+    }
+
+    {
+      view === 'past' && (
+        <ol class="past">
+          {events.map((e) => (
+            <li class="past__item" data-move-at={e.moveAt} hidden={!shownAtBuild(e)}>
+              <a class="past__thumb" href={e.image} aria-label={`Open the full ${e.title} post image`}>
+                <img src={e.imageSmall} width="540" height="675" alt={e.imageAlt} loading="lazy" decoding="async" />
+              </a>
+              <div class="past__text">
+                <p class="past__date tnum">{shortDate(e.date)}</p>
+                <h3 class="h3 past__title">{e.title}</h3>
+                <p class="muted">{e.recap ?? e.pastSummary}</p>
+                <a class="link past__link" href={e.post.url} rel="noopener">
+                  See the post on Instagram
+                </a>
+              </div>
+            </li>
+          ))}
+        </ol>
+      )
+    }
+  </div>
+</section>
+
+<style>
+  .section-spot {
+    padding-block: 0 var(--section);
+  }
+
+  .spot {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: clamp(1.75rem, 1rem + 3vw, 4rem);
+    align-items: start;
+  }
+
+  .spot[hidden],
+  .past__item[hidden],
+  .special[hidden] {
+    display: none;
+  }
+
+  .spot__frame {
+    position: sticky;
+    top: 6rem;
+  }
+
+  .spot__core {
+    overflow: hidden;
+    aspect-ratio: 4 / 5;
+  }
+
+  .spot__core img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .spot__kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.3rem 0.8rem 0.3rem 0.65rem;
+    border-radius: var(--radius);
+    background: color-mix(in srgb, var(--salmon) 14%, var(--paper));
+    color: var(--salmon-ink);
+    font-size: var(--step--1);
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+
+  .spot__dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background: var(--salmon);
+  }
+
+  .spot__title {
+    margin-top: var(--s-4);
+    font-size: var(--step-4);
+    font-weight: 800;
+    letter-spacing: -0.035em;
+    line-height: 1.02;
+    font-variation-settings: 'wdth' 116;
+    max-width: 14ch;
+  }
+
+  .spot__meta {
+    display: grid;
+    gap: var(--s-3);
+    margin-top: var(--s-6);
+    padding-block: var(--s-5);
+    border-block: 1px solid var(--rule-strong);
+  }
+
+  .spot__meta div {
+    display: grid;
+    grid-template-columns: 5rem minmax(0, 1fr);
+    gap: var(--s-4);
+  }
+
+  .spot__meta dt {
+    color: var(--ink-3, var(--ink-2));
+    font-size: var(--step--1);
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding-top: 0.2rem;
+  }
+
+  .spot__meta dd {
+    font-weight: 650;
+  }
+
+  .post {
+    margin-top: var(--s-6);
+    padding: var(--s-5) var(--s-5) var(--s-2);
+    border-radius: var(--radius-lg);
+    background: var(--paper-2);
+  }
+
+  .post__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--s-2) var(--s-4);
+    font-size: var(--step--1);
+  }
+
+  .post__from {
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+  }
+
+  .post__handle {
+    font-weight: 650;
+  }
+
+  .post__body {
+    margin-top: var(--s-3);
+  }
+
+  .post__body p {
+    margin-bottom: var(--s-4);
+    color: var(--ink-2);
+    line-height: 1.6;
+    max-width: 62ch;
+  }
+
+  .post__body p:first-child {
+    color: var(--ink);
+    font-weight: 650;
+  }
+
+  .spot__actions {
+    margin-top: var(--s-6);
+  }
+
+  .past {
+    list-style: none;
+    margin-top: var(--s-7);
+    border-top: 1px solid var(--rule-strong);
+  }
+
+  .past__item {
+    display: grid;
+    grid-template-columns: 8.5rem minmax(0, 1fr);
+    gap: var(--s-5);
+    padding: var(--s-6) 0;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .past__thumb {
+    display: block;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    align-self: start;
+  }
+
+  .past__thumb img {
+    display: block;
+    width: 100%;
+    height: auto;
+    transition: transform var(--dur-2) var(--ease-out);
+  }
+
+  .past__thumb:hover img {
+    transform: scale(1.03);
+  }
+
+  .past__date {
+    font-size: var(--step-2);
+    font-weight: 760;
+    letter-spacing: -0.02em;
+    font-variation-settings: 'wdth' 118;
+    line-height: 1.1;
+  }
+
+  .past__title {
+    margin: var(--s-2) 0;
+  }
+
+  .past .muted {
+    max-width: 62ch;
+  }
+
+  .past__link {
+    display: inline-block;
+    margin-top: var(--s-3);
+  }
+
+  @media (max-width: 900px) {
+    .spot {
+      grid-template-columns: 1fr;
+    }
+
+    .spot__frame {
+      position: static;
+      max-width: 30rem;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .past__item {
+      grid-template-columns: 5.5rem minmax(0, 1fr);
+      gap: var(--s-4);
+    }
+
+    .past__date {
+      font-size: var(--step-1);
+    }
+
+    .spot__meta div {
+      grid-template-columns: 4rem minmax(0, 1fr);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .past__thumb img {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  // Re-check the time in the browser so an event leaves the spotlight and joins
+  // "Past events" at its moveAt time, even on a page built earlier.
+  function sync() {
+    const now = Date.now();
+    document.querySelectorAll<HTMLElement>('[data-special]').forEach((section) => {
+      const past = section.dataset.special === 'past';
+      let any = false;
+      section.querySelectorAll<HTMLElement>('[data-move-at]').forEach((el) => {
+        const isPast = now >= Date.parse(el.dataset.moveAt!);
+        const show = past ? isPast : !isPast;
+        el.hidden = !show;
+        any ||= show;
+      });
+      section.hidden = !any;
+    });
+  }
+  sync();
+  setInterval(sync, 60_000);
+</script>

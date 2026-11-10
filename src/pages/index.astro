@@ -5,6 +5,7 @@ import NextMeeting from '../components/NextMeeting.astro';
 import YearIdeogram from '../components/YearIdeogram.astro';
 import JoinBand from '../components/JoinBand.astro';
 import BrainToGene from '../components/BrainToGene.astro';
+import SpecialEvents from '../components/SpecialEvents.astro';
 import { LINKS } from '../data/site';
 
 const outcomes = [
@@ -52,6 +53,8 @@ const outcomes = [
       </div>
     </div>
   </div>
+
+  <SpecialEvents view="upcoming" />
 
   <BrainToGene />
 
